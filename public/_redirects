@@ -1,0 +1,72 @@
+# Setup routes with wildcards
+/step-by-step-setup-guide
+  /step-by-step-setup-guide.html 200
+
+/step-by-step-setup-guide/
+  /step-by-step-setup-guide.html 200
+
+/step-by-step-setup-guide/*
+  /step-by-step-setup-guide.html 200
+
+/model-search
+  /model-search.html 200
+
+/model-search/
+  /model-search.html 200
+
+/model-search/*
+  /model-search.html 200
+
+/complete-setup
+  /complete-setup.html 200
+
+/complete-setup/
+  /complete-setup.html 200
+
+/complete-setup/*
+  /complete-setup.html 200
+
+/installation-failed
+  /installation-failed.html 200
+
+/installation-failed/
+  /installation-failed.html 200
+
+/installation-failed/*
+  /installation-failed.html 200
+
+# Static assets
+/assets/*
+  /assets/:splat 200
+
+# SPA fallback
+/*
+  /index.html 200/step-by-step-setup-guide
+  /step-by-step-setup-guide.html  200
+
+/step-by-step-setup-guide/
+  /step-by-step-setup-guide.html  200
+
+/model-search
+  /model-search.html  200
+
+/model-search/
+  /model-search.html  200
+
+/complete-setup
+  /complete-setup.html  200
+
+/complete-setup/
+  /complete-setup.html  200
+
+/installation-failed
+  /installation-failed.html  200
+
+/installation-failed/
+  /installation-failed.html  200
+
+/assets/*
+  /assets/:splat  200
+
+/*
+  /index.html  200

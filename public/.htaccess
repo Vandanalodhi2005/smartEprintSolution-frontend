@@ -1,0 +1,42 @@
+DirectoryIndex index.html
+
+# Disable MultiViews
+Options -MultiViews
+
+# Force no cache
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+</IfModule>
+
+# If mod_rewrite is available
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Remove trailing slash (except for actual directories)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [R=301,L]
+    
+    # FIRST: Serve existing files directly
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+    
+    # SECOND: Serve existing directories directly  
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+    
+    # THIRD: Skip API
+    RewriteRule ^api/ - [L]
+    
+    # FOURTH: Skip static assets
+    RewriteRule \.(css|js|jpg|png|gif|webp|svg|woff|ttf|eot|ico)$ - [L]
+    
+    # FIFTH: Everything else to index.html
+    RewriteRule ^ index.html [L]
+</IfModule>
+
+# If mod_rewrite is NOT available, use ErrorDocument fallback
+<IfModule !mod_rewrite.c>
+    ErrorDocument 404 /index.html
+</IfModule>
