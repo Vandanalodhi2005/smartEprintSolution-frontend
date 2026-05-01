@@ -127,10 +127,10 @@ const AuthDrawer = ({ isOpen, onClose }) => {
                 <div className="p-8 sm:p-12">
                     <div className="mb-8">
                         <h3 className="text-3xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">
-                            {mode === 'login' ? 'Welcome Back' : mode === 'signup' ? 'Create Account' : 'Security Check'}
+                            {mode === 'login' ? 'Login' : mode === 'signup' ? 'Sign Up' : 'Verify'}
                         </h3>
                         <p className="text-slate-400 text-sm font-bold uppercase tracking-widest">
-                            {mode === 'login' ? 'Login to continue' : mode === 'signup' ? 'Join the community' : 'Identity verification'}
+                            {mode === 'login' ? 'Login to your account' : mode === 'signup' ? 'Create a new account' : 'Confirm your identity'}
                         </p>
                     </div>
 
@@ -193,7 +193,7 @@ const AuthDrawer = ({ isOpen, onClose }) => {
                                     onClick={() => resetTransientState('forgot-password')}
                                     className="text-xs font-black uppercase tracking-tighter text-[#EF4056] hover:underline"
                                 >
-                                    Lost Password?
+                                    Forgot Password?
                                 </button>
                             </div>
 
@@ -202,11 +202,11 @@ const AuthDrawer = ({ isOpen, onClose }) => {
                                 disabled={loading}
                                 className="w-full bg-slate-900 hover:bg-black text-white py-5 rounded-[1.5rem] font-black text-sm uppercase tracking-[0.2em] transition-all shadow-xl shadow-slate-200 disabled:opacity-50"
                             >
-                                {loading ? 'Processing...' : 'Secure Login'}
+                                {loading ? 'Loading...' : 'Login'}
                             </button>
 
                             <p className="text-center text-xs font-bold text-slate-400 pt-4">
-                                NO ACCOUNT? <button type="button" onClick={() => resetTransientState('signup')} className="text-[#EF4056] uppercase">Register Here</button>
+                                NEW HERE? <button type="button" onClick={() => resetTransientState('signup')} className="text-[#EF4056] uppercase font-black">Sign Up</button>
                             </p>
                         </form>
                     )}
@@ -241,11 +241,11 @@ const AuthDrawer = ({ isOpen, onClose }) => {
                                 disabled={loadingSendOTP}
                                 className="w-full bg-[#EF4056] hover:bg-rose-600 text-white py-5 rounded-[1.5rem] font-black text-sm uppercase tracking-[0.2em] transition-all shadow-xl shadow-rose-100 disabled:opacity-50"
                             >
-                                {loadingSendOTP ? 'Generating...' : 'Create Account'}
+                                {loadingSendOTP ? 'Sending...' : 'Sign Up'}
                             </button>
 
                             <p className="text-center text-xs font-bold text-slate-400 pt-4">
-                                ALREADY JOINED? <button type="button" onClick={() => resetTransientState('login')} className="text-slate-900 uppercase font-black">Login</button>
+                                ALREADY HAVE AN ACCOUNT? <button type="button" onClick={() => resetTransientState('login')} className="text-slate-900 uppercase font-black">Login</button>
                             </p>
                          </form>
                     )}

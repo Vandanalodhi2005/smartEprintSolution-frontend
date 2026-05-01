@@ -14,7 +14,7 @@ export const boot = () => {
   ReactDOM.createRoot(container).render(
     <React.StrictMode>
       <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <HelmetProvider>
             <App />
           </HelmetProvider>

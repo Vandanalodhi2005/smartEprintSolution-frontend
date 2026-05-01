@@ -35,7 +35,7 @@ const SettingsManagement = ({ showLogo, setShowLogo, showHeader, setShowHeader, 
                         onChange={e => {
                             setShowHeader(e.target.checked);
                             // Only update settings when toggled
-                            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+                            const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
                             const token = JSON.parse(localStorage.getItem('setupAdminInfo'))?.token;
                             if (token) {
                                 fetch(`${apiUrl}/admin/header-visibility`, {
@@ -66,7 +66,7 @@ const SettingsManagement = ({ showLogo, setShowLogo, showHeader, setShowHeader, 
                         checked={showLogo}
                         onChange={e => {
                             setShowLogo(e.target.checked);
-                            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+                            const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
                             const token = JSON.parse(localStorage.getItem('setupAdminInfo'))?.token;
                             if (token) {
                                 fetch(`${apiUrl}/admin/header-visibility`, {
@@ -100,7 +100,7 @@ const SettingsManagement = ({ showLogo, setShowLogo, showHeader, setShowHeader, 
                         checked={allowModelSearch}
                         onChange={e => {
                             setAllowModelSearch(e.target.checked);
-                            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+                            const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
                             const token = JSON.parse(localStorage.getItem('setupAdminInfo'))?.token;
                             if (token) {
                                 fetch(`${apiUrl}/admin/header-visibility`, {
@@ -131,7 +131,7 @@ const SettingsManagement = ({ showLogo, setShowLogo, showHeader, setShowHeader, 
                         checked={showCompleteSetup}
                         onChange={e => {
                             setShowCompleteSetup(e.target.checked);
-                            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+                            const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
                             const token = JSON.parse(localStorage.getItem('setupAdminInfo'))?.token;
                             if (token) {
                                 fetch(`${apiUrl}/admin/header-visibility`, {
@@ -162,7 +162,7 @@ const SettingsManagement = ({ showLogo, setShowLogo, showHeader, setShowHeader, 
                         checked={showInstallationFailed}
                         onChange={e => {
                             setShowInstallationFailed(e.target.checked);
-                            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+                            const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
                             const token = JSON.parse(localStorage.getItem('setupAdminInfo'))?.token;
                             if (token) {
                                 fetch(`${apiUrl}/admin/header-visibility`, {

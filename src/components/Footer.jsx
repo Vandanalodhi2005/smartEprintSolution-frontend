@@ -19,6 +19,7 @@ const Footer = () => {
               className="w-44 h-auto object-contain"
               loading="lazy"
             />
+           
           </div>
           <p className="text-gray-400 text-sm leading-relaxed mb-6">
             Smarter printing starts here. Discover top-rated printers, exceptional value, and dedicated support — only at Smart ePrint.
@@ -69,7 +70,7 @@ const Footer = () => {
           <h3 className="font-bold text-base mb-4">Quick Contact</h3>
           <div className="space-y-3 text-sm text-gray-300">
             <p>11397 Quincy St NE Blaine, Minnesota, 55434</p>
-            <p>Email : <span className="text-white">support@smarteprintsolution.com</span></p>
+            <p>Email : <span className="text-white">support@smarteprint.com</span></p>
             <p>Phone : <span className="text-white">+1-651-815-4630</span></p>
             <p>Website : <a href="https://www.smarteprintsolution.com" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:text-red-400 transition">www.smarteprintsolution.com</a></p>
           </div>

@@ -7,7 +7,9 @@ import {
     Image as ImageIcon, Loader2, X, ChevronRight, 
     AlertCircle, CheckCircle2, MoreVertical,
     DollarSign, Activity, Layers, Hash,
-    ArrowUpRight, ArrowRight
+    ArrowUpRight, ArrowRight, Settings, Info,
+    Tag, Box, Truck, BarChart3, Star, PlusCircle,
+    Type, Layout, List, Save, Upload, Trash
 } from 'lucide-react';
 import api from '../../../lib/api';
 
@@ -28,12 +30,26 @@ const AdminProducts = () => {
     
     // Form State
     const [name, setName] = useState('');
-    const [price, setPrice] = useState(0);
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [countInStock, setCountInStock] = useState(0);
     const [brand, setBrand] = useState('');
+    const [category, setCategory] = useState('');
+    const [price, setPrice] = useState(0);
+    const [oldPrice, setOldPrice] = useState(0);
+    const [countInStock, setCountInStock] = useState(0);
+    const [description, setDescription] = useState('');
+    const [shortDetails, setShortDetails] = useState('');
     const [images, setImages] = useState([]);
+    
+    // Specifications State
+    const [technology, setTechnology] = useState([]);
+    const [usageCategory, setUsageCategory] = useState([]);
+    const [allInOneType, setAllInOneType] = useState('');
+    const [wireless, setWireless] = useState('');
+    const [mainFunction, setMainFunction] = useState([]);
+    const [keywords, setKeywords] = useState('');
+
+    // Table Builder State
+    const [specRows, setSpecRows] = useState([{ name: '', value: '' }]);
+
     const [uploading, setUploading] = useState(false);
     const [categories, setCategories] = useState([]);
 
@@ -54,12 +70,15 @@ const AdminProducts = () => {
     }, [dispatch, successDelete, successCreate, searchTerm]);
 
     const resetForm = () => {
-        setName(''); setPrice(0); setDescription(''); setCategory('');
-        setCountInStock(0); setBrand(''); setImages([]);
+        setName(''); setBrand(''); setCategory(''); setPrice(0); setOldPrice(0);
+        setDescription(''); setShortDetails(''); setCountInStock(0); setImages([]);
+        setTechnology([]); setUsageCategory([]); setAllInOneType('');
+        setWireless(''); setMainFunction([]); setKeywords('');
+        setSpecRows([{ name: '', value: '' }]);
     };
 
     const deleteHandler = (id) => {
-        if (window.confirm('Are you certain you wish to purge this hardware node from the registry?')) {
+        if (window.confirm('Are you sure you want to delete this product?')) {
             dispatch(deleteProduct(id));
         }
     };
@@ -81,130 +100,110 @@ const AdminProducts = () => {
         }
     };
 
+    const handleCheckboxChange = (value, state, setState) => {
+        if (state.includes(value)) {
+            setState(state.filter(i => i !== value));
+        } else {
+            setState([...state, value]);
+        }
+    };
+
+    const handleAddSpecRow = () => setSpecRows([...specRows, { name: '', value: '' }]);
+    const handleRemoveSpecRow = (index) => setSpecRows(specRows.filter((_, i) => i !== index));
+    const handleSpecChange = (index, field, value) => {
+        const newRows = [...specRows];
+        newRows[index][field] = value;
+        setSpecRows(newRows);
+    };
+
     const submitHandler = (e) => {
         e.preventDefault();
+        const technicalSpecification = JSON.stringify(specRows);
+        
         dispatch(createProduct({
-            name, price, description, category, countInStock, brand, images
+            name, price, oldPrice, description, shortDetails, category, 
+            countInStock, brand, images, technology, usageCategory,
+            allInOneType, wireless, mainFunction, technicalSpecification, keywords
         }));
     };
 
     return (
         <div className="p-8 sm:p-12 space-y-12 animate-in fade-in duration-700 pb-32">
-            {/* Premium Header */}
+            {/* Header Area */}
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
                 <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                         <div className="p-2 bg-blue-600 rounded-lg shadow-lg shadow-blue-200">
+                         <div className="p-2 bg-blue-600 rounded-lg">
                              <Package className="text-white" size={16} />
                          </div>
-                         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Inventory Kernel</span>
+                         <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Inventory Hub</span>
                     </div>
                     <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none uppercase">
-                        Hardware<span className="text-blue-600">.</span>
+                        Product Hub<span className="text-blue-600">.</span>
                     </h1>
-                    <p className="text-slate-400 font-bold text-sm max-w-xl">
-                        Manage your real-world hardware assets, monitor warehouse stock levels, and define technical specifications.
-                    </p>
                 </div>
                 
                 <button 
                     onClick={() => setIsModalOpen(true)}
-                    className="px-10 py-5 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-blue-600 transition-all shadow-2xl shadow-slate-200 active:scale-95 flex items-center gap-3"
+                    className="px-10 py-5 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-blue-600 transition-all flex items-center gap-3 shadow-xl"
                 >
                     <Plus size={20} />
-                    Initialize Hardware
+                    Register New Product
                 </button>
             </div>
 
-            {/* Signal Feed (Search & Status) */}
+            {/* Filter */}
             <div className="flex flex-col xl:flex-row gap-6">
                 <div className="relative group flex-1">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={20} />
+                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                     <input 
                         type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Filter by SKU, Identity or Category..."
-                        className="w-full bg-white border-2 border-slate-100 rounded-2xl py-5 pl-14 pr-8 text-sm font-bold outline-none focus:border-blue-500 shadow-xl shadow-slate-100/50 transition-all"
+                        placeholder="Filter by product name, brand..."
+                        className="w-full bg-white border-2 border-slate-100 rounded-2xl py-5 pl-14 pr-8 text-sm font-bold outline-none focus:border-blue-500 transition-all shadow-sm"
                     />
-                </div>
-                <div className="flex items-center gap-4 bg-white p-2 rounded-2xl border-2 border-slate-50 shadow-xl shadow-slate-100/50">
-                     <div className="px-5 py-3 flex items-center gap-3 border-r-2 border-slate-50">
-                         <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">Database Live</span>
-                     </div>
-                     <div className="px-5 py-3">
-                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Total Assets: </span>
-                         <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">{products?.length || 0}</span>
-                     </div>
                 </div>
             </div>
 
-            {/* Inventory Grid */}
-            <div className="bg-white border-2 border-slate-50 rounded-[3rem] shadow-2xl shadow-slate-200/50 overflow-hidden">
+            {/* Products Table */}
+            <div className="bg-white border-2 border-slate-50 rounded-[2.5rem] shadow-xl overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse min-w-[1100px]">
+                    <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-slate-50/50">
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Hardware Specification</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Cluster Node</th>
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Identity</th>
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Category</th>
                                 <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Valuation</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Stock Velocity</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Registry Controls</th>
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y-2 divide-slate-50">
                             {loading ? (
-                                <tr><td colSpan="5" className="py-32 text-center"><Loader2 className="animate-spin mx-auto text-blue-600" size={40} /></td></tr>
+                                <tr><td colSpan="4" className="py-32 text-center"><Loader2 className="animate-spin mx-auto text-blue-600" size={40} /></td></tr>
                             ) : products && products.map((product) => (
                                 <tr key={product._id} className="group hover:bg-slate-50/80 transition-all">
                                     <td className="px-10 py-8">
                                         <div className="flex items-center gap-6">
-                                            <div className="w-20 h-20 bg-white rounded-3xl overflow-hidden border-2 border-slate-50 shadow-xl shadow-slate-100/50 group-hover:scale-105 transition-transform flex-shrink-0 flex items-center justify-center p-2">
+                                            <div className="w-16 h-16 bg-white rounded-2xl border-2 border-slate-50 flex items-center justify-center p-2 flex-shrink-0">
                                                 <img src={product.images?.[0] || '/placeholder.png'} alt="" className="max-w-full max-h-full object-contain" />
                                             </div>
                                             <div>
-                                                <p className="font-black text-slate-900 text-lg tracking-tighter uppercase group-hover:text-blue-600 transition-colors leading-none mb-2">{product.name}</p>
-                                                <div className="flex items-center gap-3">
-                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">ID: {product._id.substring(18).toUpperCase()}</span>
-                                                    <div className="w-1 h-1 bg-slate-200 rounded-full" />
-                                                    <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">{product.brand || 'TECH'}</span>
-                                                </div>
+                                                <p className="font-black text-slate-900 text-base uppercase leading-none mb-2">{product.name || product.title}</p>
+                                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{product.brand}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-10 py-8">
-                                        <div className="flex items-center gap-3">
-                                             <Layers size={14} className="text-slate-400" />
-                                             <span className="px-4 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-[9px] font-black uppercase tracking-widest border border-slate-100">
-                                                 {product.category?.name || 'Uncategorized'}
-                                             </span>
-                                        </div>
+                                        <span className="px-4 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-[9px] font-black uppercase tracking-widest border border-slate-100">
+                                            {product.category?.name || 'Standard'}
+                                        </span>
                                     </td>
                                     <td className="px-10 py-8">
-                                        <div className="flex flex-col">
-                                            <span className="font-black text-slate-900 text-2xl tracking-tighter leading-none tabular-nums">${product.price?.toFixed(2)}</span>
-                                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">USD Unit Price</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-10 py-8">
-                                        <div className="space-y-3">
-                                            <div className="h-2 w-32 bg-slate-100 rounded-full overflow-hidden shadow-inner">
-                                                <div 
-                                                    className={`h-full rounded-full transition-all duration-1000 ${product.countInStock > 10 ? 'bg-emerald-500' : 'bg-rose-500'}`} 
-                                                    style={{ width: `${Math.min((product.countInStock / 100) * 100, 100)}%` }}
-                                                />
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <span className={`text-[10px] font-black uppercase tracking-widest ${product.countInStock > 10 ? 'text-emerald-500' : 'text-rose-500'}`}>
-                                                    {product.countInStock} Units Available
-                                                </span>
-                                                {product.countInStock < 5 && <div className="w-2 h-2 bg-rose-500 rounded-full animate-ping" />}
-                                            </div>
-                                        </div>
+                                        <span className="font-black text-slate-900 text-xl tabular-nums">${product.price?.toFixed(2)}</span>
                                     </td>
                                     <td className="px-10 py-8 text-right">
-                                        <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300">
-                                            <button className="p-4 bg-white hover:bg-slate-900 text-slate-400 hover:text-white rounded-2xl transition-all shadow-xl shadow-slate-100/50 border-2 border-slate-50"><Edit3 size={18} /></button>
-                                            <button onClick={() => deleteHandler(product._id)} className="p-4 bg-white hover:bg-rose-500 text-slate-400 hover:text-white rounded-2xl transition-all shadow-xl shadow-slate-100/50 border-2 border-slate-50"><Trash2 size={18} /></button>
+                                        <div className="flex items-center justify-end gap-3">
+                                            <button className="p-3 bg-white text-slate-400 hover:text-blue-600 rounded-xl shadow-sm border border-slate-100 transition-all"><Edit3 size={16} /></button>
+                                            <button onClick={() => deleteHandler(product._id)} className="p-3 bg-white text-slate-400 hover:text-rose-600 rounded-xl shadow-sm border border-slate-100 transition-all"><Trash2 size={16} /></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -214,112 +213,362 @@ const AdminProducts = () => {
                 </div>
             </div>
 
-            {/* Hardware Initialization Modal */}
+            {/* Modal Re-designed to be perfectly aligned with user's requirement */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-xl animate-in fade-in duration-300 p-4">
-                    <div className="bg-white w-full max-w-5xl rounded-[3.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border-2 border-white/20">
-                        <div className="bg-slate-900 px-12 py-12 flex justify-between items-center relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-transparent" />
-                            <div className="relative z-10">
-                                <h2 className="text-3xl font-black text-white tracking-tighter uppercase leading-none">Initialize Hardware<span className="text-blue-500">.</span></h2>
-                                <p className="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mt-3">Registry Initialization Protocol</p>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4 overflow-y-auto">
+                    <div className="bg-[#f8fafc] w-full max-w-6xl rounded-[2rem] shadow-2xl my-auto border border-white/20 relative overflow-hidden flex flex-col max-h-[90vh]">
+                        
+                        {/* Header Area */}
+                        <div className="bg-[#0f172a] px-10 py-8 flex justify-between items-center text-white sticky top-0 z-20">
+                            <div>
+                                <h2 className="text-2xl font-black uppercase tracking-tighter">Register New Product</h2>
+                                <p className="text-slate-400 text-[9px] font-bold uppercase tracking-widest mt-1">SmartEprint Administration Hub</p>
                             </div>
-                            <button 
-                                onClick={() => setIsModalOpen(false)}
-                                className="text-slate-500 hover:text-white transition-all bg-white/5 p-3 rounded-2xl relative z-10"
-                            >
-                                <X size={24} />
+                            <button onClick={() => setIsModalOpen(false)} className="bg-white/10 p-2 rounded-xl hover:bg-white/20 transition-all">
+                                <X size={20} />
                             </button>
                         </div>
 
-                        <form onSubmit={submitHandler} className="p-12 space-y-12 max-h-[70vh] overflow-y-auto custom-scrollbar">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Display Designation</label>
-                                    <input 
-                                        type="text" required value={name} onChange={(e) => setName(e.target.value)}
-                                        placeholder="e.g. Enterprise Grade Thermal System"
-                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-5 px-8 text-slate-900 font-bold outline-none focus:border-blue-500 transition-all placeholder:text-slate-300"
-                                    />
+                        <form onSubmit={submitHandler} className="flex-1 overflow-y-auto custom-scrollbar p-10 space-y-16">
+                            
+                            {/* --- BASIC INFORMATION --- */}
+                            <section className="space-y-10">
+                                <div className="flex items-center gap-3 border-b border-slate-200 pb-5">
+                                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+                                        <Info className="text-white" size={20} />
+                                    </div>
+                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Basic Information</h3>
                                 </div>
-                                <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Fiscal Valuation (USD)</label>
-                                    <div className="relative">
+
+                                <div className="space-y-10">
+                                    {/* Technology Selector */}
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Technology</label>
+                                        <div className="flex flex-wrap gap-3">
+                                            {['Inkjet', 'Laser', 'Laser (B/W)'].map(tech => (
+                                                <button 
+                                                    key={tech} type="button" 
+                                                    onClick={() => handleCheckboxChange(tech, technology, setTechnology)}
+                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${technology.includes(tech) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                >
+                                                    {tech}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Usage Category Selector */}
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Usage Category</label>
+                                        <div className="flex flex-wrap gap-3">
+                                            {['Home', 'Office', 'Mobile', 'Photo'].map(usage => (
+                                                <button 
+                                                    key={usage} type="button" 
+                                                    onClick={() => handleCheckboxChange(usage, usageCategory, setUsageCategory)}
+                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${usageCategory.includes(usage) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                >
+                                                    {usage}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Types & Wireless */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                        <div className="space-y-4">
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">All-in-One Type</label>
+                                            <div className="flex gap-3">
+                                                {['Multifunction', 'Single Function'].map(type => (
+                                                    <button 
+                                                        key={type} type="button" 
+                                                        onClick={() => setAllInOneType(type)}
+                                                        className={`flex-1 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${allInOneType === type ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                    >
+                                                        {type}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Wireless</label>
+                                            <select 
+                                                value={wireless} onChange={(e) => setWireless(e.target.value)}
+                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-3.5 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 appearance-none cursor-pointer text-xs"
+                                            >
+                                                <option value="">Select</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {/* Main Functions Selector */}
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Main Function</label>
+                                        <div className="flex flex-wrap gap-3">
+                                            {['Print', 'Scan', 'Copy', 'Fax', 'Print Only'].map(func => (
+                                                <button 
+                                                    key={func} type="button" 
+                                                    onClick={() => handleCheckboxChange(func, mainFunction, setMainFunction)}
+                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${mainFunction.includes(func) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                >
+                                                    {func}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Title, Brand, Category */}
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Product Title</label>
+                                            <input 
+                                                type="text" required value={name} onChange={(e) => setName(e.target.value)}
+                                                placeholder="e.g. Laserjet Pro M404n"
+                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
+                                            />
+                                        </div>
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Brand</label>
+                                            <input 
+                                                type="text" required value={brand} onChange={(e) => setBrand(e.target.value)}
+                                                placeholder="e.g. HP, Canon"
+                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
+                                            />
+                                        </div>
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Category</label>
+                                            <select 
+                                                required value={category} onChange={(e) => setCategory(e.target.value)}
+                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm appearance-none cursor-pointer"
+                                            >
+                                                <option value="">Select Category</option>
+                                                {categories.map(cat => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* --- PRICING & AVAILABILITY --- */}
+                            <section className="space-y-10">
+                                <div className="flex items-center gap-3 border-b border-slate-200 pb-5">
+                                    <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-100">
+                                        <DollarSign className="text-white" size={20} />
+                                    </div>
+                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Pricing & Availability</h3>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Price ($)</label>
+                                        <input 
+                                            type="number" required value={oldPrice} onChange={(e) => setOldPrice(e.target.value)}
+                                            className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-black outline-none focus:border-blue-500 text-lg"
+                                        />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Sale Price ($)</label>
                                         <input 
                                             type="number" required value={price} onChange={(e) => setPrice(e.target.value)}
-                                            className="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-5 px-12 text-slate-900 font-black outline-none focus:border-blue-500 transition-all"
+                                            className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-black outline-none focus:border-blue-500 text-lg"
                                         />
-                                        <DollarSign className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Stock Level</label>
+                                        <input 
+                                            type="number" required value={countInStock} onChange={(e) => setCountInStock(e.target.value)}
+                                            className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
+                                        />
                                     </div>
                                 </div>
-                                <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Cluster Classification</label>
-                                    <div className="relative">
-                                        <select 
-                                            required value={category} onChange={(e) => setCategory(e.target.value)}
-                                            className="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-5 px-8 text-slate-900 font-bold outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer"
-                                        >
-                                            <option value="">Select Protocol</option>
-                                            {categories.map(cat => <option key={cat._id} value={cat._id}>{cat.name.toUpperCase()}</option>)}
-                                        </select>
-                                        <ChevronRight className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 rotate-90" size={18} />
+                            </section>
+
+                            {/* --- PRODUCT MEDIA --- */}
+                            <section className="space-y-10">
+                                <div className="flex items-center gap-3 border-b border-slate-200 pb-5">
+                                    <div className="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-100">
+                                        <ImageIcon className="text-white" size={20} />
+                                    </div>
+                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Product Media</h3>
+                                </div>
+                                <div className="space-y-6">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Upload Images</label>
+                                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                                        {images.map((img, i) => (
+                                            <div key={i} className="aspect-square bg-white rounded-2xl border border-slate-200 overflow-hidden relative group p-2 flex items-center justify-center">
+                                                <img src={img} alt="" className="max-w-full max-h-full object-contain" />
+                                                <button 
+                                                    type="button" onClick={() => setImages(images.filter((_, idx) => idx !== i))}
+                                                    className="absolute top-2 right-2 bg-rose-500 text-white p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-all shadow-lg"
+                                                >
+                                                    <Trash size={12} />
+                                                </button>
+                                            </div>
+                                        ))}
+                                        <label className="aspect-square border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-white hover:border-blue-500 transition-all bg-slate-50/50 group">
+                                            {uploading ? (
+                                                <Loader2 className="animate-spin text-blue-600" size={24} />
+                                            ) : (
+                                                <>
+                                                    <div className="p-3 bg-white rounded-xl shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                                        <Plus size={20} />
+                                                    </div>
+                                                    <span className="text-[8px] font-black uppercase text-slate-400 tracking-widest">ADD IMAGE</span>
+                                                </>
+                                            )}
+                                            <input type="file" multiple onChange={uploadFileHandler} className="hidden" />
+                                        </label>
+                                    </div>
+                                    <p className="text-[10px] text-slate-400 font-medium italic">Select multiple images (JPG, PNG, WebP). Max 5MB each.</p>
+                                </div>
+                            </section>
+
+                            {/* --- DETAILED DESCRIPTIONS --- */}
+                            <section className="space-y-10">
+                                <div className="flex items-center gap-3 border-b border-slate-200 pb-5">
+                                    <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center shadow-lg shadow-amber-100">
+                                        <Layers className="text-white" size={20} />
+                                    </div>
+                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Detailed Descriptions</h3>
+                                </div>
+                                <div className="space-y-10">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Highlights (Rich Text)</label>
+                                        <div className="border-2 border-slate-100 rounded-2xl overflow-hidden focus-within:border-blue-500 transition-all bg-white shadow-sm">
+                                            <div className="bg-slate-50 px-4 py-2 flex items-center gap-4 border-b border-slate-100">
+                                                <div className="flex items-center gap-2 pr-4 border-r border-slate-200">
+                                                    <button type="button" className="p-1.5 hover:bg-white rounded text-slate-400 font-black">B</button>
+                                                    <button type="button" className="p-1.5 hover:bg-white rounded text-slate-400 italic">I</button>
+                                                    <button type="button" className="p-1.5 hover:bg-white rounded text-slate-400 underline">U</button>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <List size={14} className="text-slate-400" />
+                                                    <List size={14} className="text-slate-400 rotate-180" />
+                                                </div>
+                                            </div>
+                                            <textarea 
+                                                rows="4" value={shortDetails} onChange={(e) => setShortDetails(e.target.value)}
+                                                placeholder="Enter product highlights..."
+                                                className="w-full py-6 px-8 text-slate-900 font-bold outline-none resize-none text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Full Narrative Overview</label>
+                                        <textarea 
+                                            rows="6" value={description} onChange={(e) => setDescription(e.target.value)}
+                                            placeholder="Enter full product description..."
+                                            className="w-full bg-white border-2 border-slate-100 rounded-2xl py-6 px-8 text-slate-900 font-bold outline-none focus:border-blue-500 resize-none shadow-sm text-sm"
+                                        />
                                     </div>
                                 </div>
-                                <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Inventory Threshold</label>
-                                    <input 
-                                        type="number" required value={countInStock} onChange={(e) => setCountInStock(e.target.value)}
-                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-5 px-8 text-slate-900 font-bold outline-none focus:border-blue-500 transition-all"
-                                        placeholder="0"
-                                    />
+                            </section>
+
+                            {/* --- TECHNICAL SPECIFICATIONS & TABLE BUILDER --- */}
+                            <section className="space-y-10">
+                                <div className="flex items-center gap-3 border-b border-slate-200 pb-5">
+                                    <div className="w-10 h-10 bg-[#0f172a] rounded-xl flex items-center justify-center shadow-lg shadow-slate-200">
+                                        <Settings className="text-white" size={20} />
+                                    </div>
+                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Technical Specifications</h3>
                                 </div>
-                            </div>
+                                <div className="space-y-10">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Keywords</label>
+                                        <input 
+                                            type="text" value={keywords} onChange={(e) => setKeywords(e.target.value)}
+                                            placeholder="e.g. Wireless, Laser, Mono"
+                                            className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
+                                        />
+                                    </div>
+                                    
+                                    {/* --- Table Builder --- */}
+                                    <div className="space-y-6">
+                                        <div className="flex justify-between items-end">
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Technical Specification</label>
+                                                <p className="text-[9px] text-slate-400 font-medium ml-1">Build a custom spec table for this product.</p>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <button type="button" className="px-4 py-2 bg-slate-100 text-slate-500 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Text Editor</button>
+                                                <button type="button" className="px-4 py-2 bg-blue-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all">Table Builder</button>
+                                            </div>
+                                        </div>
 
-                            <div className="space-y-4">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Technical Summary</label>
-                                <textarea 
-                                    rows="4" value={description} onChange={(e) => setDescription(e.target.value)}
-                                    placeholder="Enter full technical manifest..."
-                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-[2rem] py-6 px-8 text-slate-900 font-bold outline-none focus:border-blue-500 transition-all resize-none placeholder:text-slate-300"
-                                />
-                            </div>
-
-                            <div className="space-y-6">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Visual Asset Matrix (Cloudinary Uplink)</label>
-                                <div className="grid grid-cols-2 sm:grid-cols-5 gap-6">
-                                    {images.map((img, i) => (
-                                        <div key={i} className="aspect-square bg-slate-50 rounded-[2rem] border-2 border-slate-100 overflow-hidden relative group shadow-inner flex items-center justify-center p-3">
-                                            <img src={img} alt="" className="max-w-full max-h-full object-contain" />
+                                        <div className="bg-white border-2 border-slate-100 rounded-2xl overflow-hidden shadow-sm">
+                                            <table className="w-full border-collapse">
+                                                <thead>
+                                                    <tr className="bg-slate-50 border-b-2 border-slate-100 text-left">
+                                                        <th className="px-6 py-4 text-[9px] font-black uppercase text-slate-400 tracking-widest">Attribute Name</th>
+                                                        <th className="px-6 py-4 text-[9px] font-black uppercase text-slate-400 tracking-widest">Detail/Value</th>
+                                                        <th className="px-6 py-4 w-16"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-slate-50">
+                                                    {specRows.map((row, index) => (
+                                                        <tr key={index} className="group hover:bg-slate-50/50 transition-colors">
+                                                            <td className="px-4 py-3">
+                                                                <input 
+                                                                    type="text" value={row.name} 
+                                                                    onChange={(e) => handleSpecChange(index, 'name', e.target.value)}
+                                                                    placeholder="e.g. Print Speed"
+                                                                    className="w-full bg-transparent py-2 px-4 text-xs font-bold text-slate-700 outline-none placeholder:text-slate-300"
+                                                                />
+                                                            </td>
+                                                            <td className="px-4 py-3">
+                                                                <input 
+                                                                    type="text" value={row.value} 
+                                                                    onChange={(e) => handleSpecChange(index, 'value', e.target.value)}
+                                                                    placeholder="e.g. 40 ppm"
+                                                                    className="w-full bg-transparent py-2 px-4 text-xs font-bold text-slate-700 outline-none placeholder:text-slate-300"
+                                                                />
+                                                            </td>
+                                                            <td className="px-4 py-3 text-right">
+                                                                <button 
+                                                                    type="button" onClick={() => handleRemoveSpecRow(index)}
+                                                                    className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
+                                                                >
+                                                                    <Trash2 size={14} />
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
                                             <button 
-                                                type="button" onClick={() => setImages(images.filter((_, idx) => idx !== i))}
-                                                className="absolute top-3 right-3 bg-rose-500 text-white p-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all shadow-xl active:scale-90"
+                                                type="button" onClick={handleAddSpecRow}
+                                                className="w-full py-4 border-t-2 border-slate-50 text-blue-600 font-black uppercase text-[9px] tracking-widest hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
                                             >
-                                                <X size={14} />
+                                                <Plus size={14} /> Add New Attribute
                                             </button>
                                         </div>
-                                    ))}
-                                    <label className="aspect-square border-2 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-slate-50 hover:border-blue-500 transition-all group bg-slate-50/50">
-                                        {uploading ? (
-                                            <Loader2 className="animate-spin text-blue-600" size={32} />
-                                        ) : (
-                                            <>
-                                                <div className="p-4 bg-white rounded-2xl shadow-xl shadow-slate-100 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                                                     <ImageIcon size={28} />
-                                                </div>
-                                                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Uplink</span>
-                                            </>
-                                        )}
-                                        <input type="file" multiple onChange={uploadFileHandler} className="hidden" />
-                                    </label>
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
 
-                            <div className="pt-6">
+                            {/* --- REVIEWS & TESTIMONIALS --- */}
+                            <section className="space-y-10">
+                                <div className="flex items-center gap-3 border-b border-slate-200 pb-5">
+                                    <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-100">
+                                        <Star className="text-white" size={20} />
+                                    </div>
+                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Reviews & Testimonials</h3>
+                                </div>
+                                <div className="p-16 border-2 border-dashed border-slate-200 rounded-[2rem] text-center bg-white/50">
+                                    <p className="text-slate-400 font-black text-[10px] uppercase tracking-widest mb-6">No reviews added for this product.</p>
+                                    <button type="button" className="px-8 py-3 bg-[#0f172a] text-white rounded-xl font-black uppercase text-[9px] tracking-widest hover:shadow-xl transition-all active:scale-95">
+                                        ADD REVIEW
+                                    </button>
+                                </div>
+                            </section>
+
+                            {/* Submit Area (Sticky at bottom of content) */}
+                            <div className="pt-10 sticky bottom-0 z-10">
                                 <button 
                                     type="submit" disabled={loadingCreate || uploading}
-                                    className="w-full bg-slate-900 hover:bg-blue-600 text-white py-6 rounded-[2rem] font-black uppercase tracking-[0.3em] text-xs transition-all flex items-center justify-center gap-4 shadow-2xl shadow-slate-200 active:scale-95 disabled:opacity-50"
+                                    className="w-full bg-[#0f172a] hover:bg-blue-600 text-white py-6 rounded-[1.5rem] font-black uppercase tracking-[0.5em] text-[10px] transition-all flex items-center justify-center gap-4 shadow-2xl active:scale-[0.98] disabled:opacity-50"
                                 >
-                                    {loadingCreate ? <Loader2 className="animate-spin" size={20} /> : <>Commit Manifest to Registry <ArrowRight size={20} /></>}
+                                    {loadingCreate ? <Loader2 className="animate-spin" size={20} /> : <>REGISTER PRODUCT <ArrowRight size={18} /></>}
                                 </button>
                             </div>
                         </form>

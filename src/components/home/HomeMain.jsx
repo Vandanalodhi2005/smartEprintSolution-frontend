@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Hero from "./Hero";
-import Home from "./Home";
+import FeaturedProducts from './FeaturedProducts';
+import Hero from './Hero';
+import PrintingDestination from './PrintingDestination';
 import Reviews from "./Reviews";
-import ProductGrid from "../productsCategories/ProductGrid";
 import HowItWorks from './HowItWorks';
 import Newsletter from './Newsletter';
 import SEO from '../common/SEO';
+import ProductGrid from "../productsCategories/ProductGrid";
 
 const HomeMain = () => {
     const [searchParams] = useSearchParams();
@@ -50,7 +51,8 @@ const HomeMain = () => {
                 canonical="/"
             />
             <Hero />
-            <Home />
+            <FeaturedProducts />
+            <PrintingDestination />
             <Reviews />
             <HowItWorks />
             <Newsletter />

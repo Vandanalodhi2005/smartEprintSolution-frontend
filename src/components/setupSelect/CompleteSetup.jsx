@@ -30,7 +30,7 @@ function CompleteSetup({ showCompleteSetup }) {
     setLoading(false);
     
     // Submit registration in background
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
     fetch(`${apiUrl}/admin/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

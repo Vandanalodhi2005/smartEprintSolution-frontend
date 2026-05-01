@@ -38,7 +38,7 @@ const FAQContent = () => {
     },
     {
       q: "How can I contact Smart ePrint?",
-      a: "You can reach our support team anytime Email: support@smarteprintsolution.com Phone: +1-651-815-4630 Address: 11397 Quincy St NE, Blaine, Minnesota 55434"
+      a: "You can reach our support team anytime Email: support@smarteprint.com Phone: +1-651-815-4630 Address: 11397 Quincy St NE, Blaine, Minnesota 55434"
     },
     {
       q: "Do you offer technical support for printer setup or issues?",

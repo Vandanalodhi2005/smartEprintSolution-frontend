@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Metadata -->
+    <title>Complete Printer Setup | Smart ePrint Solution</title>
+    <meta name="description" content="Finalize your printer installation with step-by-step guidance. Official Smart ePrint Solution setup portal.">
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+
+    <!-- Application Styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #ffffff;
+        }
+        
+        #root {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+
+    <!-- Security & Redirect Logic -->
+    <script>
+        /**
+         * Guard: Redirect users if they haven't started the setup flow.
+         * This prevents direct access to the completion page without context.
+         */
+        (function() {
+            const allowComplete = localStorage.getItem('showCompleteSetup') !== 'false';
+            if (!allowComplete) {
+                window.location.href = '/step-by-step-setup-guide/';
+            }
+        })();
+    </script>
+
+    <!-- Analytics: Google Tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17673176797"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-17673176797');
+    </script>
+</head>
+
+<body>
+    <!-- Main Content Root -->
+    <div id="root"></div>
+
+    <!-- Entry Point -->
+    <script type="module" src="/src/entry-complete-setup.jsx"></script>
+
+    <!-- Third-Party Tracking: ClickCease -->
+    <script type='text/javascript'>
+        (function() {
+            var script = document.createElement('script');
+            script.async = true; 
+            script.type = 'text/javascript';
+            script.src = 'https://www.clickcease.com/monitor/stat.js';
+            document.head.appendChild(script);
+        })();
+    </script>
+    <noscript>
+        <a href='https://www.clickcease.com' rel='nofollow'>
+            <img src='https://monitor.clickcease.com' alt='ClickCease Tracking' />
+        </a>
+    </noscript>
+</body>
+</html>

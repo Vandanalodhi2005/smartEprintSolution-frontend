@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+
 function BlogsMain() {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center bg-gradient-to-br from-[#e3f0ff] to-[#f8faff] py-12">

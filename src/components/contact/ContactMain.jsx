@@ -22,7 +22,7 @@ const ContactMain = () => {
     <section className="w-full bg-gray-50">
       <SEO
           title="Contact Us"
-          description="Get in touch with Smart ePrint. We're here to help with your printer and printing supply needs. Email, phone, or send us a message."
+          description="Get in touch with PrintsBasket. We're here to help with your printer and printing supply needs. Email, phone, or send us a message."
           canonical="/contact-us"
       />
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
@@ -44,7 +44,7 @@ const ContactMain = () => {
                 </span>
                 <div>
                   <h3 className="font-bold text-lg text-gray-900 mb-1">Email</h3>
-                  <p className="text-gray-700">support@smarteprintsolution.com</p>
+                  <p className="text-gray-700">support@smarteprint.com</p>
                 </div>
               </div>
               <div className="flex items-start gap-5">
@@ -77,7 +77,7 @@ const ContactMain = () => {
                 </span>
                 <div>
                   <h3 className="font-bold text-lg text-gray-900 mb-1">Website</h3>
-                  <p className="text-gray-700">www.smarteprintsolution.com</p>
+                  <p className="text-gray-700">www.smarteprint.com</p>
                 </div>
               </div>
             </div>

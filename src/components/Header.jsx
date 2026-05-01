@@ -19,22 +19,32 @@ const Header = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const logoutHandler = () => {
+  // Handles logging the user out
+  const handleLogout = () => {
     dispatch(logout());
     setIsUserMenuOpen(false);
     navigate("/");
   };
 
-  const handleSearchSubmit = (e) => {
+  // Handles search submission
+  const handleSearch = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
+    const query = searchQuery.trim();
+    
+    if (query) {
+      navigate(`/shop?search=${encodeURIComponent(query)}`);
       setIsSearchOpen(false);
       setSearchQuery("");
     }
   };
 
-  const navItem =
+  // Opens search window
+  const openSearch = () => {
+    setIsSearchOpen(true);
+  };
+
+  // CSS utility for nav item hover states
+  const navUnderlineStyles =
     "relative after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:bg-[#EF4056] after:w-0 after:transition-all after:duration-300";
 
   return (
@@ -50,32 +60,33 @@ const Header = () => {
           {/* DESKTOP NAV */}
           <nav className="hidden md:flex gap-6 lg:gap-10 text-gray-700 font-medium text-[15px]">
             <NavLink to="/" className={({ isActive }) =>
-              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+              `${navUnderlineStyles} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
             }>Home</NavLink>
 
             <NavLink to="/about/" className={({ isActive }) =>
-              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+              `${navUnderlineStyles} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
             }>About Us</NavLink>
 
             <NavLink to="/shop/" className={({ isActive }) =>
-              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+              `${navUnderlineStyles} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
             }>Shop</NavLink>
 
             <NavLink to="/blogs" className={({ isActive }) =>
-              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+              `${navUnderlineStyles} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
             }>Blog</NavLink>
 
             <NavLink to="/faq" className={({ isActive }) =>
-              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+              `${navUnderlineStyles} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
             }>FAQ's</NavLink>
 
             <NavLink to="/contact-us" className={({ isActive }) =>
-              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+              `${navUnderlineStyles} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
             }>Contact Us</NavLink>
           </nav>
 
           {/* RIGHT ICONS */}
           <div className="flex items-center gap-4 md:gap-6">
+
             {userInfo ? (
               <div className="relative">
                 <button
@@ -112,7 +123,7 @@ const Header = () => {
                       </Link>
                     )}
                     <button
-                      onClick={logoutHandler}
+                      onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100 mt-1"
                     >
                       Logout
@@ -121,7 +132,7 @@ const Header = () => {
                 )}
               </div>
             ) : (
-              <button aria-label="Login or register" className="bg-transparent border-none p-0 cursor-pointer" onClick={() => setAuthOpen(true)}>
+              <button aria-label="Login or Sign up" className="bg-transparent border-none p-0 cursor-pointer" onClick={() => setAuthOpen(true)}>
                 <User size={22} />
               </button>
             )}
@@ -200,7 +211,7 @@ const Header = () => {
                   )}
                   <button
                     onClick={() => {
-                      logoutHandler();
+                      handleLogout();
                       setMobileMenuOpen(false);
                     }}
                     className="w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded transition-colors text-left font-medium"
@@ -218,7 +229,7 @@ const Header = () => {
                   }}
                   className="w-full px-3 py-2 bg-[#EF4056] text-white rounded font-medium hover:bg-red-700 transition-colors"
                 >
-                  Login / Register
+                  Login / Sign Up
                 </button>
               </div>
             )}
@@ -253,7 +264,7 @@ const Header = () => {
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Search Products</h2>
 
             {/* Search Form */}
-            <form onSubmit={handleSearchSubmit} className="flex gap-3">
+            <form onSubmit={handleSearch} className="flex gap-3">
               <input
                 type="text"
                 value={searchQuery}
