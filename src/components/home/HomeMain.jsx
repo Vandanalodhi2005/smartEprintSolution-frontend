@@ -2,11 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Hero from "./Hero";
-
 import Home from "./Home";
-
 import Reviews from "./Reviews";
-
 import ProductGrid from "../productsCategories/ProductGrid";
 import HowItWorks from './HowItWorks';
 import Newsletter from './Newsletter';
@@ -49,23 +46,14 @@ const HomeMain = () => {
         <>
             <SEO
                 title="Home"
-                description="Shop Smart ePrint Solution for high-quality printers, ink cartridges, and toner at affordable prices. Inkjet, laser, and all-in-one printers for home and office. Free shipping across North America."
+                description="Shop Smart ePrint for high-quality printers, ink cartridges, and toner at affordable prices. Inkjet, laser, and all-in-one printers for home and office. Free shipping across North America."
                 canonical="/"
             />
             <Hero />
-            {/* <ExploreCategoriesSection /> */}
-            {/* <Categories /> */}
-            {/* <WelcomeSection /> */}
             <Home />
-            
-            {/* <PrinterBanners /> */}
             <Reviews />
             <HowItWorks />
             <Newsletter />
-
-            
-            {/* <StatsCircles />
-            <ImportantInfoSection /> */}
         </>
     );
 };

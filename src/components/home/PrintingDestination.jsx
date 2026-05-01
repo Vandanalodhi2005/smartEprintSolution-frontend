@@ -25,7 +25,7 @@ const PrintingDestination = () => {
               Your All-in-One Printing Destination
             </h2>
             <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6">
-              At Smart ePrint Solution, we make printing simple, smart, and affordable. Discover high-quality printers, genuine inks, and reliable accessories — all backed by expert support to meet your home, office, and business needs in one place.
+              At Smart ePrint, we make printing simple, smart, and affordable. Discover high-quality printers, genuine inks, and reliable accessories — all backed by expert support to meet your home, office, and business needs in one place.
             </p>
             <Link
               to="/about"

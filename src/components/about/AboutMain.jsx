@@ -12,7 +12,7 @@ const AboutMain = () => {
     <>
        <SEO
            title="About Us"
-           description="Learn about Smart ePrint Solution — your trusted source for affordable printers, ink, and toner cartridges. Quality products with expert support."
+           description="Learn about Smart ePrint — your trusted source for affordable printers, ink, and toner cartridges. Quality products with expert support."
            canonical="/about"
        />
        <AboutHero/>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserChat, sendChatMessage } from '../../redux/actions/chatActions';
-import { MessageCircle, Send, X, Minimize2, HelpCircle, Mail, Phone, Clock } from 'lucide-react';
+import { MessageCircle, Send, X, HelpCircle, Mail, Clock } from 'lucide-react';
 import io from 'socket.io-client';
 
 const HelpSupport = () => {
@@ -21,16 +21,12 @@ const HelpSupport = () => {
         if (userInfo && !userInfo.isAdmin) {
             dispatch(fetchUserChat());
 
-            // Initialize Socket.io
-            const newSocket = io(import.meta.env.VITE_SOCKET_URL, {
+            const socketUrl = import.meta.env.VITE_SOCKET_URL || 'https://smarteprintsolution-backend.onrender.com';
+            const newSocket = io(socketUrl, {
                 auth: { token: userInfo.token }
             });
 
-            newSocket.on('connect', () => {
-            });
-
-            newSocket.on('new-message', (data) => {
-                // Refresh chat when new message arrives
+            newSocket.on('new-message', () => {
                 dispatch(fetchUserChat());
             });
 
@@ -41,7 +37,7 @@ const HelpSupport = () => {
     }, [dispatch, userInfo]);
 
     useEffect(() => {
-        scrollToBottom();
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [chat]);
 
     useEffect(() => {
@@ -50,17 +46,12 @@ const HelpSupport = () => {
         }
     }, [chat, socket]);
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
-
     const handleSend = (e) => {
         e.preventDefault();
         if (!newMessage.trim() || !chat) return;
 
         dispatch(sendChatMessage(chat._id, newMessage));
 
-        // Emit socket event for real-time update
         if (socket) {
             socket.emit('send-message', {
                 chatId: chat._id,
@@ -79,35 +70,33 @@ const HelpSupport = () => {
     const faqs = [
         {
             question: 'How can I track my order?',
-            answer: 'You can track your order from the "My Orders" section in your profile. Click on any order to see detailed tracking information.'
+            answer: 'You can track your order from the "Order History" section in your profile or use the "Track Order" page with your Order ID.'
         },
         {
             question: 'What is your return policy?',
-            answer: 'We offer a 7-day return policy for most items. Products must be unused and in original packaging. Contact support to initiate a return.'
+            answer: 'We offer a 30-day return policy for most items. Products must be unused and in original packaging. Contact support to initiate a return.'
         },
         {
             question: 'How long does shipping take?',
-            answer: 'Standard shipping typically takes 3-7 business days. Expedited shipping options are also available.'
+            answer: 'Standard shipping typically takes 3-5 business days. Express shipping options are available at checkout.'
         },
         {
             question: 'Do you offer international shipping?',
-            answer: 'We currently ship to customers in the United States and Canada.'
+            answer: 'Yes, we ship to many countries. Shipping costs and delivery times vary by location.'
         },
         {
             question: 'How can I change my order?',
-            answer: 'If your order hasn\'t shipped yet, you can modify it by contacting our support team immediately.'
+            answer: 'If your order hasn\'t shipped yet, you can modify it by contacting our support team immediately via live chat or email.'
         }
     ];
 
     return (
         <div className="space-y-6">
-            {/* Header */}
             <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Help & Support</h2>
                 <p className="text-slate-600">Get assistance with your orders and account</p>
             </div>
 
-            {/* Contact Options */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
                     <div className="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center text-[#EF4056] mb-4">
@@ -147,7 +136,6 @@ const HelpSupport = () => {
                 </div>
             </div>
 
-            {/* FAQs */}
             <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
                 <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2">
                     <HelpCircle size={24} className="text-blue-600" />
@@ -172,11 +160,9 @@ const HelpSupport = () => {
                 </div>
             </div>
 
-            {/* Live Chat Widget */}
             {chatOpen && (
-                <div className="fixed bottom-4 right-4 w-[calc(100vw-2rem)] sm:w-96 h-[400px] sm:h-[500px] bg-white rounded-xl shadow-2xl border border-slate-200 flex flex-col z-50">
-                    {/* Chat Header */}
-                    <div className="bg-gradient-to-r from-red-600 to-red-600 text-white p-4 rounded-t-xl flex items-center justify-between">
+                <div className="fixed bottom-4 right-4 w-[calc(100vw-2rem)] sm:w-96 h-[400px] sm:h-[500px] bg-white rounded-xl shadow-2xl border border-slate-200 flex flex-col z-50 animate-in slide-in-from-bottom-4 duration-300">
+                    <div className="bg-gradient-to-r from-[#EF4056] to-[#EF4056] text-white p-4 rounded-t-xl flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                                 <MessageCircle size={20} />
@@ -194,7 +180,6 @@ const HelpSupport = () => {
                         </button>
                     </div>
 
-                    {/* Messages */}
                     <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
                         {loading ? (
                             <div className="text-center text-slate-400 py-10">Loading chat...</div>
@@ -206,7 +191,7 @@ const HelpSupport = () => {
                                 return (
                                     <div key={index} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
                                         <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${isUser
-                                            ? 'bg-red-600 text-white rounded-tr-none'
+                                            ? 'bg-[#EF4056] text-white rounded-tr-none'
                                             : 'bg-white text-slate-700 rounded-tl-none border border-slate-200'
                                             }`}>
                                             <p>{msg.message}</p>
@@ -226,19 +211,18 @@ const HelpSupport = () => {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Input */}
                     <div className="p-3 bg-white border-t border-slate-200 rounded-b-xl">
                         <form onSubmit={handleSend} className="flex gap-2">
                             <input
                                 type="text"
-                                className="flex-1 bg-slate-100 border-0 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-red-500 outline-none"
+                                className="flex-1 bg-slate-100 border-0 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-[#EF4056] outline-none"
                                 placeholder="Type your message..."
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
                             />
                             <button
                                 type="submit"
-                                className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors shrink-0"
+                                className="p-2 bg-[#EF4056] text-white rounded-full hover:bg-red-700 transition-colors shrink-0"
                             >
                                 <Send size={18} />
                             </button>

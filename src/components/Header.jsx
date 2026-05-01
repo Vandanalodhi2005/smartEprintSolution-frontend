@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { ShoppingCart, Search, User, X, Menu, ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+import { ShoppingCart, Search, User, X, Menu } from "lucide-react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/actions/userActions";
@@ -11,7 +11,6 @@ const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isScrolled, setIsScrolled] = useState(false);
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,12 +18,6 @@ const Header = () => {
   const { userInfo } = userLogin;
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -41,151 +34,265 @@ const Header = () => {
     }
   };
 
-  const navItemClass = ({ isActive }) => 
-    `text-[11px] font-black uppercase tracking-[0.2em] transition-all relative py-2
-     ${isActive ? 'text-[#EF4056]' : 'text-slate-400 hover:text-slate-900'}
-     after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-[#EF4056] after:transition-all after:duration-300
-     ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}`;
+  const navItem =
+    "relative after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:bg-[#EF4056] after:w-0 after:transition-all after:duration-300";
 
   return (
     <>
-      <header className={`fixed top-0 left-0 w-full z-[80] transition-all duration-500 ${isScrolled ? 'bg-white/80 backdrop-blur-xl shadow-xl shadow-slate-100/50 py-3' : 'bg-white py-6'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          
-          {/* Logo */}
-          <NavLink to="/" className="relative z-10">
-            <img src="/smart-e-print-logo.png" alt="Smart ePrint" className="h-8 sm:h-10 w-auto object-contain transition-transform hover:scale-105" />
+      <header className="w-full bg-white border-b">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-5">
+
+          {/* LOGO */}
+          <NavLink to="/" aria-label="Go to homepage">
+            <img src="/smart-e-print-logo.png" alt="Smart ePrint Logo" width="224" height="54" className="block w-32 h-auto object-contain" loading="eager" />
           </NavLink>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-10">
-            <NavLink to="/" className={navItemClass}>Home</NavLink>
-            <NavLink to="/shop/" className={navItemClass}>Shop</NavLink>
-            <NavLink to="/about/" className={navItemClass}>About</NavLink>
-            <NavLink to="/faq/" className={navItemClass}>FAQ</NavLink>
-            <NavLink to="/contact-us/" className={navItemClass}>Contact</NavLink>
+          {/* DESKTOP NAV */}
+          <nav className="hidden md:flex gap-6 lg:gap-10 text-gray-700 font-medium text-[15px]">
+            <NavLink to="/" className={({ isActive }) =>
+              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+            }>Home</NavLink>
+
+            <NavLink to="/about/" className={({ isActive }) =>
+              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+            }>About Us</NavLink>
+
+            <NavLink to="/shop/" className={({ isActive }) =>
+              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+            }>Shop</NavLink>
+
+            <NavLink to="/blogs" className={({ isActive }) =>
+              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+            }>Blog</NavLink>
+
+            <NavLink to="/faq" className={({ isActive }) =>
+              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+            }>FAQ's</NavLink>
+
+            <NavLink to="/contact-us" className={({ isActive }) =>
+              `${navItem} ${isActive ? "text-[#EF4056] after:w-full" : "hover:text-[#EF4056]"}`
+            }>Contact Us</NavLink>
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-4 sm:gap-6">
-            <button onClick={() => setIsSearchOpen(true)} className="p-2 text-slate-400 hover:text-[#EF4056] transition-colors">
-              <Search size={22} />
-            </button>
-
+          {/* RIGHT ICONS */}
+          <div className="flex items-center gap-4 md:gap-6">
             {userInfo ? (
               <div className="relative">
-                <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className="flex items-center gap-3 bg-slate-50 hover:bg-slate-100 p-1.5 pr-4 rounded-full border border-slate-100 transition-all">
-                  <div className="w-8 h-8 rounded-full bg-[#EF4056] text-white flex items-center justify-center font-black text-xs">
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-[#EF4056] text-white flex items-center justify-center font-bold text-sm uppercase">
                     {userInfo.firstName?.charAt(0) || userInfo.name?.charAt(0)}
                   </div>
-                  <span className="hidden sm:block text-[10px] font-black uppercase tracking-widest text-slate-900">{userInfo.firstName || userInfo.name}</span>
+                  <span className="hidden sm:block text-sm font-medium text-gray-700">{userInfo.firstName || userInfo.name}</span>
                 </button>
+
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-4 w-64 bg-white rounded-[2rem] shadow-2xl border border-slate-100 py-4 z-50 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300">
-                    <div className="px-6 py-4 border-b border-slate-50">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Authenticated</p>
-                      <p className="text-sm font-black text-slate-900 truncate">{userInfo.email}</p>
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
+                    <div className="px-4 py-3 border-b border-gray-100 mb-1">
+                      <p className="text-xs text-gray-500">Signed in as</p>
+                      <p className="text-sm font-semibold text-gray-800 truncate">{userInfo.email}</p>
                     </div>
-                    <div className="p-2">
-                       <Link to={userInfo.isAdmin ? "/admin/dashboard/" : "/profile/"} onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-xs font-black uppercase tracking-widest text-slate-600 hover:text-[#EF4056] hover:bg-rose-50 rounded-2xl transition-all">
-                         {userInfo.isAdmin ? 'Admin Dashboard' : 'Account Profile'}
-                       </Link>
-                       <button onClick={logoutHandler} className="w-full flex items-center gap-3 px-4 py-3 text-xs font-black uppercase tracking-widest text-[#EF4056] hover:bg-rose-50 rounded-2xl transition-all">
-                         Sign Out
-                       </button>
-                    </div>
+                    {userInfo.isAdmin ? (
+                      <Link
+                          to="/admin/dashboard"
+                          className="block px-4 py-2 text-sm text-[#EF4056] font-bold hover:bg-rose-50 transition-colors"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          Admin Dashboard
+                        </Link>
+                    ) : (
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        My Profile
+                      </Link>
+                    )}
+                    <button
+                      onClick={logoutHandler}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100 mt-1"
+                    >
+                      Logout
+                    </button>
                   </div>
                 )}
               </div>
             ) : (
-              <button onClick={() => setAuthOpen(true)} className="p-2 text-slate-400 hover:text-[#EF4056] transition-colors">
+              <button aria-label="Login or register" className="bg-transparent border-none p-0 cursor-pointer" onClick={() => setAuthOpen(true)}>
                 <User size={22} />
               </button>
             )}
 
-            <NavLink to="/cart/" className="relative p-2 text-slate-400 hover:text-[#EF4056] transition-colors">
-              <ShoppingCart size={22} />
+            <div className="relative cursor-pointer">
+              <NavLink to="/cart" aria-label="Shopping cart"><ShoppingCart size={22} /></NavLink>
               {cartItems.length > 0 && (
-                <span className="absolute top-1 right-1 bg-[#EF4056] text-white text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">
-                  {cartItems.reduce((acc, item) => acc + (item?.qty || 0), 0)}
+                <span className="absolute -top-2 -right-2 text-[10px] bg-[#EF4056] text-white px-1.5 rounded-full font-bold">
+                  {(cartItems || []).reduce((acc, item) => acc + (item?.qty || 0), 0)}
                 </span>
               )}
-            </NavLink>
+            </div>
 
-            <button onClick={() => setMobileMenuOpen(true)} className="lg:hidden p-2 text-slate-400 hover:text-slate-900 transition-colors">
-              <Menu size={24} />
+            {/* MOBILE MENU ICON */}
+            <button
+              aria-label="Open menu"
+              className="md:hidden cursor-pointer bg-transparent border-none p-0"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Menu size={22} />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Spacer */}
-      <div className={`${isScrolled ? 'h-20' : 'h-24'}`}></div>
-
-      {/* Mobile Menu Overlay */}
+      {/* MOBILE MENU */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[100] lg:hidden">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setMobileMenuOpen(false)}></div>
-          <div className="absolute top-0 right-0 w-[80%] max-w-sm h-full bg-white shadow-2xl p-8 flex flex-col animate-in slide-in-from-right duration-500">
-            <div className="flex justify-between items-center mb-12">
-               <img src="/smart-e-print-logo.png" alt="Logo" className="h-6" />
-               <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-slate-50 text-slate-400"><X size={20}/></button>
-            </div>
+        <div className="fixed inset-0 bg-black/40 z-50 flex">
+          <div className="bg-white w-3/4 max-w-xs h-full p-6 relative flex flex-col">
+            <button
+              aria-label="Close menu"
+              className="absolute top-4 right-4 cursor-pointer text-gray-500 bg-transparent border-none p-0"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <X size={24} />
+            </button>
             
-            <nav className="flex flex-col gap-6">
-              {['Home', 'Shop', 'About', 'FAQ', 'Contact'].map(item => (
-                <NavLink key={item} to={item === 'Home' ? '/' : `/${item.toLowerCase()}/`} onClick={() => setMobileMenuOpen(false)} className="text-2xl font-black text-slate-900 uppercase tracking-tighter hover:text-[#EF4056] transition-colors">
-                  {item}
-                </NavLink>
-              ))}
+            <nav className="flex flex-col gap-4 mt-8 flex-1">
+              <NavLink to="/" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 font-medium hover:text-[#EF4056]">Home</NavLink>
+              <NavLink to="/about" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 font-medium hover:text-[#EF4056]">About Us</NavLink>
+              <NavLink to="/shop" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 font-medium hover:text-[#EF4056]">Shop</NavLink>
+              <NavLink to="/blogs" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 font-medium hover:text-[#EF4056]">Blog</NavLink>
+              <NavLink to="/faq" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 font-medium hover:text-[#EF4056]">FAQ's</NavLink>
+              <NavLink to="/contact-us" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 font-medium hover:text-[#EF4056]">Contact Us</NavLink>
             </nav>
 
-            <div className="mt-auto pt-8 border-t border-slate-100">
-               {userInfo ? (
-                 <div className="space-y-4">
-                    <div className="flex items-center gap-4">
-                       <div className="w-12 h-12 rounded-2xl bg-[#EF4056] text-white flex items-center justify-center font-black">{userInfo.firstName?.charAt(0)}</div>
-                       <div>
-                          <p className="text-sm font-black text-slate-900 uppercase">{userInfo.firstName}</p>
-                          <p className="text-[10px] font-bold text-slate-400">{userInfo.email}</p>
-                       </div>
-                    </div>
-                    <Link to="/profile/" className="block w-full py-4 text-center bg-slate-900 text-white rounded-2xl font-black uppercase text-[10px] tracking-widest">Manage Account</Link>
-                 </div>
-               ) : (
-                 <button onClick={() => { setAuthOpen(true); setMobileMenuOpen(false); }} className="w-full py-5 bg-[#EF4056] text-white rounded-[1.5rem] font-black uppercase text-xs tracking-widest shadow-xl shadow-rose-100">Member Access</button>
-               )}
-            </div>
+            {/* Mobile Profile Section */}
+            {userInfo ? (
+              <div className="mt-auto pt-6 border-t border-gray-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-[#EF4056] text-white flex items-center justify-center font-bold text-sm uppercase">
+                    {userInfo.firstName?.charAt(0) || userInfo.name?.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-800">{userInfo.firstName || userInfo.name}</p>
+                    <p className="text-xs text-gray-500">{userInfo.email}</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  {userInfo.isAdmin ? (
+                    <Link
+                      to="/admin/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full px-3 py-2 text-sm text-[#EF4056] font-bold hover:bg-rose-50 rounded transition-colors"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/profile"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors"
+                    >
+                      My Profile
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => {
+                      logoutHandler();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded transition-colors text-left font-medium"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-auto pt-6 border-t border-gray-200">
+                <button
+                  onClick={() => {
+                    setAuthOpen(true);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full px-3 py-2 bg-[#EF4056] text-white rounded font-medium hover:bg-red-700 transition-colors"
+                >
+                  Login / Register
+                </button>
+              </div>
+            )}
           </div>
+          <div
+            className="flex-1"
+            onClick={() => setMobileMenuOpen(false)}
+          ></div>
         </div>
       )}
 
-      {/* Search Overlay */}
+      {/* AUTH DRAWER */}
+      <AuthDrawer isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+
+      {/* SEARCH MODAL */}
       {isSearchOpen && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center px-4">
-          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-2xl" onClick={() => setIsSearchOpen(false)}></div>
-          <div className="relative w-full max-w-3xl bg-white rounded-[3rem] p-8 sm:p-16 shadow-2xl animate-in zoom-in-95 duration-300">
-            <button onClick={() => setIsSearchOpen(false)} className="absolute top-8 right-8 text-slate-300 hover:text-slate-900 transition-colors"><X size={32}/></button>
-            <div className="mb-12">
-               <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter mb-2">Omni-Search</h2>
-               <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Find hardware, components, or support articles</p>
-            </div>
-            <form onSubmit={handleSearchSubmit} className="relative group">
-              <input 
-                type="text" 
-                autoFocus
+        <div className="fixed inset-0 bg-black/40 z-[60] flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl p-4 sm:p-6 relative animate-in fade-in zoom-in-95 duration-200">
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                setIsSearchOpen(false);
+                setSearchQuery("");
+              }}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
+              aria-label="Close search"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Search Title */}
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Search Products</h2>
+
+            {/* Search Form */}
+            <form onSubmit={handleSearchSubmit} className="flex gap-3">
+              <input
+                type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="What can we help you find?"
-                className="w-full text-2xl sm:text-4xl font-black text-slate-900 placeholder:text-slate-100 outline-none bg-transparent py-4 border-b-4 border-slate-100 focus:border-[#EF4056] transition-all"
+                placeholder="Search for printers, ink, toner..."
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                autoFocus
               />
-              <button type="submit" className="absolute right-0 bottom-6 p-4 bg-[#EF4056] text-white rounded-2xl shadow-xl shadow-rose-200 transition-transform group-focus-within:translate-x-0"><Search size={24}/></button>
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-blue-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all font-semibold flex items-center gap-2"
+              >
+                <Search size={20} />
+                <span className="hidden sm:inline">Search</span>
+              </button>
             </form>
+
+            {/* Popular Searches */}
+            <div className="mt-8">
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Popular searches</h3>
+              <div className="flex flex-wrap gap-3">
+                {['HP Printers', 'Canon Ink', 'Laser Toner', 'Inkjet Cartridges', 'Brother Printer', 'Photo Paper'].map((term) => (
+                  <button
+                    key={term}
+                    onClick={() => {
+                      setSearchQuery(term);
+                      navigate(`/shop?search=${encodeURIComponent(term)}`);
+                      setIsSearchOpen(false);
+                    }}
+                    className="px-4 py-2 rounded-full bg-gray-100 border border-gray-300 text-gray-700 text-sm font-medium hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
+                  >
+                    {term}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       )}
-
-      <AuthDrawer isOpen={authOpen} onClose={() => setAuthOpen(false)} />
     </>
   );
 };

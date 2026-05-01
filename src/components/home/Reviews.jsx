@@ -4,7 +4,7 @@ const Reviews = () => {
   const reviews = [
     {
       name: "Emily Rodriguez",
-      quote: "It's hard to find genuine printer supplies online, but Smart ePrint Solution delivers every time. Great service and smooth shopping experience.",
+      quote: "It's hard to find genuine printer supplies online, but Smart ePrint delivers every time. Great service and smooth shopping experience.",
     },
     {
       name: "Michael Davis",
@@ -12,7 +12,7 @@ const Reviews = () => {
     },
     {
       name: "Olivia Martin",
-      quote: "The quality, pricing, and service are all top-notch. I've already recommended Smart ePrint Solution to my colleagues and friends!",
+      quote: "The quality, pricing, and service are all top-notch. I've already recommended Smart ePrint to my colleagues and friends!",
     },
   ];
 

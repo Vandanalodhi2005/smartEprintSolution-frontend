@@ -16,7 +16,7 @@ const Hero = () => {
         {/* BACKGROUND IMAGE */}
         <img
           src="/hero_background_image.webp"
-          alt="Smart ePrint Solution background"
+          alt="Printing background"
           fetchpriority="high"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -32,7 +32,7 @@ const Hero = () => {
           </h1>
 
           <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mb-8">
-            Discover a smarter way to print with Smart ePrint Solution. Shop genuine printers, inks, and accessories from trusted brands — all at unbeatable prices. Enjoy fast, reliable delivery, secure checkout, and expert customer support whenever you need it. Print with confidence, save more, and experience seamless performance every time.
+            Discover a smarter way to print with Smart ePrint. Shop genuine printers, inks, and accessories from trusted brands — all at unbeatable prices. Enjoy fast, reliable delivery, secure checkout, and expert customer support whenever you need it. Print with confidence, save more, and experience seamless performance every time.
           </p>
 
           <button

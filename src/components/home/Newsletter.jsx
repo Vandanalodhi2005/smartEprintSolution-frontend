@@ -21,7 +21,7 @@ const Newsletter = ({ bg = "bg-white" }) => {
           Unlock Exclusive Savings on Your First Order!
         </h2>
         <p className="text-gray-500 text-sm sm:text-base leading-relaxed mb-8 max-w-3xl mx-auto">
-          Subscribe to Smart ePrint Solution and get access to special printer deals, expert tips, and the latest arrivals. Stay informed, print smarter, and enjoy a seamless, budget-friendly printing experience every day.
+          Subscribe to Smart ePrint and get access to special printer deals, expert tips, and the latest arrivals. Stay informed, print smarter, and enjoy a seamless, budget-friendly printing experience every day.
         </p>
 
         <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-start justify-center gap-3 max-w-lg mx-auto">

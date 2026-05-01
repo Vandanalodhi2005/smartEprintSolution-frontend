@@ -1,40 +1,25 @@
 import React from "react";
-import { ArrowRight, ShieldCheck } from "lucide-react";
 
 const CartTotalsCard = ({ subtotal = 0, total = 0, onCheckout }) => {
   return (
-    <div className="w-full bg-slate-900 text-white rounded-[3rem] p-10 sm:p-12 shadow-2xl shadow-slate-200 sticky top-32">
-      <h2 className="text-3xl font-black uppercase tracking-tighter mb-10 text-[#EF4056]">Summary</h2>
-      
-      <div className="space-y-6 mb-12">
-        <div className="flex justify-between items-baseline border-b border-slate-800 pb-6">
-          <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Subtotal</span>
-          <span className="text-2xl font-black tracking-tighter">${subtotal.toFixed(2)}</span>
+    <div className="w-full max-w-md mx-auto bg-white rounded border border-gray-200 p-5 xs:p-6 sm:p-8">
+      <h2 className="text-2xl xs:text-3xl font-black text-gray-900 mb-6 sm:mb-8">Cart totals</h2>
+      <div className="divide-y divide-gray-200">
+        <div className="flex justify-between py-4 text-lg">
+          <span className="text-gray-700">Subtotal</span>
+          <span className="text-gray-900 font-semibold">${subtotal.toFixed(2)}</span>
         </div>
-        
-        <div className="flex justify-between items-baseline">
-          <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Logistics Fees</span>
-          <span className="text-[9px] font-black uppercase px-3 py-1 bg-emerald-500/10 text-emerald-400 rounded-full tracking-widest">Included</span>
-        </div>
-
-        <div className="pt-6 flex justify-between items-baseline">
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#EF4056]">Grand Total</span>
-          <span className="text-4xl font-black tracking-tighter">${total.toFixed(2)}</span>
+        <div className="flex justify-between py-4 text-lg">
+          <span className="text-gray-700">Total</span>
+          <span className="text-gray-900 font-semibold">${total.toFixed(2)}</span>
         </div>
       </div>
-
       <button
         onClick={onCheckout}
-        className="w-full bg-white text-slate-900 py-6 rounded-[1.5rem] font-black uppercase text-xs tracking-[0.2em] hover:bg-[#EF4056] hover:text-white transition-all flex items-center justify-center gap-3 group"
+        className="w-full mt-6 sm:mt-8 bg-[#EF4056] text-white font-bold py-3 sm:py-4 rounded-full text-base sm:text-lg uppercase tracking-wider hover:bg-[#d93548] transition-colors"
       >
-        Initiate Checkout
-        <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
+        Proceed to checkout
       </button>
-
-      <div className="mt-8 flex items-center justify-center gap-3 py-4 bg-slate-800/50 rounded-2xl">
-         <ShieldCheck size={18} className="text-[#EF4056]" />
-         <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Secure Protocol Active</span>
-      </div>
     </div>
   );
 };

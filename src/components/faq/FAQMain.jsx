@@ -5,35 +5,26 @@ import Newsletter from '../home/Newsletter';
 
 const FAQMain = () => {
   return (
-    <div className="bg-white">
+    <>
       <SEO
-          title="FAQ | Smart ePrint Solution"
-          description="Frequently asked questions about Smart ePrint Solution printers, shipping, and returns."
+          title="FAQ"
+          description="Frequently asked questions about Smart ePrint printers, shipping, returns, and more. Find answers to common queries."
           canonical="/faq"
       />
-      
       {/* Hero Section */}
-      <section className="w-full bg-slate-900 py-24 sm:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#EF4056] via-transparent to-transparent"></div>
-        </div>
-        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <p className="text-[#EF4056] text-[10px] font-black uppercase tracking-[0.4em] mb-4">Support Intelligence</p>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-8 uppercase tracking-tighter leading-none">
-            How can we<br/><span className="text-slate-600">Assist You?</span>
+      <section className="w-full bg-[#f6eced] py-16 sm:py-20 lg:py-24">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4">
+            Frequently Asked Questions
           </h1>
-          <p className="text-slate-400 font-medium text-lg max-w-xl mx-auto leading-relaxed">
-            Access our comprehensive knowledge base for hardware specifications, deployment protocols, and logistics guidance.
+          <p className="text-gray-500 text-sm sm:text-base">
+            Explore our most commonly asked questions below.
           </p>
         </div>
       </section>
-
-      <div className="py-24">
-        <FAQContent />
-      </div>
-
-      <Newsletter bg="bg-slate-50"/>
-    </div>
+      <FAQContent />
+      <Newsletter bg="bg-[#f6eced]"/>
+    </>
   );
 };
 

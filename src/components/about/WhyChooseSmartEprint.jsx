@@ -3,7 +3,7 @@ import React from "react";
 const WhyChooseSmartEprint = () => {
   const features = [
     {
-      title: "Authenticity First",
+      title: "Authenticity You Can Rely On",
       description: "We provide only genuine printers and accessories from trusted global brands. Every product meets strict quality standards to ensure long-lasting performance and dependable results.",
       icon: (
         <svg className="w-14 h-14 text-[#EF4056]" fill="currentColor" viewBox="0 0 24 24">
@@ -13,16 +13,17 @@ const WhyChooseSmartEprint = () => {
       ),
     },
     {
-      title: "Exceptional Value",
+      title: "Value That Makes Sense",
       description: "Shop with confidence knowing you're getting premium printers and supplies at honest prices. We combine affordability with quality — so you never have to compromise.",
       icon: (
         <svg className="w-14 h-14 text-[#EF4056]" fill="currentColor" viewBox="0 0 24 24">
           <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+          <text x="7.5" y="12.5" fontSize="7" fontWeight="bold" fill="currentColor">$</text>
         </svg>
       ),
     },
     {
-      title: "Satisfaction Guaranteed",
+      title: "Your Satisfaction, Our Priority",
       description: "We believe in building trust through service. That's why every purchase is backed by a 100% satisfaction guarantee and a team dedicated to your complete peace of mind.",
       icon: (
         <svg className="w-14 h-14 text-[#EF4056]" fill="currentColor" viewBox="0 0 24 24">
@@ -31,8 +32,8 @@ const WhyChooseSmartEprint = () => {
       ),
     },
     {
-      title: "24/7 Expert Support",
-      description: "From setup to troubleshooting, our 24/7 expert support team is always available to assist you — ensuring your printing experience remains smooth and stress-free.",
+      title: "Support That Never Sleeps",
+      description: "From setup to troubleshooting, our 24/7 expert support team is always available to assist you — ensuring your printing experience remains smooth, efficient, and stress-free.",
       icon: (
         <svg className="w-14 h-14 text-[#EF4056]" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z" />
@@ -46,31 +47,30 @@ const WhyChooseSmartEprint = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 mb-3 uppercase tracking-tighter">
-            Why Choose Smart ePrint Solution?
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
+            Why Choose Smart ePrint?
           </h2>
-          <p className="text-gray-500 text-sm sm:text-base font-medium">
+          <p className="text-gray-500 text-sm sm:text-base">
             Trusted Printing Solutions — Where Quality Meets Affordability
           </p>
         </div>
 
-        {/* Feature Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Feature Cards - staggered layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`border border-gray-100 rounded-[2.5rem] p-6 sm:p-8 text-center hover:shadow-2xl hover:border-red-50 transition-all duration-500 bg-white
-                ${index % 2 === 0 ? 'lg:mt-0' : 'lg:mt-12'}`}
+              className={`border border-gray-200 rounded-2xl p-6 sm:p-8 text-center hover:shadow-lg transition-shadow duration-300 ${
+                index % 2 === 0 ? 'lg:mt-0' : 'lg:mt-12'
+              }`}
             >
-              <div className="flex justify-center mb-6">
-                <div className="p-4 bg-rose-50 rounded-2xl shadow-inner">
-                  {feature.icon}
-                </div>
+              <div className="flex justify-center mb-5">
+                {feature.icon}
               </div>
-              <h3 className="font-black text-gray-900 text-lg sm:text-xl mb-3 uppercase tracking-tight">
+              <h3 className="font-bold text-gray-900 text-lg sm:text-xl mb-3">
                 {feature.title}
               </h3>
-              <p className="text-gray-500 text-sm sm:text-base leading-relaxed font-medium">
+              <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
                 {feature.description}
               </p>
             </div>
