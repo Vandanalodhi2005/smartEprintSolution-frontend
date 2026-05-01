@@ -13,6 +13,7 @@ import { fetchAllProducts } from './redux/actions/productActions';
 import { fetchCartFromDB } from './redux/actions/cartActions';
 import { ImagePreloadProvider } from './lib/ImagePreloadContext';
 import { isBot } from './lib/botUtils';
+import { Analytics } from '@vercel/analytics/react';
 
 // --- Core Components ---
 import Header from './components/Header';
@@ -322,6 +323,7 @@ function App() {
                     </Suspense>
                 </main>
             </div>
+            <Analytics />
         </ImagePreloadProvider>
     );
 }
