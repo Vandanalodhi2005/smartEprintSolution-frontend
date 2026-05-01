@@ -114,10 +114,10 @@ const AdminCategories = () => {
                          <div className="p-2 bg-blue-600 rounded-lg shadow-lg shadow-blue-200">
                              <Layers className="text-white" size={16} />
                          </div>
-                         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Inventory Logic</span>
+                         <span className="text-[10px] font-black text-blue-600">Category Logic</span>
                     </div>
                     <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">
-                        CATEGORIES<span className="text-blue-600">.</span>
+                        Categories<span className="text-blue-600">.</span>
                     </h1>
                     <p className="text-slate-400 font-bold text-sm">Organize and classify hardware assets for the deployment queue.</p>
                 </div>
@@ -125,7 +125,7 @@ const AdminCategories = () => {
                 {!isFormOpen && (
                     <button
                         onClick={handleAddNew}
-                        className="px-8 py-5 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-blue-600 transition-all shadow-2xl shadow-slate-200 active:scale-95 flex items-center gap-3"
+                        className="px-8 py-5 bg-slate-900 text-white rounded-2xl font-black text-xs hover:bg-blue-600 transition-all shadow-2xl shadow-slate-200 active:scale-95 flex items-center gap-3"
                     >
                         <Plus size={20} />
                         Initialize Node
@@ -138,14 +138,14 @@ const AdminCategories = () => {
                 {(errorDelete || errorCreate || errorUpdate) && (
                     <div className="p-6 bg-rose-50 text-rose-600 rounded-3xl flex items-center gap-4 border-2 border-rose-100 animate-in slide-in-from-left duration-500">
                         <AlertCircle size={24} />
-                        <span className="font-black uppercase tracking-widest text-xs">{errorDelete || errorCreate || errorUpdate}</span>
+                        <span className="font-black text-xs">{errorDelete || errorCreate || errorUpdate}</span>
                     </div>
                 )}
                 
                 {successDelete && (
                     <div className="p-6 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center gap-4 border-2 border-emerald-100 animate-in slide-in-from-left duration-500">
                         <CheckCircle2 size={24} />
-                        <span className="font-black uppercase tracking-widest text-xs">Category node removed from registry.</span>
+                        <span className="font-black text-xs">Category node removed from registry.</span>
                     </div>
                 )}
             </div>
@@ -155,7 +155,7 @@ const AdminCategories = () => {
                 <div className="bg-white rounded-[3rem] border-2 border-slate-50 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
                     <div className="bg-slate-900 px-10 py-8 flex justify-between items-center relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent" />
-                        <h3 className="font-black text-white flex items-center gap-4 uppercase tracking-[0.2em] text-xs relative z-10">
+                        <h3 className="font-black text-white flex items-center gap-4 text-xs relative z-10">
                             <div className="w-8 h-8 bg-white/10 rounded-xl flex items-center justify-center">
                                  {editingId ? <Edit3 size={16} className="text-blue-400" /> : <Plus size={16} className="text-blue-400" />}
                             </div>
@@ -167,7 +167,7 @@ const AdminCategories = () => {
                     </div>
                     <form onSubmit={handleSubmit} className="p-12">
                         <div className="space-y-4">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Display Name</label>
+                            <label className="text-[10px] font-black text-slate-400 ml-2">Display Name</label>
                             <div className="flex flex-col xl:flex-row gap-6">
                                 <input
                                     type="text" value={name} onChange={(e) => setName(e.target.value)}
@@ -177,7 +177,7 @@ const AdminCategories = () => {
                                 />
                                 <button
                                     type="submit" disabled={loadingCreate || loadingUpdate}
-                                    className="px-12 py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-100 disabled:opacity-50 flex items-center justify-center gap-3 uppercase tracking-widest text-xs active:scale-95"
+                                    className="px-12 py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-100 disabled:opacity-50 flex items-center justify-center gap-3 text-xs active:scale-95"
                                 >
                                     {loadingCreate || loadingUpdate ? <Loader2 className="animate-spin" size={20} /> : <><Save size={20} /> Commit Changes</>}
                                 </button>
@@ -195,8 +195,8 @@ const AdminCategories = () => {
                             <Hash size={24} />
                         </div>
                         <div>
-                            <span className="font-black text-slate-900 uppercase tracking-widest text-xs block">Registry Nodes</span>
-                            <span className="text-blue-600 text-[10px] font-black uppercase tracking-widest mt-1">
+                            <span className="font-black text-slate-900 text-xs block">Registry Nodes</span>
+                            <span className="text-blue-600 text-[10px] font-black mt-1">
                                 {categories?.length || 0} Total Definitions
                             </span>
                         </div>
@@ -215,7 +215,7 @@ const AdminCategories = () => {
                     {loading ? (
                         <div className="p-32 text-center space-y-6">
                             <Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto" />
-                            <p className="text-slate-400 font-black uppercase tracking-[0.3em] text-[10px]">Accessing Database Infrastructure...</p>
+                            <p className="text-slate-400 font-black text-[10px]">Accessing Database Infrastructure...</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 divide-y-2 divide-slate-50">
@@ -226,10 +226,10 @@ const AdminCategories = () => {
                                             <Layers size={28} />
                                         </div>
                                         <div>
-                                            <h3 className="font-black text-2xl text-slate-900 tracking-tighter group-hover:text-blue-600 transition-colors uppercase">
+                                            <h3 className="font-black text-2xl text-slate-900 tracking-tighter group-hover:text-blue-600 transition-colors">
                                                 {cat.name}
                                             </h3>
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1 tabular-nums italic">NODE ID: {cat._id.substring(18)}</p>
+                                            <p className="text-[10px] font-black text-slate-400 mt-1 tabular-nums italic">NODE ID: {cat._id.substring(18)}</p>
                                         </div>
                                     </div>
                                     
@@ -258,8 +258,8 @@ const AdminCategories = () => {
                                 <Layers size={48} className="text-slate-200" />
                             </div>
                             <div className="space-y-2">
-                                <p className="font-black text-slate-900 uppercase tracking-tighter text-xl">Registry Empty</p>
-                                <p className="text-slate-400 font-bold text-sm uppercase tracking-widest">No matching data nodes found.</p>
+                                <p className="font-black text-slate-900 tracking-tighter text-xl">Registry Empty</p>
+                                <p className="text-slate-400 font-bold text-sm">No matching data nodes found.</p>
                             </div>
                         </div>
                     )}

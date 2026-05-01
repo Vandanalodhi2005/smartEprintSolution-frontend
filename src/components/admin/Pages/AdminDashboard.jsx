@@ -148,7 +148,7 @@ const AdminDashboard = () => {
                 {/* Quick Stats */}
                 <div className="space-y-6">
                     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                        <h3 className="font-bold text-slate-800 mb-4 text-sm uppercase tracking-widest">Signal Overview</h3>
+                        <h3 className="font-bold text-slate-800 mb-4 text-sm">System Overview</h3>
                         <div className="space-y-4">
                             <button
                                 type="button"

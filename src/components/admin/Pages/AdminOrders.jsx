@@ -135,10 +135,10 @@ const AdminOrders = () => {
                          <div className="p-2 bg-blue-600 rounded-lg shadow-lg shadow-blue-200">
                              <ShoppingBag className="text-white" size={16} />
                          </div>
-                         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Fulfillment Engine</span>
+                         <span className="text-[10px] font-black text-blue-600">Orders Hub</span>
                     </div>
-                    <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none uppercase">
-                        Deployments<span className="text-blue-600">.</span>
+                    <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">
+                        Orders Hub<span className="text-blue-600">.</span>
                     </h1>
                     <p className="text-slate-400 font-bold text-sm max-w-xl">
                         Monitor active shipping lanes, verify transaction authenticity, and manage terminal hardware distribution.
@@ -168,9 +168,9 @@ const AdminOrders = () => {
                              <Clock size={24} />
                         </div>
                         <div>
-                            <span className="font-black text-slate-900 uppercase tracking-widest text-xs block">Active Traffic</span>
-                            <span className="text-blue-600 text-[10px] font-black uppercase tracking-widest mt-1">
-                                {orders.length} Nodes in View
+                            <span className="font-black text-slate-900 text-xs block">Active Orders</span>
+                            <span className="text-blue-600 text-[10px] font-black mt-1">
+                                {orders.length} Orders in View
                             </span>
                         </div>
                     </div>
@@ -180,19 +180,19 @@ const AdminOrders = () => {
                     <table className="w-full text-left border-collapse min-w-[1100px]">
                         <thead>
                             <tr className="bg-slate-50/30">
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Registry ID</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Recipient Identity</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Financial Value</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Logistics Status</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">Payload</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Access Controls</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Order ID</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Customer</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Total Price</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Status</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 text-center">Items</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                             {loading && orders.length === 0 ? (
                                 <tr><td colSpan="6" className="py-32 text-center"><Loader2 className="animate-spin mx-auto text-blue-600" size={40} /></td></tr>
                             ) : error ? (
-                                <tr><td colSpan="6" className="py-20 text-center text-rose-500 font-black uppercase tracking-widest text-xs">{error}</td></tr>
+                                <tr><td colSpan="6" className="py-20 text-center text-rose-500 font-black text-xs">{error}</td></tr>
                             ) : (
                                 <>
                                     {orders.map((order) => (
@@ -202,7 +202,7 @@ const AdminOrders = () => {
                                                     <span className="font-black text-slate-900 text-xs tabular-nums tracking-widest group-hover:text-blue-600 transition-colors">
                                                         #{order._id.substring(18).toUpperCase()}
                                                     </span>
-                                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                                    <span className="text-[9px] font-black text-slate-400">
                                                         {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                                     </span>
                                                 </div>
@@ -213,21 +213,21 @@ const AdminOrders = () => {
                                                         {order.user?.name?.charAt(0) || 'G'}
                                                     </div>
                                                     <div>
-                                                        <p className="font-black text-slate-900 text-xs uppercase tracking-tight">{order.user?.name || 'Guest Participant'}</p>
+                                                        <p className="font-black text-slate-900 text-xs tracking-tight">{order.user?.name || 'Guest User'}</p>
                                                         <p className="text-[10px] text-slate-400 font-bold lowercase truncate max-w-[160px]">{order.user?.email || 'unregistered@guest.io'}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8">
                                                 <p className="font-black text-slate-900 text-xl tracking-tighter leading-none tabular-nums">${(order.totalPrice || 0).toFixed(2)}</p>
-                                                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">USD NETT</p>
+                                                <p className="text-[9px] text-slate-400 font-bold mt-1">USD Total</p>
                                             </td>
                                             <td className="px-10 py-8">
                                                 <div className="space-y-3">
-                                                    <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border shadow-sm block w-fit ${statusColors[order.status] || 'bg-slate-50 text-slate-500 border-slate-100'}`}>
+                                                    <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black border shadow-sm block w-fit ${statusColors[order.status] || 'bg-slate-50 text-slate-500 border-slate-100'}`}>
                                                         {order.status || 'Initial'}
                                                     </span>
-                                                    <div className="text-[10px] text-slate-400 flex items-center gap-2 font-bold uppercase tracking-widest">
+                                                    <div className="text-[10px] text-slate-400 flex items-center gap-2 font-bold">
                                                         <MapPin size={12} className="text-blue-500" />
                                                         <span className="truncate max-w-[120px]">{order.tracking?.currentLocation || 'Distribution'}</span>
                                                     </div>
@@ -240,15 +240,15 @@ const AdminOrders = () => {
                                                 >
                                                     <Package size={20} />
                                                 </button>
-                                                <p className="text-[9px] font-black text-slate-400 mt-2 uppercase tracking-widest">{order.orderItems.reduce((acc, item) => acc + item.qty, 0)} Units</p>
+                                                <p className="text-[9px] font-black text-slate-400 mt-2">{order.orderItems.reduce((acc, item) => acc + item.qty, 0)} Units</p>
                                             </td>
                                             <td className="px-10 py-8 text-right">
                                                 <div className="flex flex-col gap-2 items-end">
                                                     <button
                                                         onClick={() => handleOpenUpdate(order)}
-                                                        className="px-6 py-3 bg-slate-900 text-white hover:bg-blue-600 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-slate-200 w-40"
+                                                        className="px-6 py-3 bg-slate-900 text-white hover:bg-blue-600 rounded-xl text-[9px] font-black transition-all shadow-xl shadow-slate-200 w-40"
                                                     >
-                                                        Modify Path
+                                                        Update Status
                                                     </button>
                                                 </div>
                                             </td>
@@ -265,7 +265,7 @@ const AdminOrders = () => {
                     <div className="flex justify-center p-12 bg-slate-50/50 border-t border-slate-100">
                         <button 
                             onClick={loadMoreHandler}
-                            className="px-12 py-5 bg-white border-2 border-slate-200 text-slate-900 rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] hover:bg-slate-900 hover:text-white transition-all shadow-2xl active:scale-95 flex items-center gap-4"
+                            className="px-12 py-5 bg-white border-2 border-slate-200 text-slate-900 rounded-[2rem] font-black text-xs hover:bg-slate-900 hover:text-white transition-all shadow-2xl active:scale-95 flex items-center gap-4"
                         >
                             Sync Next Cluster <ArrowRight size={16} />
                         </button>
@@ -280,8 +280,8 @@ const AdminOrders = () => {
                         <div className="bg-slate-900 px-10 py-10 flex justify-between items-center relative overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-transparent" />
                             <div className="relative z-10">
-                                <h3 className="font-black text-white uppercase tracking-[0.2em] text-xs">Route Modulation</h3>
-                                <p className="text-[10px] text-blue-400 font-black uppercase tracking-widest mt-1">Registry: #{selectedOrder._id.substring(18).toUpperCase()}</p>
+                                <h3 className="font-black text-white text-xs">Update Status</h3>
+                                <p className="text-[10px] text-blue-400 font-black mt-1">Order: #{selectedOrder._id.substring(18).toUpperCase()}</p>
                             </div>
                             <button onClick={() => setIsUpdateModalOpen(false)} className="text-slate-500 hover:text-white transition-all bg-white/5 p-2 rounded-xl relative z-10">
                                 <X size={20} />
@@ -289,21 +289,21 @@ const AdminOrders = () => {
                         </div>
                         <form onSubmit={handleUpdateSubmit} className="p-12 space-y-8">
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Deployment Status</label>
+                                <label className="text-[10px] font-black text-slate-400 ml-2">Order Status</label>
                                 <select
-                                    className="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 outline-none font-black text-slate-900 uppercase text-xs tracking-widest appearance-none cursor-pointer shadow-inner"
+                                    className="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 outline-none font-black text-slate-900 text-xs appearance-none cursor-pointer shadow-inner"
                                     value={updateForm.status}
                                     onChange={(e) => setUpdateForm({ ...updateForm, status: e.target.value })}
                                 >
-                                    <option value="Processing">Syncing Log</option>
-                                    <option value="Shipped">In Transit</option>
-                                    <option value="Out for Delivery">Terminal Delivery</option>
-                                    <option value="Delivered">Deployment Success</option>
-                                    <option value="Cancelled">Abort Protocol</option>
+                                    <option value="Processing">Processing</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Out for Delivery">Out for Delivery</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Cancelled">Cancelled</option>
                                 </select>
                             </div>
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Geographic Node</label>
+                                <label className="text-[10px] font-black text-slate-400 ml-2">Location</label>
                                 <input
                                     type="text" value={updateForm.currentLocation}
                                     onChange={(e) => setUpdateForm({ ...updateForm, currentLocation: e.target.value })}
@@ -312,7 +312,7 @@ const AdminOrders = () => {
                                 />
                             </div>
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">ETA Projection</label>
+                                <label className="text-[10px] font-black text-slate-400 ml-2">Expected Delivery</label>
                                 <input
                                     type="text" value={updateForm.estTime}
                                     onChange={(e) => setUpdateForm({ ...updateForm, estTime: e.target.value })}
@@ -321,8 +321,8 @@ const AdminOrders = () => {
                                 />
                             </div>
                             <div className="pt-6 flex gap-4">
-                                <button type="button" onClick={() => setIsUpdateModalOpen(false)} className="flex-1 py-5 bg-slate-100 text-slate-600 font-black uppercase text-[10px] tracking-widest rounded-2xl">Abort</button>
-                                <button type="submit" className="flex-1 py-5 bg-blue-600 text-white font-black uppercase text-[10px] tracking-widest rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-500 transition-all">Execute Update</button>
+                                <button type="button" onClick={() => setIsUpdateModalOpen(false)} className="flex-1 py-5 bg-slate-100 text-slate-600 font-black text-[10px] rounded-2xl">Cancel</button>
+                                <button type="submit" className="flex-1 py-5 bg-blue-600 text-white font-black text-[10px] rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-500 transition-all">Update Status</button>
                             </div>
                         </form>
                     </div>
@@ -335,8 +335,8 @@ const AdminOrders = () => {
                     <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border-2 border-white/20">
                         <div className="bg-slate-900 px-10 py-10 flex justify-between items-center border-b border-white/10">
                             <div>
-                                <h3 className="font-black text-white uppercase tracking-widest text-xs">Payload Manifest</h3>
-                                <p className="text-[10px] text-blue-400 font-black uppercase tracking-widest mt-1">Quantified Units: {selectedOrder.orderItems.length}</p>
+                                <h3 className="font-black text-white text-xs">Order Items</h3>
+                                <p className="text-[10px] text-blue-400 font-black mt-1">Total Items: {selectedOrder.orderItems.length}</p>
                             </div>
                             <button onClick={() => setIsItemsModalOpen(false)} className="text-slate-500 hover:text-white transition-all bg-white/5 p-2 rounded-xl">
                                 <X size={20} />
@@ -350,9 +350,9 @@ const AdminOrders = () => {
                                             <img src={item.image} className="w-full h-full object-contain p-2" alt="" />
                                         </div>
                                         <div className="flex-1">
-                                            <h4 className="font-black text-slate-900 text-lg tracking-tighter uppercase leading-none mb-3">{item.name}</h4>
+                                            <h4 className="font-black text-slate-900 text-lg tracking-tighter leading-none mb-3">{item.name}</h4>
                                             <div className="flex justify-between items-center">
-                                                <div className="px-3 py-1 bg-slate-900 text-white rounded text-[9px] font-black uppercase tracking-widest">Qty: {item.qty}</div>
+                                                <div className="px-3 py-1 bg-slate-900 text-white rounded text-[9px] font-black">Qty: {item.qty}</div>
                                                 <span className="font-black text-slate-900 text-2xl tracking-tighter tabular-nums">${(item.price || 0).toFixed(2)}</span>
                                             </div>
                                         </div>
@@ -361,11 +361,11 @@ const AdminOrders = () => {
                             </div>
                             <div className="mt-10 pt-10 border-t-2 border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-6">
                                 <div className="text-center sm:text-left">
-                                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Cumulative Weight</span>
-                                     <span className="font-black text-slate-900 uppercase text-sm">{selectedOrder.orderItems.reduce((acc, item) => acc + item.qty, 0)} Units Managed</span>
+                                     <span className="text-[10px] font-black text-slate-400 block mb-1">Total Items</span>
+                                     <span className="font-black text-slate-900 text-sm">{selectedOrder.orderItems.reduce((acc, item) => acc + item.qty, 0)} Units</span>
                                 </div>
                                 <div className="text-center sm:text-right">
-                                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Net Valuation</span>
+                                     <span className="text-[10px] font-black text-slate-400 block mb-1">Total Price</span>
                                      <span className="text-4xl font-black text-slate-900 tracking-tighter tabular-nums">${(selectedOrder.totalPrice || 0).toFixed(2)}</span>
                                 </div>
                             </div>

@@ -6,7 +6,7 @@ import { useImagePreload } from "../../lib/ImagePreloadContext";
 import ProductImage from "../common/ProductImage";
 import { Layers, ChevronRight, Zap, Activity } from "lucide-react";
 
-const ProductGrid = ({ heading = "Asset Inventory", products = [], enableFlowLayout = false }) => {
+const ProductGrid = ({ heading = "Products Inventory", products = [], enableFlowLayout = false }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { getImageUrl } = useImagePreload();
@@ -16,18 +16,18 @@ const ProductGrid = ({ heading = "Asset Inventory", products = [], enableFlowLay
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-rose-600 text-[10px] font-black uppercase tracking-[0.4em]">
+                  <div className="flex items-center gap-2 text-rose-600 text-[10px] font-black">
                      <Layers size={14} />
-                     Operational Catalog
+                     Products Catalog
                   </div>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-[0.9]">
-                    Asset <br />
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tighter leading-[0.9]">
+                    Products <br />
                     <span className="text-slate-400">Inventory.</span>
                   </h2>
                </div>
                <div className="flex items-center gap-4">
                   <div className="text-right hidden sm:block">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Availability</p>
+                     <p className="text-[10px] font-black text-slate-400">Global Availability</p>
                      <p className="text-xs font-bold text-slate-900">Protocol Verified</p>
                   </div>
                </div>
@@ -59,12 +59,12 @@ const ProductGrid = ({ heading = "Asset Inventory", products = [], enableFlowLay
                                    {inStock ? (
                                       <div className="flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-md rounded-full border border-slate-100">
                                          <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                                         <span className="text-[8px] font-black text-slate-900 uppercase tracking-widest">Ready</span>
+                                         <span className="text-[8px] font-black text-slate-900">Ready</span>
                                       </div>
                                    ) : (
                                       <div className="flex items-center gap-2 px-3 py-1 bg-slate-900/80 backdrop-blur-md rounded-full border border-slate-700">
                                          <div className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
-                                         <span className="text-[8px] font-black text-white uppercase tracking-widest">Depleted</span>
+                                         <span className="text-[8px] font-black text-white">Depleted</span>
                                       </div>
                                    )}
                                 </div>
@@ -78,17 +78,17 @@ const ProductGrid = ({ heading = "Asset Inventory", products = [], enableFlowLay
                             {/* Asset Meta */}
                             <div className="p-10 space-y-6 flex-1 flex flex-col">
                                 <div className="space-y-2">
-                                   <p className="text-[10px] font-black text-rose-600 uppercase tracking-[0.2em]">
+                                   <p className="text-[10px] font-black text-rose-600">
                                       {typeof product.category === 'object' ? product.category.name : product.category}
                                    </p>
-                                   <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight line-clamp-2 leading-tight group-hover:text-rose-600 transition-colors">
+                                   <h3 className="text-xl font-black text-slate-900 tracking-tight line-clamp-2 leading-tight group-hover:text-rose-600 transition-colors">
                                        {product.title}
                                    </h3>
                                 </div>
 
                                 <div className="mt-auto flex items-center justify-between pt-6 border-t border-slate-50">
                                     <div className="flex flex-col">
-                                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Valuation</span>
+                                       <span className="text-[9px] font-black text-slate-400 mb-1">Valuation</span>
                                        <span className="text-2xl font-black text-slate-900 tracking-tighter">
                                            ${product.price?.toFixed(2) || '0.00'}
                                        </span>

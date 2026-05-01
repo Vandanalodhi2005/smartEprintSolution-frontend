@@ -43,7 +43,7 @@ const FAQ = () => {
 
     return (
         <div className="max-w-4xl mx-auto p-6 sm:p-12 bg-white">
-            <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-12 text-center uppercase tracking-tighter leading-none">
+            <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-12 text-center leading-none">
                 Frequently Asked Questions
             </h1>
 
@@ -61,7 +61,7 @@ const FAQ = () => {
                             onClick={() => toggleAnswer(index)}
                             className="w-full flex justify-between items-center p-6 sm:p-8 text-left outline-none"
                         >
-                            <h2 className={`text-lg sm:text-xl font-black uppercase tracking-tight transition-colors ${
+                            <h2 className={`text-lg sm:text-xl font-black transition-colors ${
                                 activeIndex === index ? 'text-[#EF4056]' : 'text-slate-900'
                             }`}>
                                 {faq.question}

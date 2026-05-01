@@ -27,14 +27,14 @@ const AdminLogin = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
             <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in duration-300">
                 {/* Header */}
                 <div className="bg-[#EF4056] p-8 text-center">
                     <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                         <Lock className="text-white" size={32} />
                     </div>
-                    <h2 className="text-2xl font-bold text-white uppercase tracking-tighter">Admin Portal</h2>
+                    <h2 className="text-2xl font-bold text-white">Admin Portal</h2>
                     <p className="text-white/80 mt-2 text-sm font-medium">Secure access to Smart ePrint backend</p>
                 </div>
 
@@ -49,7 +49,7 @@ const AdminLogin = () => {
 
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Email Address</label>
+                            <label className="text-[10px] font-black text-slate-400 ml-1">Email Address</label>
                             <div className="relative">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                                 <input
@@ -64,7 +64,7 @@ const AdminLogin = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Password</label>
+                            <label className="text-[10px] font-black text-slate-400 ml-1">Password</label>
                             <div className="relative">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                                 <input
@@ -81,14 +81,14 @@ const AdminLogin = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-4 bg-slate-900 hover:bg-black text-white font-black uppercase text-xs tracking-widest rounded-xl transition-all transform active:scale-95 shadow-lg flex items-center justify-center gap-2"
+                            className="w-full py-4 bg-slate-900 hover:bg-black text-white font-black text-xs rounded-xl transition-all transform active:scale-95 shadow-lg flex items-center justify-center gap-2"
                         >
                             {loading ? <Loader2 className="animate-spin" size={20} /> : 'Enter Dashboard'}
                         </button>
                     </form>
 
                     <div className="mt-8 text-center">
-                        <span className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-300">
+                        <span className="text-[9px] font-black text-slate-300">
                             Smart ePrint Protocol v2.0
                         </span>
                     </div>

@@ -20,6 +20,7 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import TrailingSlashRedirect from './components/common/TrailingSlashRedirect';
+import { Analytics } from "@vercel/analytics/react";
 
 // --- Lazy Loaded Components ---
 const HomeMain = lazy(() => import('./components/home/HomeMain'));
@@ -218,6 +219,7 @@ function App() {
             <TrailingSlashRedirect />
             <div className="flex flex-col min-h-screen">
                 <ScrollToTop />
+                <Analytics />
                 
                 <main className={`flex-grow ${isAdminRoute ? 'h-screen overflow-hidden' : ''}`}>
                     <Suspense fallback={<LoadingFallback />}>

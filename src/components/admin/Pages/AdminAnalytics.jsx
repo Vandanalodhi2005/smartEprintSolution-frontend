@@ -168,9 +168,9 @@ const AdminAnalytics = () => {
                          <div className="p-2 bg-blue-600 rounded-lg shadow-lg shadow-blue-200">
                              <TrendingUp className="text-white" size={16} />
                          </div>
-                         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Performance Intelligence</span>
+                         <span className="text-[10px] font-black text-blue-600">Business Performance</span>
                     </div>
-                    <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none uppercase">
+                    <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">
                         Analytics<span className="text-blue-600">.</span>
                     </h1>
                     <p className="text-slate-400 font-bold text-sm max-w-xl">
@@ -180,7 +180,7 @@ const AdminAnalytics = () => {
                 
                 <div className="flex items-center gap-4 bg-white p-3 rounded-2xl border-2 border-slate-50 shadow-xl shadow-slate-100/50">
                      <Calendar className="text-slate-400" size={18} />
-                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">Fiscal Quarter Q2 2026</span>
+                     <span className="text-[10px] font-black text-slate-900">Fiscal Quarter Q2 2026</span>
                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                 </div>
             </div>
@@ -190,7 +190,7 @@ const AdminAnalytics = () => {
                 <div className="p-8 bg-rose-50 border-2 border-rose-100 rounded-[2rem] flex items-center gap-6 text-rose-600 animate-in slide-in-from-top-4">
                     <AlertCircle size={32} />
                     <div>
-                         <p className="font-black uppercase tracking-widest text-xs">Kernel Error Detected</p>
+                         <p className="font-black text-xs">System Error Detected</p>
                          <p className="text-sm font-bold opacity-80">{error}</p>
                     </div>
                 </div>
@@ -232,17 +232,17 @@ const AdminAnalytics = () => {
                     </div>
                     <div className="flex justify-between items-start mb-12 relative z-10">
                         <div>
-                            <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">Revenue Momentum</h3>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">6-Month Fiscal Projection</p>
+                            <h3 className="text-xl font-black text-slate-900 tracking-tighter leading-none mb-2">Revenue Overview</h3>
+                            <p className="text-[10px] font-black text-slate-400">6-Month Sales Data</p>
                         </div>
                         <div className="flex gap-3">
                              <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-lg">
                                   <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-600">Net Revenue</span>
+                                  <span className="text-[9px] font-black text-blue-600">Revenue</span>
                              </div>
                              <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-lg">
                                   <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                                  <span className="text-[9px] font-black uppercase tracking-widest text-emerald-600">Volume</span>
+                                  <span className="text-[9px] font-black text-emerald-600">Orders</span>
                              </div>
                         </div>
                     </div>
@@ -255,8 +255,8 @@ const AdminAnalytics = () => {
                 <div className="bg-slate-900 p-12 rounded-[3.5rem] text-white shadow-2xl shadow-blue-900/20 flex flex-col relative overflow-hidden group">
                      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-transparent opacity-50" />
                      <div className="relative z-10 mb-10">
-                        <h3 className="text-xl font-black uppercase tracking-tighter leading-none mb-2">Queue Logic</h3>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Deployment State Distribution</p>
+                        <h3 className="text-xl font-black tracking-tighter leading-none mb-2 text-white">Order Status</h3>
+                        <p className="text-[10px] font-black text-slate-400">Order Distribution Statistics</p>
                      </div>
                      <div className="flex-1 relative z-10 min-h-[300px]">
                         {loading ? <ChartLoader dark /> : prepareOrdersStatusData() && <Doughnut data={prepareOrdersStatusData()} options={{
@@ -270,8 +270,8 @@ const AdminAnalytics = () => {
                                     <Globe className="text-blue-400 group-hover/item:text-white" size={20} />
                                </div>
                                <div>
-                                    <p className="text-xs font-black uppercase tracking-widest">Global Reach</p>
-                                    <p className="text-[10px] font-bold text-slate-500 uppercase mt-1">14 Countries Managed</p>
+                                    <p className="text-xs font-black">Global Reach</p>
+                                    <p className="text-[10px] font-bold text-slate-500 mt-1">14 Countries Managed</p>
                                </div>
                           </div>
                      </div>
@@ -282,22 +282,22 @@ const AdminAnalytics = () => {
             <div className="bg-white rounded-[3.5rem] border-2 border-slate-50 shadow-2xl shadow-slate-200/40 overflow-hidden">
                 <div className="px-12 py-10 border-b-2 border-slate-50 flex items-center justify-between bg-slate-50/30">
                     <div>
-                        <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">Kernel Feed</h3>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Latest Transaction Entries</p>
+                        <h3 className="text-xl font-black text-slate-900 tracking-tighter leading-none mb-2">Recent Activity</h3>
+                        <p className="text-[10px] font-black text-slate-400">Latest Transaction Entries</p>
                     </div>
-                    <button className="px-8 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all">
-                        Full Ledger
+                    <button className="px-8 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black hover:bg-blue-600 transition-all">
+                        View All
                     </button>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
                             <tr className="bg-slate-50/50">
-                                <th className="px-12 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Node ID</th>
-                                <th className="px-12 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Identity</th>
-                                <th className="px-12 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Net Value</th>
-                                <th className="px-12 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Clearance</th>
-                                <th className="px-12 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Timestamp</th>
+                                <th className="px-12 py-6 text-[10px] font-black text-slate-400">Order ID</th>
+                                <th className="px-12 py-6 text-[10px] font-black text-slate-400">Customer</th>
+                                <th className="px-12 py-6 text-[10px] font-black text-slate-400">Amount</th>
+                                <th className="px-12 py-6 text-[10px] font-black text-slate-400">Status</th>
+                                <th className="px-12 py-6 text-[10px] font-black text-slate-400 text-right">Date</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y-2 divide-slate-50">
@@ -311,14 +311,14 @@ const AdminAnalytics = () => {
                                             <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center font-black text-[10px] text-slate-400">
                                                 {order.user?.name?.charAt(0) || 'G'}
                                             </div>
-                                            <span className="font-black text-slate-900 text-xs uppercase tracking-tight">{order.user?.name || 'Guest'}</span>
+                                            <span className="font-black text-slate-900 text-xs tracking-tight">{order.user?.name || 'Guest'}</span>
                                         </div>
                                     </td>
                                     <td className="px-12 py-8">
                                         <span className="font-black text-slate-900 text-lg tracking-tighter tabular-nums">{formatCurrency(order.totalPrice)}</span>
                                     </td>
                                     <td className="px-12 py-8">
-                                        <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border-2 ${
+                                        <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black border-2 ${
                                             order.status === 'Delivered' ? 'bg-emerald-50 border-emerald-100 text-emerald-600' :
                                             'bg-blue-50 border-blue-100 text-blue-600'
                                         }`}>
@@ -327,8 +327,8 @@ const AdminAnalytics = () => {
                                     </td>
                                     <td className="px-12 py-8 text-right">
                                         <div className="flex flex-col items-end">
-                                            <span className="font-black text-slate-900 text-xs uppercase tracking-widest tabular-nums">{new Date(order.createdAt).toLocaleDateString()}</span>
-                                            <span className="text-[9px] font-black text-slate-400 uppercase mt-1">UTC-5 Sync</span>
+                                            <span className="font-black text-slate-900 text-xs tabular-nums">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                            <span className="text-[9px] font-black text-slate-400 mt-1">Sync Date</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -359,14 +359,14 @@ const StatCard = ({ label, value, change, icon: Icon, color }) => {
                 <div className={`p-4 rounded-2xl shadow-inner ${colors[color]}`}>
                     <Icon size={24} />
                 </div>
-                <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${isPositive ? 'bg-emerald-50 text-emerald-600' : 'text-rose-500 bg-rose-50'}`}>
+                <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black ${isPositive ? 'bg-emerald-50 text-emerald-600' : 'text-rose-500 bg-rose-50'}`}>
                     {isPositive ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
                     {change}
                 </div>
             </div>
             <div className="relative z-10">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">{label}</p>
-                <h3 className="text-3xl font-black text-slate-900 tracking-tighter leading-none uppercase">{value}</h3>
+                <p className="text-[10px] font-black text-slate-400 mb-2">{label}</p>
+                <h3 className="text-3xl font-black text-slate-900 tracking-tighter leading-none">{value}</h3>
             </div>
         </div>
     );
@@ -375,7 +375,7 @@ const StatCard = ({ label, value, change, icon: Icon, color }) => {
 const ChartLoader = ({ dark }) => (
     <div className="h-full w-full flex flex-col items-center justify-center space-y-6">
         <Loader2 className={`animate-spin ${dark ? 'text-blue-400' : 'text-blue-600'}`} size={40} />
-        <p className={`text-[10px] font-black uppercase tracking-[0.3em] ${dark ? 'text-slate-500' : 'text-slate-400'}`}>Rendering Vector Grid...</p>
+        <p className={`text-[10px] font-black ${dark ? 'text-slate-500' : 'text-slate-400'}`}>Loading Analytics...</p>
     </div>
 );
 

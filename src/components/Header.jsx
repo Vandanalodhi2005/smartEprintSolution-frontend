@@ -87,6 +87,10 @@ const Header = () => {
           {/* RIGHT ICONS */}
           <div className="flex items-center gap-4 md:gap-6">
 
+            <button onClick={openSearch} aria-label="Open search" className="text-gray-700 hover:text-[#EF4056] transition-colors">
+              <Search size={22} />
+            </button>
+
             {userInfo ? (
               <div className="relative">
                 <button
@@ -284,7 +288,7 @@ const Header = () => {
 
             {/* Popular Searches */}
             <div className="mt-8">
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Popular searches</h3>
+              <h3 className="text-sm font-bold text-gray-500 mb-4">Popular searches</h3>
               <div className="flex flex-wrap gap-3">
                 {['HP Printers', 'Canon Ink', 'Laser Toner', 'Inkjet Cartridges', 'Brother Printer', 'Photo Paper'].map((term) => (
                   <button

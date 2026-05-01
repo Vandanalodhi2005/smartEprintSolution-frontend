@@ -27,7 +27,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
     const navItems = [
         { name: 'Dashboard', path: '/admin/dashboard', icon: <LayoutDashboard size={20} /> },
         { name: 'Categories', path: '/admin/categories', icon: <Layers size={20} /> },
-        { name: 'Inventory', path: '/admin/products', icon: <Package size={20} /> },
+        { name: 'Products', path: '/admin/products', icon: <Package size={20} /> },
         { name: 'Customers', path: '/admin/customers', icon: <Users size={20} /> },
         { name: 'Orders', path: '/admin/orders', icon: <ShoppingBag size={20} /> },
         { name: 'Support Chat', path: '/admin/chat', icon: <MessageSquare size={20} /> },
@@ -56,7 +56,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
                             alt="Smart ePrint" 
                             className="h-10 w-auto object-contain"
                         />
-                        <span className="font-black text-xs uppercase tracking-tighter text-slate-900">Admin</span>
+                        <span className="font-black text-xs text-slate-900">Admin</span>
                     </div>
                     {/* Mobile Close Button */}
                     <button

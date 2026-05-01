@@ -13,7 +13,7 @@ const ShippingPolicy = () => (
         <ul>
           <li>Orders are typically processed within 1–2 business days after payment confirmation.</li>
           <li>Orders placed on weekends or public holidays are processed on the next business day.</li>
-          <li>In rare cases (e.g., high order volumes, backorders, or inventory delays), processing may take longer.</li>
+          <li>In rare cases (e.g., high order volumes, backorders, or product delays), processing may take longer.</li>
           <li>Once your order is processed, you will receive a confirmation email with tracking details.</li>
         </ul>
         <h2 className="text-xl font-semibold mt-8 mb-2">2. Shipping Locations</h2>

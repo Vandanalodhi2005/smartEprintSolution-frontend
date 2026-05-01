@@ -143,14 +143,14 @@ const ProductDetails = () => {
                 </svg>
             </div>
             <div className="space-y-4 max-w-sm">
-                <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Not Found</h2>
+                <h2 className="text-2xl font-black text-slate-900 tracking-tighter">Not Found</h2>
                 <p className="text-slate-400 font-medium text-sm leading-relaxed">
                     The requested product ID <span className="text-slate-900 font-bold">"{id}"</span> could not be found.
                 </p>
             </div>
             <button
                 onClick={() => navigate('/')}
-                className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-black transition-all shadow-xl shadow-slate-200"
+                className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] hover:bg-black transition-all shadow-xl shadow-slate-200"
             >
                 Back to Home
             </button>
@@ -250,18 +250,18 @@ const ProductDetails = () => {
                         <div className="flex items-center flex-wrap gap-2">
                             {Array.isArray(product.usageCategory) && product.usageCategory.length > 0 && (
                                 product.usageCategory.map((val, idx) => (
-                                    <span key={"usage-"+val+idx} className="px-3 py-1.5 bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 rounded-full text-[9px] font-bold uppercase tracking-widest border border-blue-200 hover:shadow-md transition-all">
+                                    <span key={"usage-"+val+idx} className="px-3 py-1.5 bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 rounded-full text-[9px] font-bold border border-blue-200 hover:shadow-md transition-all">
                                         {val}
                                     </span>
                                 ))
                             )}
                             {product.countInStock > 0 ? (
-                                <span className="px-3 py-1.5 bg-gradient-to-r from-emerald-50 to-emerald-100 text-emerald-700 rounded-full text-[9px] font-bold uppercase tracking-widest border border-emerald-200 flex items-center gap-2">
+                                <span className="px-3 py-1.5 bg-gradient-to-r from-emerald-50 to-emerald-100 text-emerald-700 rounded-full text-[9px] font-bold border border-emerald-200 flex items-center gap-2">
                                     <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
                                     In Stock
                                 </span>
                             ) : (
-                                <span className="px-3 py-1.5 bg-gradient-to-r from-rose-50 to-rose-100 text-rose-700 rounded-full text-[9px] font-bold uppercase tracking-widest border border-rose-200">
+                                <span className="px-3 py-1.5 bg-gradient-to-r from-rose-50 to-rose-100 text-rose-700 rounded-full text-[9px] font-bold border border-rose-200">
                                     Out of Stock
                                 </span>
                             )}
@@ -270,7 +270,7 @@ const ProductDetails = () => {
                         {/* Title */}
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                    <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-extrabold text-gray-800 leading-tight tracking-tight uppercase drop-shadow-lg">
+                                    <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-extrabold text-gray-800 leading-tight tracking-tight drop-shadow-lg">
                                         {product.title}
                                     </h1>
                                 <div className="h-1 w-24 bg-gradient-to-r from-[#EF4056] to-[#EF4056] rounded-full"></div>
@@ -281,7 +281,7 @@ const ProductDetails = () => {
                         {/* Short Details */}
                         {product.shortDetails && (
                             <div className="space-y-4 pb-6 border-b-2 border-slate-100">
-                                <h3 className="text-xs font-extrabold text-[#EF4056] uppercase tracking-widest">Overview</h3>
+                                <h3 className="text-xs font-extrabold text-[#EF4056]">Overview</h3>
                                 <div
                                     dangerouslySetInnerHTML={{ __html: product.shortDetails }}
                                     className="text-slate-600 text-sm font-medium leading-relaxed space-y-2 prose-sm prose-slate list-disc list-inside"
@@ -317,7 +317,7 @@ const ProductDetails = () => {
                             {product.countInStock > 0 && (
                                 <>
                                     <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100">
-                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Quantity:</span>
+                                        <span className="text-[10px] font-black text-slate-400 whitespace-nowrap">Quantity:</span>
                                         <div className="flex items-center border-2 border-slate-200 rounded-xl overflow-hidden bg-slate-50 ml-auto">
                                             <button
                                                 onClick={() => setQty(Math.max(1, qty - 1))}
@@ -338,7 +338,7 @@ const ProductDetails = () => {
                                 <button
                                     onClick={addToCartHandler}
                                     disabled={product.countInStock === 0}
-                                    className={`flex-1 py-4 px-6 rounded-2xl transition-all font-black uppercase text-[11px] tracking-widest shadow-lg hover:shadow-xl active:scale-95 flex items-center justify-center gap-2
+                                    className={`flex-1 py-4 px-6 rounded-2xl transition-all font-black text-[11px] shadow-lg hover:shadow-xl active:scale-95 flex items-center justify-center gap-2
                                         ${product.countInStock > 0
                                             ? 'bg-gradient-to-r from-slate-900 to-slate-800 text-white hover:shadow-slate-900/30 hover:from-black hover:to-slate-900'
                                             : 'bg-slate-100 text-slate-400 cursor-not-allowed shadow-none'}`}
@@ -349,7 +349,7 @@ const ProductDetails = () => {
                                 {product.countInStock > 0 && (
                                     <button
                                         onClick={buyNowHandler}
-                                        className="flex-1 py-4 px-6 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all font-black uppercase text-xs tracking-widest shadow-lg hover:shadow-xl shadow-blue-200 active:scale-95"
+                                        className="flex-1 py-4 px-6 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all font-black text-xs shadow-lg hover:shadow-xl shadow-blue-200 active:scale-95"
                                     >
                                         Buy Now
                                     </button>
@@ -376,23 +376,23 @@ const ProductDetails = () => {
                         {/* Key Specs */}
                         {(product.technology || product.mainFunction || product.wireless || product.shortSpecification) && (
                             <div className="space-y-4">
-                                <h3 className="text-xs font-extrabold text-[#EF4056] uppercase tracking-widest">Specs</h3>
+                                <h3 className="text-xs font-extrabold text-[#EF4056]">Specs</h3>
                                 <div className="flex flex-col gap-3">
                                     {Array.isArray(product.technology) && product.technology.length > 0 && (
                                         <div className="p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 border border-blue-200 rounded-xl">
-                                            <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest block mb-1">Technology</span>
+                                            <span className="text-[10px] font-black text-slate-700 block mb-1">Technology</span>
                                             <span className="text-sm font-bold text-slate-900">{product.technology.join(', ')}</span>
                                         </div>
                                     )}
                                     {Array.isArray(product.mainFunction) && product.mainFunction.length > 0 && (
                                         <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100/50 border border-purple-200 rounded-xl">
-                                            <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest block mb-1">Main Function</span>
+                                            <span className="text-[10px] font-black text-slate-700 block mb-1">Main Function</span>
                                             <span className="text-sm font-bold text-slate-900">{product.mainFunction.join(', ')}</span>
                                         </div>
                                     )}
                                     {product.wireless && (
                                         <div className="p-3 bg-gradient-to-r from-emerald-50 to-emerald-100/50 border border-emerald-200 rounded-xl">
-                                            <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest block mb-1">Wireless</span>
+                                            <span className="text-[10px] font-black text-slate-700 block mb-1">Wireless</span>
                                             <span className="text-sm font-bold text-slate-900">{product.wireless}</span>
                                         </div>
                                     )}
@@ -409,7 +409,7 @@ const ProductDetails = () => {
                             <button
                                 key={tab}
                                 onClick={() => handleTabChange(tab)}
-                                className={`py-4 text-sm font-black uppercase tracking-[0.2em] transition-all relative whitespace-nowrap pb-4
+                                className={`py-4 text-sm font-black transition-all relative whitespace-nowrap pb-4
                                     ${activeTab === tab 
                                         ? 'bg-gradient-to-r from-[#EF4056] to-[#EF4056] bg-clip-text text-transparent' 
                                         : 'text-slate-400 hover:text-[#EF4056]'}`}
@@ -426,9 +426,10 @@ const ProductDetails = () => {
                         {/* Overview Tab */}
                         {activeTab === "overview" && (
                             <div className="max-w-4xl animate-fadeIn">
-                                <p className="text-slate-600 font-medium leading-relaxed text-base md:text-lg mb-8">
-                                    {product.description}
-                                </p>
+                                <div 
+                                    dangerouslySetInnerHTML={{ __html: product.description }} 
+                                    className="text-slate-600 font-medium leading-relaxed text-base md:text-lg mb-8 prose prose-slate max-w-none" 
+                                />
                                 {product.overview && (
                                     <div dangerouslySetInnerHTML={{ __html: product.overview }} className="prose prose-slate max-w-none text-slate-600 prose-sm md:prose-base" />
                                 )}
@@ -452,8 +453,8 @@ const ProductDetails = () => {
                                         ].map(item => (
                                             item.value && (
                                                 <div key={item.label} className="p-4 bg-gradient-to-br from-slate-50 to-slate-100/50 rounded-2xl border border-slate-100 hover:shadow-md transition-all">
-                                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">{item.label}</span>
-                                                    <span className="font-bold text-slate-900 uppercase text-sm">{item.value}</span>
+                                                    <span className="text-[10px] font-black text-slate-400 block mb-2">{item.label}</span>
+                                                    <span className="font-bold text-slate-900 text-sm">{item.value}</span>
                                                 </div>
                                             )
                                         ))}
@@ -467,7 +468,7 @@ const ProductDetails = () => {
                             <div className="space-y-8 animate-fadeIn">
                                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b-2 border-slate-100">
                                     <div>
-                                        <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent uppercase tracking-tighter mb-4">Reviews</h2>
+                                        <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent tracking-tighter mb-4">Reviews</h2>
 
                                     </div>
                                     <div className="w-full md:w-auto flex flex-col items-end gap-2">
@@ -483,7 +484,7 @@ const ProductDetails = () => {
                                         )}
                                         <button 
                                             onClick={handleWriteReviewRequest}
-                                            className="w-full md:w-auto px-6 py-3 border-2 border-slate-900 text-slate-900 rounded-2xl font-black uppercase text-[11px] tracking-widest hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-600 hover:text-white hover:shadow-lg transition-all hover:shadow-slate-900/30 hover:border-transparent"
+                                            className="w-full md:w-auto px-6 py-3 border-2 border-slate-900 text-slate-900 rounded-2xl font-black text-[11px] hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-600 hover:text-white hover:shadow-lg transition-all hover:shadow-slate-900/30 hover:border-transparent"
                                         >
                                             Write a Review
                                         </button>
@@ -496,7 +497,7 @@ const ProductDetails = () => {
                                             <div key={index} className="p-6 bg-gradient-to-br from-slate-50 to-slate-100/50 rounded-2xl border-2 border-slate-100 hover:shadow-lg hover:border-slate-200 transition-all space-y-4">
                                                 <div className="flex justify-between items-start gap-4">
                                                     <div>
-                                                        <span className="font-black text-[11px] uppercase tracking-widest text-slate-900 block">{review.name}</span>
+                                                        <span className="font-black text-[11px] text-slate-900 block">{review.name}</span>
                                                         <div className="flex gap-1 mt-2">
                                                             {[1, 2, 3, 4, 5].map(s => (
                                                                 <Star key={s} size={14} className={`${review.rating >= s ? 'fill-blue-400 text-blue-400' : 'text-slate-200'}`} />
@@ -518,7 +519,7 @@ const ProductDetails = () => {
                 {Array.isArray(relatedProducts) && relatedProducts.length > 0 && (
                     <div className="mt-12 sm:mt-16 lg:mt-24 pt-8 sm:pt-12 lg:pt-16 border-t-2 border-slate-100">
                         <div className="mb-6 sm:mb-8 lg:mb-12">
-                            <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-[#EF4056] uppercase tracking-tight mb-2">Similar Products</h3>
+                            <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-[#EF4056] tracking-tight mb-2">Similar Products</h3>
                             <p className="text-slate-600 text-sm sm:text-base font-medium">Other items in this category</p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

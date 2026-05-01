@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listProducts, deleteProduct, createProduct } from '../../../redux/actions/productActions';
-import { PRODUCT_CREATE_RESET } from '../../../redux/constants/productConstants';
+import { listProducts, deleteProduct, createProduct, updateProduct } from '../../../redux/actions/productActions';
+import { PRODUCT_CREATE_RESET, PRODUCT_UPDATE_RESET } from '../../../redux/constants/productConstants';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { 
     Plus, Search, Edit3, Trash2, Package, 
     Image as ImageIcon, Loader2, X, ChevronRight, 
@@ -12,6 +14,23 @@ import {
     Type, Layout, List, Save, Upload, Trash
 } from 'lucide-react';
 import api from '../../../lib/api';
+
+const quillModules = {
+    toolbar: [
+        [{ 'header': [1, 2, false] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+        ['link', 'image'],
+        ['clean']
+    ],
+};
+
+const quillFormats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image'
+];
 
 const AdminProducts = () => {
     const dispatch = useDispatch();
@@ -25,7 +44,12 @@ const AdminProducts = () => {
     const productCreate = useSelector((state) => state.productCreate);
     const { loading: loadingCreate, error: errorCreate, success: successCreate, product: createdProduct } = productCreate;
 
+    const productUpdate = useSelector((state) => state.productUpdate);
+    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate;
+
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editingProductId, setEditingProductId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     
     // Form State
@@ -54,7 +78,12 @@ const AdminProducts = () => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        dispatch({ type: PRODUCT_CREATE_RESET });
+        if (successCreate || successUpdate) {
+            setIsModalOpen(false);
+            resetForm();
+            dispatch({ type: PRODUCT_CREATE_RESET });
+            dispatch({ type: PRODUCT_UPDATE_RESET });
+        }
         dispatch(listProducts(searchTerm));
 
         const fetchCategories = async () => {
@@ -62,12 +91,7 @@ const AdminProducts = () => {
             setCategories(data);
         };
         fetchCategories();
-
-        if (successCreate) {
-            setIsModalOpen(false);
-            resetForm();
-        }
-    }, [dispatch, successDelete, successCreate, searchTerm]);
+    }, [dispatch, successDelete, successCreate, successUpdate, searchTerm]);
 
     const resetForm = () => {
         setName(''); setBrand(''); setCategory(''); setPrice(0); setOldPrice(0);
@@ -75,6 +99,39 @@ const AdminProducts = () => {
         setTechnology([]); setUsageCategory([]); setAllInOneType('');
         setWireless(''); setMainFunction([]); setKeywords('');
         setSpecRows([{ name: '', value: '' }]);
+        setIsEditMode(false);
+        setEditingProductId(null);
+    };
+
+    const editHandler = (product) => {
+        setEditingProductId(product._id);
+        setIsEditMode(true);
+        setName(product.name || product.title || '');
+        setBrand(product.brand || '');
+        setCategory(product.category?._id || product.category || '');
+        setPrice(product.price || 0);
+        setOldPrice(product.oldPrice || 0);
+        setCountInStock(product.countInStock || 0);
+        setDescription(product.description || '');
+        setShortDetails(product.shortDetails || '');
+        setImages(product.images || []);
+        setTechnology(product.technology || []);
+        setUsageCategory(product.usageCategory || []);
+        setAllInOneType(product.allInOneType?.[0] || product.allInOneType || '');
+        setWireless(product.wireless || '');
+        setMainFunction(product.mainFunction || []);
+        setKeywords(product.keywords || '');
+        
+        try {
+            const specs = typeof product.technicalSpecification === 'string' 
+                ? JSON.parse(product.technicalSpecification) 
+                : (product.technicalSpecification || [{ name: '', value: '' }]);
+            setSpecRows(specs);
+        } catch (e) {
+            setSpecRows([{ name: '', value: '' }]);
+        }
+        
+        setIsModalOpen(true);
     };
 
     const deleteHandler = (id) => {
@@ -120,12 +177,20 @@ const AdminProducts = () => {
         e.preventDefault();
         const technicalSpecification = JSON.stringify(specRows);
         
-        dispatch(createProduct({
+        const productData = {
             name, price, oldPrice, description, shortDetails, category, 
             countInStock, brand, images, technology, usageCategory,
             allInOneType, wireless, mainFunction, technicalSpecification, keywords
-        }));
+        };
+
+        if (isEditMode) {
+            dispatch(updateProduct(editingProductId, productData));
+        } else {
+            dispatch(createProduct(productData));
+        }
     };
+
+
 
     return (
         <div className="p-8 sm:p-12 space-y-12 animate-in fade-in duration-700 pb-32">
@@ -136,16 +201,16 @@ const AdminProducts = () => {
                          <div className="p-2 bg-blue-600 rounded-lg">
                              <Package className="text-white" size={16} />
                          </div>
-                         <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Inventory Hub</span>
+                         <span className="text-[10px] font-black text-blue-600">Product Hub</span>
                     </div>
-                    <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none uppercase">
+                    <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">
                         Product Hub<span className="text-blue-600">.</span>
                     </h1>
                 </div>
                 
                 <button 
                     onClick={() => setIsModalOpen(true)}
-                    className="px-10 py-5 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-blue-600 transition-all flex items-center gap-3 shadow-xl"
+                    className="px-10 py-5 bg-slate-900 text-white rounded-2xl font-black text-xs hover:bg-blue-600 transition-all flex items-center gap-3 shadow-xl"
                 >
                     <Plus size={20} />
                     Register New Product
@@ -170,10 +235,10 @@ const AdminProducts = () => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-slate-50/50">
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Identity</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Category</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Valuation</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Identity</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Category</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Valuation</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y-2 divide-slate-50">
@@ -187,13 +252,13 @@ const AdminProducts = () => {
                                                 <img src={product.images?.[0] || '/placeholder.png'} alt="" className="max-w-full max-h-full object-contain" />
                                             </div>
                                             <div>
-                                                <p className="font-black text-slate-900 text-base uppercase leading-none mb-2">{product.name || product.title}</p>
-                                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{product.brand}</span>
+                                                <p className="font-black text-slate-900 text-base leading-none mb-2">{product.name || product.title}</p>
+                                                <span className="text-[9px] font-black text-slate-400">{product.brand}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-10 py-8">
-                                        <span className="px-4 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-[9px] font-black uppercase tracking-widest border border-slate-100">
+                                        <span className="px-4 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-[9px] font-black border border-slate-100">
                                             {product.category?.name || 'Standard'}
                                         </span>
                                     </td>
@@ -202,7 +267,7 @@ const AdminProducts = () => {
                                     </td>
                                     <td className="px-10 py-8 text-right">
                                         <div className="flex items-center justify-end gap-3">
-                                            <button className="p-3 bg-white text-slate-400 hover:text-blue-600 rounded-xl shadow-sm border border-slate-100 transition-all"><Edit3 size={16} /></button>
+                                            <button onClick={() => editHandler(product)} className="p-3 bg-white text-slate-400 hover:text-blue-600 rounded-xl shadow-sm border border-slate-100 transition-all"><Edit3 size={16} /></button>
                                             <button onClick={() => deleteHandler(product._id)} className="p-3 bg-white text-slate-400 hover:text-rose-600 rounded-xl shadow-sm border border-slate-100 transition-all"><Trash2 size={16} /></button>
                                         </div>
                                     </td>
@@ -213,7 +278,7 @@ const AdminProducts = () => {
                 </div>
             </div>
 
-            {/* Modal Re-designed to be perfectly aligned with user's requirement */}
+            {/* Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4 overflow-y-auto">
                     <div className="bg-[#f8fafc] w-full max-w-6xl rounded-[2rem] shadow-2xl my-auto border border-white/20 relative overflow-hidden flex flex-col max-h-[90vh]">
@@ -221,8 +286,8 @@ const AdminProducts = () => {
                         {/* Header Area */}
                         <div className="bg-[#0f172a] px-10 py-8 flex justify-between items-center text-white sticky top-0 z-20">
                             <div>
-                                <h2 className="text-2xl font-black uppercase tracking-tighter">Register New Product</h2>
-                                <p className="text-slate-400 text-[9px] font-bold uppercase tracking-widest mt-1">SmartEprint Administration Hub</p>
+                                <h2 className="text-2xl font-black tracking-tighter">{isEditMode ? 'Update Product' : 'Register New Product'}</h2>
+                                <p className="text-slate-400 text-[9px] font-bold mt-1">SmartEprint Administration Hub</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="bg-white/10 p-2 rounded-xl hover:bg-white/20 transition-all">
                                 <X size={20} />
@@ -237,19 +302,19 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
                                         <Info className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Basic Information</h3>
+                                    <h3 className="font-black text-slate-900 text-sm">Basic Information</h3>
                                 </div>
 
                                 <div className="space-y-10">
                                     {/* Technology Selector */}
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Technology</label>
+                                        <label className="text-[10px] font-black text-slate-500 ml-1">Technology</label>
                                         <div className="flex flex-wrap gap-3">
                                             {['Inkjet', 'Laser', 'Laser (B/W)'].map(tech => (
                                                 <button 
                                                     key={tech} type="button" 
                                                     onClick={() => handleCheckboxChange(tech, technology, setTechnology)}
-                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${technology.includes(tech) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black border-2 transition-all ${technology.includes(tech) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
                                                 >
                                                     {tech}
                                                 </button>
@@ -259,13 +324,13 @@ const AdminProducts = () => {
 
                                     {/* Usage Category Selector */}
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Usage Category</label>
+                                        <label className="text-[10px] font-black text-slate-500 ml-1">Usage Category</label>
                                         <div className="flex flex-wrap gap-3">
                                             {['Home', 'Office', 'Mobile', 'Photo'].map(usage => (
                                                 <button 
                                                     key={usage} type="button" 
                                                     onClick={() => handleCheckboxChange(usage, usageCategory, setUsageCategory)}
-                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${usageCategory.includes(usage) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black border-2 transition-all ${usageCategory.includes(usage) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
                                                 >
                                                     {usage}
                                                 </button>
@@ -276,13 +341,13 @@ const AdminProducts = () => {
                                     {/* Types & Wireless */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">All-in-One Type</label>
+                                            <label className="text-[10px] font-black text-slate-500 ml-1">All-in-One Type</label>
                                             <div className="flex gap-3">
                                                 {['Multifunction', 'Single Function'].map(type => (
                                                     <button 
                                                         key={type} type="button" 
                                                         onClick={() => setAllInOneType(type)}
-                                                        className={`flex-1 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${allInOneType === type ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                        className={`flex-1 py-3.5 rounded-xl text-[10px] font-black border-2 transition-all ${allInOneType === type ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
                                                     >
                                                         {type}
                                                     </button>
@@ -290,7 +355,7 @@ const AdminProducts = () => {
                                             </div>
                                         </div>
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Wireless</label>
+                                            <label className="text-[10px] font-black text-slate-500 ml-1">Wireless</label>
                                             <select 
                                                 value={wireless} onChange={(e) => setWireless(e.target.value)}
                                                 className="w-full bg-white border-2 border-slate-100 rounded-xl py-3.5 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 appearance-none cursor-pointer text-xs"
@@ -304,13 +369,13 @@ const AdminProducts = () => {
 
                                     {/* Main Functions Selector */}
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Main Function</label>
+                                        <label className="text-[10px] font-black text-slate-500 ml-1">Main Function</label>
                                         <div className="flex flex-wrap gap-3">
                                             {['Print', 'Scan', 'Copy', 'Fax', 'Print Only'].map(func => (
                                                 <button 
                                                     key={func} type="button" 
                                                     onClick={() => handleCheckboxChange(func, mainFunction, setMainFunction)}
-                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${mainFunction.includes(func) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black border-2 transition-all ${mainFunction.includes(func) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
                                                 >
                                                     {func}
                                                 </button>
@@ -321,7 +386,7 @@ const AdminProducts = () => {
                                     {/* Title, Brand, Category */}
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Product Title</label>
+                                            <label className="text-[10px] font-black text-slate-500 ml-1">Product Title</label>
                                             <input 
                                                 type="text" required value={name} onChange={(e) => setName(e.target.value)}
                                                 placeholder="e.g. Laserjet Pro M404n"
@@ -329,7 +394,7 @@ const AdminProducts = () => {
                                             />
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Brand</label>
+                                            <label className="text-[10px] font-black text-slate-500 ml-1">Brand</label>
                                             <input 
                                                 type="text" required value={brand} onChange={(e) => setBrand(e.target.value)}
                                                 placeholder="e.g. HP, Canon"
@@ -337,7 +402,7 @@ const AdminProducts = () => {
                                             />
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Category</label>
+                                            <label className="text-[10px] font-black text-slate-500 ml-1">Category</label>
                                             <select 
                                                 required value={category} onChange={(e) => setCategory(e.target.value)}
                                                 className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm appearance-none cursor-pointer"
@@ -356,25 +421,25 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-100">
                                         <DollarSign className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Pricing & Availability</h3>
+                                    <h3 className="font-black text-slate-900 text-sm">Pricing & Availability</h3>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Price ($)</label>
+                                        <label className="text-[10px] font-black text-slate-500 ml-1">Price ($)</label>
                                         <input 
                                             type="number" required value={oldPrice} onChange={(e) => setOldPrice(e.target.value)}
                                             className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-black outline-none focus:border-blue-500 text-lg"
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Sale Price ($)</label>
+                                        <label className="text-[10px] font-black text-slate-500 ml-1">Sale Price ($)</label>
                                         <input 
                                             type="number" required value={price} onChange={(e) => setPrice(e.target.value)}
                                             className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-black outline-none focus:border-blue-500 text-lg"
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Stock Level</label>
+                                        <label className="text-[10px] font-black text-slate-500 ml-1">Stock Level</label>
                                         <input 
                                             type="number" required value={countInStock} onChange={(e) => setCountInStock(e.target.value)}
                                             className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
@@ -389,10 +454,10 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-100">
                                         <ImageIcon className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Product Media</h3>
+                                    <h3 className="font-black text-slate-900 text-sm">Product Media</h3>
                                 </div>
                                 <div className="space-y-6">
-                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Upload Images</label>
+                                    <label className="text-[10px] font-black text-slate-500 ml-1">Upload Images</label>
                                     <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
                                         {images.map((img, i) => (
                                             <div key={i} className="aspect-square bg-white rounded-2xl border border-slate-200 overflow-hidden relative group p-2 flex items-center justify-center">
@@ -413,7 +478,7 @@ const AdminProducts = () => {
                                                     <div className="p-3 bg-white rounded-xl shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
                                                         <Plus size={20} />
                                                     </div>
-                                                    <span className="text-[8px] font-black uppercase text-slate-400 tracking-widest">ADD IMAGE</span>
+                                                    <span className="text-[8px] font-black text-slate-400">ADD IMAGE</span>
                                                 </>
                                             )}
                                             <input type="file" multiple onChange={uploadFileHandler} className="hidden" />
@@ -429,37 +494,36 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center shadow-lg shadow-amber-100">
                                         <Layers className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Detailed Descriptions</h3>
+                                    <h3 className="font-black text-slate-900 text-sm">Detailed Descriptions</h3>
                                 </div>
                                 <div className="space-y-10">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Highlights (Rich Text)</label>
-                                        <div className="border-2 border-slate-100 rounded-2xl overflow-hidden focus-within:border-blue-500 transition-all bg-white shadow-sm">
-                                            <div className="bg-slate-50 px-4 py-2 flex items-center gap-4 border-b border-slate-100">
-                                                <div className="flex items-center gap-2 pr-4 border-r border-slate-200">
-                                                    <button type="button" className="p-1.5 hover:bg-white rounded text-slate-400 font-black">B</button>
-                                                    <button type="button" className="p-1.5 hover:bg-white rounded text-slate-400 italic">I</button>
-                                                    <button type="button" className="p-1.5 hover:bg-white rounded text-slate-400 underline">U</button>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <List size={14} className="text-slate-400" />
-                                                    <List size={14} className="text-slate-400 rotate-180" />
-                                                </div>
-                                            </div>
-                                            <textarea 
-                                                rows="4" value={shortDetails} onChange={(e) => setShortDetails(e.target.value)}
+                                        <label className="text-[10px] font-black text-slate-400 ml-1">Highlights (Rich Text)</label>
+                                        <div className="quill-container rounded-2xl overflow-hidden border-2 border-slate-100 focus-within:border-blue-500 transition-all bg-white">
+                                            <ReactQuill 
+                                                theme="snow"
+                                                value={shortDetails}
+                                                onChange={setShortDetails}
+                                                modules={quillModules}
+                                                formats={quillFormats}
                                                 placeholder="Enter product highlights..."
-                                                className="w-full py-6 px-8 text-slate-900 font-bold outline-none resize-none text-sm"
+                                                className="bg-white border-none"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Full Narrative Overview</label>
-                                        <textarea 
-                                            rows="6" value={description} onChange={(e) => setDescription(e.target.value)}
-                                            placeholder="Enter full product description..."
-                                            className="w-full bg-white border-2 border-slate-100 rounded-2xl py-6 px-8 text-slate-900 font-bold outline-none focus:border-blue-500 resize-none shadow-sm text-sm"
-                                        />
+                                        <label className="text-[10px] font-black text-slate-400 ml-1">Full Narrative Overview</label>
+                                        <div className="quill-container rounded-2xl overflow-hidden border-2 border-slate-100 focus-within:border-blue-500 transition-all bg-white">
+                                            <ReactQuill 
+                                                theme="snow"
+                                                value={description}
+                                                onChange={setDescription}
+                                                modules={quillModules}
+                                                formats={quillFormats}
+                                                placeholder="Enter full product description..."
+                                                className="bg-white border-none"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </section>
@@ -470,11 +534,11 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-[#0f172a] rounded-xl flex items-center justify-center shadow-lg shadow-slate-200">
                                         <Settings className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Technical Specifications</h3>
+                                    <h3 className="font-black text-slate-900 text-sm">Technical Specifications</h3>
                                 </div>
                                 <div className="space-y-10">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Keywords</label>
+                                        <label className="text-[10px] font-black text-slate-500 ml-1">Keywords</label>
                                         <input 
                                             type="text" value={keywords} onChange={(e) => setKeywords(e.target.value)}
                                             placeholder="e.g. Wireless, Laser, Mono"
@@ -486,12 +550,12 @@ const AdminProducts = () => {
                                     <div className="space-y-6">
                                         <div className="flex justify-between items-end">
                                             <div className="space-y-1">
-                                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Technical Specification</label>
+                                                <label className="text-[10px] font-black text-slate-500 ml-1">Technical Specification</label>
                                                 <p className="text-[9px] text-slate-400 font-medium ml-1">Build a custom spec table for this product.</p>
                                             </div>
                                             <div className="flex gap-2">
-                                                <button type="button" className="px-4 py-2 bg-slate-100 text-slate-500 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Text Editor</button>
-                                                <button type="button" className="px-4 py-2 bg-blue-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all">Table Builder</button>
+                                                <button type="button" className="px-4 py-2 bg-slate-100 text-slate-500 rounded-lg text-[9px] font-black hover:bg-slate-200 transition-all">Text Editor</button>
+                                                <button type="button" className="px-4 py-2 bg-blue-600 text-white rounded-lg text-[9px] font-black hover:bg-blue-700 transition-all">Table Builder</button>
                                             </div>
                                         </div>
 
@@ -499,8 +563,8 @@ const AdminProducts = () => {
                                             <table className="w-full border-collapse">
                                                 <thead>
                                                     <tr className="bg-slate-50 border-b-2 border-slate-100 text-left">
-                                                        <th className="px-6 py-4 text-[9px] font-black uppercase text-slate-400 tracking-widest">Attribute Name</th>
-                                                        <th className="px-6 py-4 text-[9px] font-black uppercase text-slate-400 tracking-widest">Detail/Value</th>
+                                                        <th className="px-6 py-4 text-[9px] font-black text-slate-400">Attribute Name</th>
+                                                        <th className="px-6 py-4 text-[9px] font-black text-slate-400">Detail/Value</th>
                                                         <th className="px-6 py-4 w-16"></th>
                                                     </tr>
                                                 </thead>
@@ -537,7 +601,7 @@ const AdminProducts = () => {
                                             </table>
                                             <button 
                                                 type="button" onClick={handleAddSpecRow}
-                                                className="w-full py-4 border-t-2 border-slate-50 text-blue-600 font-black uppercase text-[9px] tracking-widest hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+                                                className="w-full py-4 border-t-2 border-slate-50 text-blue-600 font-black text-[9px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
                                             >
                                                 <Plus size={14} /> Add New Attribute
                                             </button>
@@ -552,12 +616,12 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-100">
                                         <Star className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 uppercase tracking-[0.2em] text-sm">Reviews & Testimonials</h3>
+                                    <h3 className="font-black text-slate-900 text-sm">Reviews & Testimonials</h3>
                                 </div>
                                 <div className="p-16 border-2 border-dashed border-slate-200 rounded-[2rem] text-center bg-white/50">
-                                    <p className="text-slate-400 font-black text-[10px] uppercase tracking-widest mb-6">No reviews added for this product.</p>
-                                    <button type="button" className="px-8 py-3 bg-[#0f172a] text-white rounded-xl font-black uppercase text-[9px] tracking-widest hover:shadow-xl transition-all active:scale-95">
-                                        ADD REVIEW
+                                    <p className="text-slate-400 font-black text-[10px] mb-6">No reviews added for this product.</p>
+                                    <button type="button" className="px-8 py-3 bg-[#0f172a] text-white rounded-xl font-black text-[9px] hover:shadow-xl transition-all active:scale-95">
+                                        Add Review
                                     </button>
                                 </div>
                             </section>
@@ -565,10 +629,10 @@ const AdminProducts = () => {
                             {/* Submit Area (Sticky at bottom of content) */}
                             <div className="pt-10 sticky bottom-0 z-10">
                                 <button 
-                                    type="submit" disabled={loadingCreate || uploading}
-                                    className="w-full bg-[#0f172a] hover:bg-blue-600 text-white py-6 rounded-[1.5rem] font-black uppercase tracking-[0.5em] text-[10px] transition-all flex items-center justify-center gap-4 shadow-2xl active:scale-[0.98] disabled:opacity-50"
+                                    type="submit" disabled={loadingCreate || loadingUpdate || uploading}
+                                    className="w-full bg-[#0f172a] hover:bg-blue-600 text-white py-6 rounded-[1.5rem] font-black text-[10px] transition-all flex items-center justify-center gap-4 shadow-2xl active:scale-[0.98] disabled:opacity-50"
                                 >
-                                    {loadingCreate ? <Loader2 className="animate-spin" size={20} /> : <>REGISTER PRODUCT <ArrowRight size={18} /></>}
+                                    {(loadingCreate || loadingUpdate) ? <Loader2 className="animate-spin" size={20} /> : <>{isEditMode ? 'Update Product' : 'Register Product'} <ArrowRight size={18} /></>}
                                 </button>
                             </div>
                         </form>

@@ -107,10 +107,10 @@ const AdminChat = () => {
                     <div className="p-10 border-b-2 border-slate-50 space-y-6 bg-slate-50/30">
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
-                                <h2 className="font-black text-2xl text-slate-900 tracking-tighter uppercase leading-none">
-                                    Signals<span className="text-blue-600">.</span>
+                                <h2 className="font-black text-2xl text-slate-900 tracking-tighter leading-none">
+                                    Messages<span className="text-blue-600">.</span>
                                 </h2>
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Live Support Queue</p>
+                                <p className="text-[10px] font-black text-slate-400 italic">Support Center</p>
                             </div>
                             <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg shadow-slate-200 text-white">
                                 <Zap size={20} className="fill-white" />
@@ -121,7 +121,7 @@ const AdminChat = () => {
                             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
                             <input
                                 type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Filter participants..."
+                                placeholder="Search customers..."
                                 className="w-full pl-12 pr-6 py-4 text-xs font-bold bg-white border-2 border-slate-100 rounded-2xl focus:outline-none focus:border-blue-500 transition-all"
                             />
                         </div>
@@ -131,12 +131,12 @@ const AdminChat = () => {
                         {loading ? (
                             <div className="p-20 text-center space-y-4">
                                 <Loader2 className="animate-spin mx-auto text-blue-600" size={32} />
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Syncing Hub...</p>
+                                <p className="text-[10px] font-black text-slate-400">Loading chats...</p>
                             </div>
                         ) : filteredChats.length === 0 ? (
                             <div className="p-20 text-center">
                                 <Activity className="mx-auto text-slate-100 mb-6" size={64} />
-                                <p className="text-sm font-black text-slate-300 uppercase tracking-widest">No Active Sessions</p>
+                                <p className="text-sm font-black text-slate-300">No active chats</p>
                             </div>
                         ) : (
                             filteredChats.map(chat => (
@@ -155,16 +155,16 @@ const AdminChat = () => {
                                     </div>
                                     <div className="flex-1 min-w-0 py-1">
                                         <div className="flex justify-between items-start mb-1">
-                                            <h4 className="font-black text-sm text-slate-900 truncate uppercase tracking-tight">{chat.user?.name || 'Anonymous'}</h4>
-                                            <span className="text-[10px] font-black text-slate-400 tabular-nums uppercase">
+                                            <h4 className="font-black text-sm text-slate-900 truncate tracking-tight">{chat.user?.name || 'Guest'}</h4>
+                                            <span className="text-[10px] font-black text-slate-400 tabular-nums">
                                                 {new Date(chat.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
                                         </div>
-                                        <p className="text-xs text-slate-500 font-medium truncate leading-relaxed">{chat.lastMessage || 'Awaiting initial signal...'}</p>
+                                        <p className="text-xs text-slate-500 font-medium truncate leading-relaxed">{chat.lastMessage || 'Waiting for message...'}</p>
                                     </div>
                                     {chat.unreadCount > 0 && (
                                         <div className="absolute right-8 bottom-8 flex items-center justify-center">
-                                            <span className="bg-blue-600 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-lg shadow-blue-200 uppercase">
+                                            <span className="bg-blue-600 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-lg shadow-blue-200">
                                                 {chat.unreadCount} New
                                             </span>
                                         </div>
@@ -198,12 +198,12 @@ const AdminChat = () => {
                                         <div className={`absolute -bottom-1 -right-1 w-4 h-4 border-2 border-white rounded-full ${activeChat.status === 'active' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`} />
                                     </div>
                                     <div>
-                                        <h3 className="font-black text-slate-900 text-base uppercase tracking-tight leading-none">{activeChat.user?.name || 'Terminal Identity'}</h3>
-                                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mt-2">{activeChat.user?.email || 'ANONYMOUS_ROUTING'}</p>
+                                        <h3 className="font-black text-slate-900 text-base tracking-tight leading-none">{activeChat.user?.name || 'Customer Profile'}</h3>
+                                        <p className="text-[10px] font-black text-blue-600 mt-2">{activeChat.user?.email || 'Guest User'}</p>
                                     </div>
                                 </div>
                                 <div className="hidden sm:flex items-center gap-3">
-                                     <div className="px-4 py-2 bg-slate-100 rounded-xl text-[9px] font-black uppercase tracking-widest text-slate-500">
+                                     <div className="px-4 py-2 bg-slate-100 rounded-xl text-[9px] font-black text-slate-500">
                                          ID: {activeChat._id.substring(18).toUpperCase()}
                                      </div>
                                      <button className="p-3 bg-white border-2 border-slate-100 rounded-xl text-slate-400 hover:text-rose-500 transition-all shadow-sm">
@@ -224,8 +224,8 @@ const AdminChat = () => {
                                                     : 'bg-white text-slate-800 rounded-tl-none border-2 border-slate-50 shadow-slate-100'
                                                     }`}>
                                                     <p className="leading-relaxed">{msg.message}</p>
-                                                    <div className={`text-[9px] font-black uppercase tracking-widest mt-3 ${isAdmin ? 'text-blue-300/60' : 'text-slate-300'}`}>
-                                                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • System Logged
+                                                    <div className={`text-[9px] font-black mt-3 ${isAdmin ? 'text-blue-300/60' : 'text-slate-300'}`}>
+                                                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • Message Sent
                                                     </div>
                                                 </div>
                                             </div>
@@ -234,7 +234,7 @@ const AdminChat = () => {
                                 ) : (
                                     <div className="h-full flex flex-col items-center justify-center space-y-6 opacity-30 grayscale">
                                         <MessageCircle size={100} strokeWidth={1} />
-                                        <p className="font-black uppercase tracking-[0.5em] text-[10px]">Awaiting Uplink...</p>
+                                        <p className="font-black text-[10px]">Connecting...</p>
                                     </div>
                                 )}
                                 <div ref={messagesEndRef} />
@@ -247,7 +247,7 @@ const AdminChat = () => {
                                         <input
                                             type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)}
                                             className="w-full bg-slate-100 border-2 border-transparent focus:border-blue-500 rounded-[2rem] pl-10 pr-6 py-6 text-sm font-bold outline-none transition-all shadow-inner"
-                                            placeholder="Compose signal to participant..."
+                                            placeholder="Write a message..."
                                         />
                                         <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400">
                                             <Hash size={16} />
@@ -269,9 +269,9 @@ const AdminChat = () => {
                                 <MessageCircle size={140} strokeWidth={0.5} className="text-slate-100 relative z-10" />
                             </div>
                             <div className="space-y-4 relative z-10">
-                                <h3 className="text-4xl font-black text-slate-900 tracking-tighter uppercase leading-none">Console Idle<span className="text-blue-600">.</span></h3>
-                                <p className="text-slate-400 font-bold text-sm uppercase tracking-widest max-w-sm mx-auto">
-                                    Establish a link with a participant to initiate technical support protocols.
+                                <h3 className="text-4xl font-black text-slate-900 tracking-tighter leading-none">Chat Hub<span className="text-blue-600">.</span></h3>
+                                <p className="text-slate-400 font-bold text-sm max-w-sm mx-auto">
+                                    Select a customer to start chatting.
                                 </p>
                             </div>
                         </div>

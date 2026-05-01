@@ -172,7 +172,7 @@ const OrderDetails = () => {
                                 <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-100 rounded-2xl flex items-center justify-center text-blue-600">
                                     <Package size={24} />
                                 </div>
-                                <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent uppercase tracking-tighter">Inventory Detailed</h2>
+                                <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent uppercase tracking-tighter">Product Detailed</h2>
                             </div>
 
                             <div className="divide-y divide-slate-100">

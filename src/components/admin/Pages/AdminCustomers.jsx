@@ -147,10 +147,10 @@ const AdminCustomers = () => {
                          <div className="p-2 bg-blue-600 rounded-lg shadow-lg shadow-blue-200">
                              <Users className="text-white" size={16} />
                          </div>
-                         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Human Capital Registry</span>
+                         <span className="text-[10px] font-black text-blue-600">Customer Hub</span>
                     </div>
-                    <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none uppercase">
-                        Participants<span className="text-blue-600">.</span>
+                    <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">
+                        Customers<span className="text-blue-600">.</span>
                     </h1>
                     <p className="text-slate-400 font-bold text-sm max-w-xl">
                         Monitor participant behavior, manage security clearance, and track cumulative fiscal contributions to the platform.
@@ -175,9 +175,9 @@ const AdminCustomers = () => {
                              <Activity size={24} />
                         </div>
                         <div>
-                            <span className="font-black text-slate-900 uppercase tracking-widest text-xs block">Population Log</span>
-                            <span className="text-blue-600 text-[10px] font-black uppercase tracking-widest mt-1">
-                                {customers.length} Nodes Active
+                            <span className="font-black text-slate-900 text-xs block">Active Customers</span>
+                            <span className="text-blue-600 text-[10px] font-black mt-1">
+                                {customers.length} Customers in View
                             </span>
                         </div>
                     </div>
@@ -187,19 +187,19 @@ const AdminCustomers = () => {
                     <table className="w-full text-left border-collapse min-w-[1200px]">
                         <thead>
                             <tr className="bg-slate-50/30">
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Identity Node</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Communication Path</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Activity Count</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Fiscal Impact</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Clearance Status</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Administrative Controls</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Customer</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Contact</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Orders</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Total Spent</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Status</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                             {loading && customers.length === 0 ? (
                                 <tr><td colSpan="6" className="py-32 text-center"><Loader2 className="animate-spin mx-auto text-blue-600" size={40} /></td></tr>
                             ) : error ? (
-                                <tr><td colSpan="6" className="py-20 text-center text-rose-500 font-black uppercase tracking-widest text-xs">{error}</td></tr>
+                                <tr><td colSpan="6" className="py-20 text-center text-rose-500 font-black text-xs">{error}</td></tr>
                             ) : (
                                 customers.map((customer) => (
                                     <tr key={customer._id} className="group hover:bg-slate-50/80 transition-all">
@@ -209,8 +209,8 @@ const AdminCustomers = () => {
                                                     {(customer.name || 'U').charAt(0)}
                                                 </div>
                                                 <div>
-                                                    <div className="font-black text-slate-900 text-base uppercase tracking-tight group-hover:text-blue-600 transition-colors">{customer.name || 'Anonymous Node'}</div>
-                                                    <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1 italic">UID: {customer._id.substring(18).toUpperCase()}</div>
+                                                    <div className="font-black text-slate-900 text-base tracking-tight group-hover:text-blue-600 transition-colors">{customer.name || 'Anonymous User'}</div>
+                                                    <div className="text-[10px] text-slate-400 font-black mt-1 italic">ID: {customer._id.substring(18).toUpperCase()}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -222,23 +222,23 @@ const AdminCustomers = () => {
                                         <td className="px-10 py-8">
                                             <div className="flex flex-col">
                                                 <span className="font-black text-slate-900 text-lg tabular-nums tracking-tighter leading-none">{customer.totalOrders || 0}</span>
-                                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">Confirmed Deployments</span>
+                                                <span className="text-[9px] font-black text-slate-400 mt-1">Total Orders</span>
                                             </div>
                                         </td>
                                         <td className="px-10 py-8">
                                              <div className="flex flex-col">
                                                 <span className="font-black text-emerald-600 text-xl tabular-nums tracking-tighter leading-none">${(customer.totalSpent || 0).toFixed(2)}</span>
-                                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">Net Allocation</span>
+                                                <span className="text-[9px] font-black text-slate-400 mt-1">Total Spent</span>
                                             </div>
                                         </td>
                                         <td className="px-10 py-8">
                                             {customer.isBlocked ? (
-                                                <span className="inline-flex items-center px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest bg-rose-500/10 text-rose-500 border border-rose-500/20 shadow-sm animate-pulse">
-                                                    <ShieldOff size={12} className="mr-2" /> Revoked
+                                                <span className="inline-flex items-center px-4 py-1.5 rounded-xl text-[10px] font-black bg-rose-500/10 text-rose-500 border border-rose-500/20 shadow-sm animate-pulse">
+                                                    <ShieldOff size={12} className="mr-2" /> Blocked
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-sm">
-                                                    <Shield size={12} className="mr-2" /> Verified
+                                                <span className="inline-flex items-center px-4 py-1.5 rounded-xl text-[10px] font-black bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-sm">
+                                                    <Shield size={12} className="mr-2" /> Active
                                                 </span>
                                             )}
                                         </td>
@@ -282,9 +282,9 @@ const AdminCustomers = () => {
                     <div className="flex justify-center p-12 bg-slate-50/50 border-t border-slate-100">
                         <button 
                             onClick={loadMoreHandler}
-                            className="px-12 py-5 bg-white border-2 border-slate-200 text-slate-900 rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] hover:bg-slate-900 hover:text-white transition-all shadow-2xl active:scale-95 flex items-center gap-4"
+                            className="px-12 py-5 bg-white border-2 border-slate-200 text-slate-900 rounded-[2rem] font-black text-xs hover:bg-slate-900 hover:text-white transition-all shadow-2xl active:scale-95 flex items-center gap-4"
                         >
-                            Sync Next Population Cluster <ArrowRight size={16} />
+                            Sync Next Cluster <ArrowRight size={16} />
                         </button>
                     </div>
                 )}
@@ -299,29 +299,29 @@ const AdminCustomers = () => {
                             <div className="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-2xl relative z-10">
                                 <AlertTriangle size={32} className={confirmModal.type === 'delete' ? 'text-rose-500' : confirmModal.type === 'block' ? 'text-amber-500' : 'text-emerald-500'} />
                             </div>
-                            <h3 className="text-2xl font-black text-white uppercase tracking-tighter relative z-10">
-                                {confirmModal.type === 'delete' ? 'PURGE IDENTITY' : confirmModal.type === 'block' ? 'REVOKE ACCESS' : 'RESTORE ACCESS'}
+                            <h3 className="text-2xl font-black text-white tracking-tighter relative z-10">
+                                {confirmModal.type === 'delete' ? 'Delete User' : confirmModal.type === 'block' ? 'Block User' : 'Unblock User'}
                             </h3>
-                            <p className="text-white/70 text-[10px] font-black uppercase tracking-widest mt-2 relative z-10 italic">
-                                Action is final and logged in kernel.
+                            <p className="text-white/70 text-[10px] font-black mt-2 relative z-10 italic">
+                                This action will be saved in system logs.
                             </p>
                         </div>
                         <div className="p-12 space-y-8">
                             <p className="text-slate-500 font-bold text-center leading-relaxed">
-                                Are you certain you wish to execute the <span className="text-slate-900 font-black uppercase">{confirmModal.type}</span> protocol on participant <span className="text-blue-600 font-black uppercase">{confirmModal.userName}</span>?
+                                Are you certain you wish to <span className="text-slate-900 font-black">{confirmModal.type}</span> user <span className="text-blue-600 font-black">{confirmModal.userName}</span>?
                             </p>
                             <div className="flex gap-4">
                                 <button
                                     onClick={() => setConfirmModal({ show: false, type: '', userId: null, userName: '' })}
-                                    className="flex-1 py-5 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-slate-200 transition-all"
+                                    className="flex-1 py-5 bg-slate-100 text-slate-600 rounded-2xl font-black text-[10px] hover:bg-slate-200 transition-all"
                                 >
-                                    Abort
+                                    Cancel
                                 </button>
                                 <button
                                     onClick={handleConfirm}
-                                    className={`flex-1 py-5 text-white rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all shadow-xl ${confirmModal.type === 'delete' ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-200' : confirmModal.type === 'block' ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-200' : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200'}`}
+                                    className={`flex-1 py-5 text-white rounded-2xl font-black text-[10px] transition-all shadow-xl ${confirmModal.type === 'delete' ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-200' : confirmModal.type === 'block' ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-200' : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200'}`}
                                 >
-                                    Execute
+                                    Confirm
                                 </button>
                             </div>
                         </div>

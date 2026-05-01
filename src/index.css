@@ -52,18 +52,38 @@
   .quill-container .ql-container {
     @apply !border-slate-100 !bg-white !rounded-b-2xl !min-h-[250px] !text-base !font-medium;
   }
+  .quill-container .ql-editor {
+    @apply !px-8 !py-6;
+  }
+  /* Restore formatting lost to Tailwind Reset */
+  .quill-container .ql-editor strong, 
+  .quill-container .ql-editor b {
+    font-weight: 800 !important;
+  }
+  .quill-container .ql-editor em, 
+  .quill-container .ql-editor i {
+    font-style: italic !important;
+  }
+  .quill-container .ql-editor u {
+    text-decoration: underline !important;
+  }
+  .quill-container .ql-editor h1 { @apply !text-4xl !font-black !mb-4 !mt-6; }
+  .quill-container .ql-editor h2 { @apply !text-2xl !font-black !mb-3 !mt-5; }
+  .quill-container .ql-editor p { @apply !mb-4; }
+  .quill-container .ql-editor ul { @apply !list-disc !pl-6 !mb-4; }
+  .quill-container .ql-editor ol { @apply !list-decimal !pl-6 !mb-4; }
   /* --- Solution Hub Premium Components --- */
   
   .solution-heading-xl {
-    @apply text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter uppercase leading-[0.9];
+    @apply text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9];
   }
 
   .solution-heading-lg {
-    @apply text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-[1.1];
+    @apply text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tighter leading-[1.1];
   }
 
   .solution-heading-md {
-    @apply text-2xl md:text-3xl font-black text-slate-900 tracking-tight uppercase;
+    @apply text-2xl md:text-3xl font-black text-slate-900 tracking-tight;
   }
 
   .solution-card {
@@ -75,11 +95,11 @@
   }
 
   .solution-button-rose {
-    @apply bg-rose-600 text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] hover:bg-rose-500 transition-all shadow-xl shadow-rose-900/20 active:scale-95 flex items-center justify-center gap-2;
+    @apply bg-rose-600 text-white px-8 py-4 rounded-2xl font-black text-[10px] hover:bg-rose-500 transition-all shadow-xl shadow-rose-900/20 active:scale-95 flex items-center justify-center gap-2;
   }
 
   .solution-button-slate {
-    @apply bg-slate-900 text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-black/20 active:scale-95 flex items-center justify-center gap-2;
+    @apply bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-[10px] hover:bg-slate-800 transition-all shadow-xl shadow-black/20 active:scale-95 flex items-center justify-center gap-2;
   }
 
   .solution-input {
@@ -87,11 +107,11 @@
   }
 
   .solution-badge-rose {
-    @apply flex items-center gap-2 text-rose-600 text-[10px] font-black uppercase tracking-[0.4em];
+    @apply flex items-center gap-2 text-rose-600 text-[10px] font-black;
   }
 
   .solution-badge-slate {
-    @apply flex items-center gap-2 text-slate-400 text-[10px] font-black uppercase tracking-[0.4em];
+    @apply flex items-center gap-2 text-slate-400 text-[10px] font-black;
   }
 }
 

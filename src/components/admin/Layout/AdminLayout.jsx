@@ -196,7 +196,7 @@ const AdminLayout = () => {
 
                         <div className="hidden md:flex items-center gap-2 text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
                             <Clock size={14} />
-                            <span className="text-xs font-semibold font-mono">
+                            <span className="text-xs font-semibold">
                                 {currentTime.toLocaleDateString()} • {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                         </div>
@@ -253,7 +253,7 @@ const AdminLayout = () => {
                                 onClick={() => { setIsProfileOpen(!isProfileOpen); setIsNotifOpen(false); }}
                                 className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-lg hover:bg-slate-100 transition-colors"
                             >
-                                <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase shadow-inner">
+                                <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-inner">
                                     {userInfo.firstName?.charAt(0) || userInfo.name?.charAt(0)}
                                 </div>
                                 <span className="hidden sm:block text-xs font-bold text-slate-700">{userInfo.firstName || userInfo.name}</span>
@@ -263,11 +263,11 @@ const AdminLayout = () => {
                             {isProfileOpen && (
                                 <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                                     <div className="p-4 border-b border-slate-100 bg-slate-50 text-center">
-                                        <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-2 uppercase">
+                                        <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-2">
                                             {userInfo.firstName?.charAt(0) || userInfo.name?.charAt(0)}
                                         </div>
                                         <h4 className="font-bold text-slate-900 truncate">{userInfo.name}</h4>
-                                        <p className="text-[10px] text-blue-600 font-bold uppercase tracking-widest mt-0.5">Administrator</p>
+                                        <p className="text-[10px] text-blue-600 font-bold mt-0.5">Administrator</p>
                                     </div>
                                     <div className="p-2 space-y-1">
                                         <button onClick={openProfileModal} className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-lg">
@@ -299,12 +299,12 @@ const AdminLayout = () => {
                                 <X size={20} />
                             </button>
                             <div className="flex flex-col items-center">
-                                <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center text-3xl font-bold mb-4 border-4 border-white/20 uppercase">
+                                <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center text-3xl font-bold mb-4 border-4 border-white/20">
                                     {userInfo.firstName?.charAt(0) || userInfo.name?.charAt(0)}
                                 </div>
                                 <h2 className="text-2xl font-bold">{userInfo.name}</h2>
                                 <p className="text-slate-400 text-sm mt-1">{userInfo.email}</p>
-                                <span className="mt-4 px-4 py-1.5 bg-blue-500/20 text-blue-200 text-xs font-bold rounded-full border border-blue-500/30 uppercase tracking-widest">
+                                <span className="mt-4 px-4 py-1.5 bg-blue-500/20 text-blue-200 text-xs font-bold rounded-full border border-blue-500/30">
                                     Super Administrator
                                 </span>
                             </div>
@@ -322,11 +322,11 @@ const AdminLayout = () => {
                                 <div className="space-y-6">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                            <span className="text-[10px] text-slate-400 uppercase font-black block mb-1 tracking-tighter">Full Name</span>
+                                            <span className="text-[10px] text-slate-400 font-black block mb-1">Full Name</span>
                                             <span className="font-bold text-slate-900">{userInfo.firstName + ' ' + userInfo.lastName || userInfo.name}</span>
                                         </div>
                                         <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                            <span className="text-[10px] text-slate-400 uppercase font-black block mb-1 tracking-tighter">Account Status</span>
+                                            <span className="text-[10px] text-slate-400 font-black block mb-1">Account Status</span>
                                             <span className="font-bold text-emerald-600 flex items-center gap-1"><Shield size={12} /> Active</span>
                                         </div>
                                     </div>
@@ -360,7 +360,7 @@ const AdminLayout = () => {
                                         <>
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div className="space-y-1">
-                                                    <label className="text-[10px] text-slate-400 uppercase font-bold ml-1">First Name</label>
+                                                    <label className="text-[10px] text-slate-400 font-bold ml-1">First Name</label>
                                                     <input
                                                         type="text"
                                                         value={firstName}
@@ -370,7 +370,7 @@ const AdminLayout = () => {
                                                     />
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <label className="text-[10px] text-slate-400 uppercase font-bold ml-1">Last Name</label>
+                                                    <label className="text-[10px] text-slate-400 font-bold ml-1">Last Name</label>
                                                     <input
                                                         type="text"
                                                         value={lastName}
@@ -381,7 +381,7 @@ const AdminLayout = () => {
                                                 </div>
                                             </div>
                                             <div className="space-y-1">
-                                                <label className="text-[10px] text-slate-400 uppercase font-bold ml-1">Email Address</label>
+                                                <label className="text-[10px] text-slate-400 font-bold ml-1">Email Address</label>
                                                 <input
                                                     type="email"
                                                     value={email}
@@ -394,7 +394,7 @@ const AdminLayout = () => {
                                     ) : (
                                         <>
                                             <div className="space-y-1">
-                                                <label className="text-[10px] text-slate-400 uppercase font-bold ml-1">New Password</label>
+                                                <label className="text-[10px] text-slate-400 font-bold ml-1">New Password</label>
                                                 <input
                                                     type="password"
                                                     value={password}
@@ -405,7 +405,7 @@ const AdminLayout = () => {
                                                 />
                                             </div>
                                             <div className="space-y-1">
-                                                <label className="text-[10px] text-slate-400 uppercase font-bold ml-1">Confirm New Password</label>
+                                                <label className="text-[10px] text-slate-400 font-bold ml-1">Confirm New Password</label>
                                                 <input
                                                     type="password"
                                                     value={confirmPassword}
