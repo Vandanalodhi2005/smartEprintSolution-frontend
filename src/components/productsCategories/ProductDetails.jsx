@@ -61,9 +61,6 @@ const ProductDetails = () => {
         const checkEligibility = async () => {
             if (userInfo && product && product._id) {
                 try {
-                    const config = {
-                        headers: { Authorization: `Bearer ${userInfo.token}` },
-                    };
                     const { data } = await api.get(`/orders/check-review-eligibility/${product._id}`);
                     setCanReview(data.canReview);
                 } catch (error) {
@@ -129,8 +126,6 @@ const ProductDetails = () => {
             setTimeout(() => setShowEligibilityMessage(false), 3000);
             return;
         }
-
-        // TODO: Integrate review submission modal/form here
     };
 
     if (loading) return <ProductDetailSkeleton />;
@@ -275,37 +270,48 @@ const ProductDetails = () => {
                                     </h1>
                                 <div className="h-1 w-24 bg-gradient-to-r from-[#EF4056] to-[#EF4056] rounded-full"></div>
                             </div>
-
                         </div>
 
-                        {/* Short Details */}
-                        {product.shortDetails && (
+                        {/* Key Specs below title */}
+                        {(product.technology || product.mainFunction || product.wireless || product.shortSpecification) && (
                             <div className="space-y-4 pb-6 border-b-2 border-slate-100">
-                                <h3 className="text-xs font-extrabold text-[#EF4056]">Overview</h3>
-                                <div
-                                    dangerouslySetInnerHTML={{ __html: product.shortDetails }}
-                                    className="text-slate-600 text-sm font-medium leading-relaxed space-y-2 prose-sm prose-slate list-disc list-inside"
-                                />
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                    {Array.isArray(product.technology) && product.technology.length > 0 && (
+                                        <div className="p-3 bg-blue-50/50 border border-blue-100 rounded-xl">
+                                            <span className="text-[10px] font-black text-slate-400 block mb-1 uppercase tracking-wider">Technology</span>
+                                            <span className="text-xs font-bold text-slate-900 line-clamp-1">{product.technology.join(', ')}</span>
+                                        </div>
+                                    )}
+                                    {Array.isArray(product.mainFunction) && product.mainFunction.length > 0 && (
+                                        <div className="p-3 bg-purple-50/50 border border-purple-100 rounded-xl">
+                                            <span className="text-[10px] font-black text-slate-400 block mb-1 uppercase tracking-wider">Function</span>
+                                            <span className="text-xs font-bold text-slate-900 line-clamp-1">{product.mainFunction.join(', ')}</span>
+                                        </div>
+                                    )}
+                                    {product.wireless && (
+                                        <div className="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
+                                            <span className="text-[10px] font-black text-slate-400 block mb-1 uppercase tracking-wider">Wireless</span>
+                                            <span className="text-xs font-bold text-slate-900 line-clamp-1">{product.wireless}</span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
 
                         {/* Pricing & Actions */}
-                            <div className="space-y-6 p-4 sm:p-6 md:p-8 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 rounded-3xl border-2 border-slate-200 backdrop-blur-sm shadow-lg shadow-blue-100/30 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300">
+                        <div className="space-y-6 p-4 sm:p-6 md:p-8 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 rounded-3xl border-2 border-slate-200 backdrop-blur-sm shadow-lg shadow-blue-100/30 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300">
                             {/* Price */}
                             <div className="space-y-3">
                                 <div className="flex flex-col sm:flex-row items-baseline gap-2 sm:gap-4 flex-wrap">
                                     {product.oldPrice && product.oldPrice > product.price ? (
-                                        <>
-                                            <div className="flex flex-col sm:flex-row items-baseline gap-2 sm:gap-4">
-                                                <span className="flex items-center text-base sm:text-lg md:text-xl text-slate-400 line-through font-bold">
-                                                   ${product.oldPrice?.toFixed(2)}
-                                                    
-                                                </span>
-                                                <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-800 tracking-tighter ml-0 sm:ml-3">
-                                                   ${product.price?.toFixed(2)}
-                                                </span>
-                                            </div>
-                                        </>
+                                        <div className="flex flex-col sm:flex-row items-baseline gap-2 sm:gap-4">
+                                            <span className="flex items-center text-base sm:text-lg md:text-xl text-slate-400 line-through font-bold">
+                                               ${product.oldPrice?.toFixed(2)}
+                                            </span>
+                                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-800 tracking-tighter ml-0 sm:ml-3">
+                                               ${product.price?.toFixed(2)}
+                                            </span>
+                                        </div>
                                     ) : (
                                         <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-800 tracking-tighter">
                                             ${product.price?.toFixed(2)}
@@ -315,22 +321,20 @@ const ProductDetails = () => {
                             </div>
 
                             {product.countInStock > 0 && (
-                                <>
-                                    <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100">
-                                        <span className="text-[10px] font-black text-slate-400 whitespace-nowrap">Quantity:</span>
-                                        <div className="flex items-center border-2 border-slate-200 rounded-xl overflow-hidden bg-slate-50 ml-auto">
-                                            <button
-                                                onClick={() => setQty(Math.max(1, qty - 1))}
-                                                className="px-3 py-2 hover:bg-white text-slate-400 hover:text-slate-900 transition-all hover:shadow-sm"
-                                            > − </button>
-                                            <span className="px-4 text-sm font-black text-slate-900 min-w-[3rem] text-center">{qty}</span>
-                                            <button
-                                                onClick={() => setQty(Math.min(product.countInStock, qty + 1))}
-                                                className="px-3 py-2 hover:bg-white text-slate-400 hover:text-slate-900 transition-all hover:shadow-sm"
-                                            > + </button>
-                                        </div>
+                                <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100">
+                                    <span className="text-[10px] font-black text-slate-400 whitespace-nowrap">Quantity:</span>
+                                    <div className="flex items-center border-2 border-slate-200 rounded-xl overflow-hidden bg-slate-50 ml-auto">
+                                        <button
+                                            onClick={() => setQty(Math.max(1, qty - 1))}
+                                            className="px-3 py-2 hover:bg-white text-slate-400 hover:text-slate-900 transition-all hover:shadow-sm"
+                                        > − </button>
+                                        <span className="px-4 text-sm font-black text-slate-900 min-w-[3rem] text-center">{qty}</span>
+                                        <button
+                                            onClick={() => setQty(Math.min(product.countInStock, qty + 1))}
+                                            className="px-3 py-2 hover:bg-white text-slate-400 hover:text-slate-900 transition-all hover:shadow-sm"
+                                        > + </button>
                                     </div>
-                                </>
+                                </div>
                             )}
 
                             {/* Action Buttons */}
@@ -372,37 +376,10 @@ const ProductDetails = () => {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Key Specs */}
-                        {(product.technology || product.mainFunction || product.wireless || product.shortSpecification) && (
-                            <div className="space-y-4">
-                                <h3 className="text-xs font-extrabold text-[#EF4056]">Specs</h3>
-                                <div className="flex flex-col gap-3">
-                                    {Array.isArray(product.technology) && product.technology.length > 0 && (
-                                        <div className="p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 border border-blue-200 rounded-xl">
-                                            <span className="text-[10px] font-black text-slate-700 block mb-1">Technology</span>
-                                            <span className="text-sm font-bold text-slate-900">{product.technology.join(', ')}</span>
-                                        </div>
-                                    )}
-                                    {Array.isArray(product.mainFunction) && product.mainFunction.length > 0 && (
-                                        <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100/50 border border-purple-200 rounded-xl">
-                                            <span className="text-[10px] font-black text-slate-700 block mb-1">Main Function</span>
-                                            <span className="text-sm font-bold text-slate-900">{product.mainFunction.join(', ')}</span>
-                                        </div>
-                                    )}
-                                    {product.wireless && (
-                                        <div className="p-3 bg-gradient-to-r from-emerald-50 to-emerald-100/50 border border-emerald-200 rounded-xl">
-                                            <span className="text-[10px] font-black text-slate-700 block mb-1">Wireless</span>
-                                            <span className="text-sm font-bold text-slate-900">{product.wireless}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
 
-                {/* Tabbed Content */}
+                {/* Tabbed Content Area */}
                 <div className="border-t-2 border-slate-100 pt-12 md:pt-16">
                     <div className="flex gap-8 md:gap-12 overflow-x-auto pb-px scrollbar-hide">
                         {["overview", "specifications", "reviews"].map((tab) => (
@@ -414,7 +391,7 @@ const ProductDetails = () => {
                                         ? 'bg-gradient-to-r from-[#EF4056] to-[#EF4056] bg-clip-text text-transparent' 
                                         : 'text-slate-400 hover:text-[#EF4056]'}`}
                             >
-                                {tab}
+                                {tab.charAt(0).toUpperCase() + tab.slice(1)}
                                 {activeTab === tab && (
                                     <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#EF4056] to-[#EF4056] rounded-full" />
                                 )}
@@ -423,20 +400,41 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="py-12 md:py-16">
-                        {/* Overview Tab */}
+                        {/* Overview Tab: BOTH OVERVIEWS TOGETHER */}
                         {activeTab === "overview" && (
-                            <div className="max-w-4xl animate-fadeIn">
-                                <div 
-                                    dangerouslySetInnerHTML={{ __html: product.description }} 
-                                    className="text-slate-600 font-medium leading-relaxed text-base md:text-lg mb-8 prose prose-slate max-w-none" 
-                                />
+                            <div className="max-w-4xl animate-fadeIn space-y-12">
+                                {/* Short Details Overview */}
+                                {product.shortDetails && (
+                                    <div className="p-6 md:p-8 bg-blue-50/30 rounded-3xl border border-blue-100/50">
+                                        <h3 className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-4 flex items-center gap-3">
+                                            <div className="w-1.5 h-1.5 bg-blue-600 rounded-full"></div>
+                                            Key Highlights
+                                        </h3>
+                                        <div 
+                                            dangerouslySetInnerHTML={{ __html: product.shortDetails }} 
+                                            className="text-slate-600 text-sm font-medium leading-relaxed prose-sm prose-slate max-w-none break-words"
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="space-y-6 px-2">
+                                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter">Full Description</h3>
+                                    <div 
+                                        dangerouslySetInnerHTML={{ __html: product.description }} 
+                                        className="text-slate-600 font-medium leading-relaxed text-base md:text-lg prose prose-slate max-w-none first:mt-0" 
+                                    />
+                                </div>
+
+                                {/* Detailed Overview */}
                                 {product.overview && (
-                                    <div dangerouslySetInnerHTML={{ __html: product.overview }} className="prose prose-slate max-w-none text-slate-600 prose-sm md:prose-base" />
+                                    <div className="pt-10 border-t border-slate-100">
+                                        <div dangerouslySetInnerHTML={{ __html: product.overview }} className="prose prose-slate max-w-none text-slate-600 prose-sm md:prose-base" />
+                                    </div>
                                 )}
                             </div>
                         )}
 
-                        {/* Specifications Tab */}
+                        {/* Specifications Tab: REMAIN AS PREVIOUS */}
                         {activeTab === "specifications" && (
                             <div className="animate-fadeIn">
                                 {product.technicalSpecification ? (
@@ -506,7 +504,6 @@ const ProductDetails = () => {
                                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b-2 border-slate-100">
                                     <div>
                                         <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent tracking-tighter mb-4">Reviews</h2>
-
                                     </div>
                                     <div className="w-full md:w-auto flex flex-col items-end gap-2">
                                         {showReviewLoginMessage && (
@@ -546,7 +543,11 @@ const ProductDetails = () => {
                                             </div>
                                         ))}
                                     </div>
-                                ) : null}
+                                ) : (
+                                    <div className="text-center py-20 bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-slate-200">
+                                        <p className="text-slate-400 font-bold text-sm">No reviews yet. Be the first to share your thoughts!</p>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
