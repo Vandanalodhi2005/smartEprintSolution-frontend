@@ -151,7 +151,7 @@ const AdminProducts = () => {
         try {
             const config = { headers: { 'Content-Type': 'multipart/form-data' } };
             const { data } = await api.post('/products/upload', formData, config);
-            setImages([...images, ...data.urls]);
+            setImages([...data.urls, ...images]);
             setUploading(false);
         } catch (error) {
             console.error(error);
