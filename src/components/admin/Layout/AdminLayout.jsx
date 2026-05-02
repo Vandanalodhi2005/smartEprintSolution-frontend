@@ -196,7 +196,7 @@ const AdminLayout = () => {
 
                         <div className="hidden md:flex items-center gap-2 text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
                             <Clock size={14} />
-                            <span className="text-xs font-semibold">
+                            <span className="text-sm font-semibold">
                                 {currentTime.toLocaleDateString()} • {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                         </div>
@@ -220,12 +220,12 @@ const AdminLayout = () => {
                             {isNotifOpen && (
                                 <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                                     <div className="px-4 py-3 border-b border-slate-100 flex justify-between items-center">
-                                        <h3 className="font-bold text-sm text-slate-800">Notifications</h3>
-                                        <span className="text-xs text-blue-600 font-medium cursor-pointer">Mark all read</span>
+                                        <h3 className="font-bold text-base text-slate-800">Notifications</h3>
+                                        <span className="text-sm text-blue-600 font-medium cursor-pointer">Mark all read</span>
                                     </div>
                                     <div className="max-h-80 overflow-y-auto">
                                         {notifications.length === 0 ? (
-                                            <div className="p-8 text-center text-slate-400 text-xs">No new notifications</div>
+                                            <div className="p-8 text-center text-slate-400 text-sm">No new notifications</div>
                                         ) : notifications.map(notif => (
                                             <div
                                                 key={notif.id}
@@ -234,14 +234,14 @@ const AdminLayout = () => {
                                             >
                                                 <div className={`mt-1 w-2 h-2 rounded-full shrink-0 ${!notif.read ? 'bg-blue-500' : 'bg-transparent'}`} />
                                                 <div>
-                                                    <p className="text-sm text-slate-700 leading-tight">{notif.message}</p>
-                                                    <span className="text-xs text-slate-400 mt-1 block">{formatTimeAgo(notif.dateObject)}</span>
+                                                    <p className="text-base text-slate-700 leading-tight">{notif.message}</p>
+                                                    <span className="text-sm text-slate-400 mt-1 block">{formatTimeAgo(notif.dateObject)}</span>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                     <div className="px-4 py-2 border-t border-slate-100 text-center">
-                                        <button className="text-xs font-bold text-slate-500 hover:text-slate-800">View All Updates</button>
+                                        <button className="text-sm font-bold text-slate-500 hover:text-slate-800">View All Updates</button>
                                     </div>
                                 </div>
                             )}
@@ -253,10 +253,10 @@ const AdminLayout = () => {
                                 onClick={() => { setIsProfileOpen(!isProfileOpen); setIsNotifOpen(false); }}
                                 className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-lg hover:bg-slate-100 transition-colors"
                             >
-                                <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-inner">
+                                <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-inner">
                                     {userInfo.firstName?.charAt(0) || userInfo.name?.charAt(0)}
                                 </div>
-                                <span className="hidden sm:block text-xs font-bold text-slate-700">{userInfo.firstName || userInfo.name}</span>
+                                <span className="hidden sm:block text-sm font-bold text-slate-700">{userInfo.firstName || userInfo.name}</span>
                             </button>
 
                             {/* Profile Dropdown */}
@@ -267,14 +267,14 @@ const AdminLayout = () => {
                                             {userInfo.firstName?.charAt(0) || userInfo.name?.charAt(0)}
                                         </div>
                                         <h4 className="font-bold text-slate-900 truncate">{userInfo.name}</h4>
-                                        <p className="text-[10px] text-blue-600 font-bold mt-0.5">Administrator</p>
+                                        <p className="text-xs text-blue-600 font-bold mt-0.5">Administrator</p>
                                     </div>
                                     <div className="p-2 space-y-1">
-                                        <button onClick={openProfileModal} className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-lg">
+                                        <button onClick={openProfileModal} className="w-full flex items-center gap-3 px-3 py-2 text-base text-slate-600 hover:bg-slate-50 rounded-lg">
                                             <User size={16} /> Manage Profile
                                         </button>
                                         <div className="h-px bg-slate-100 my-1"></div>
-                                        <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg">
+                                        <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2 text-base text-red-600 hover:bg-red-50 rounded-lg">
                                             <LogOut size={16} /> Sign Out
                                         </button>
                                     </div>
@@ -303,8 +303,8 @@ const AdminLayout = () => {
                                     {userInfo.firstName?.charAt(0) || userInfo.name?.charAt(0)}
                                 </div>
                                 <h2 className="text-2xl font-bold">{userInfo.name}</h2>
-                                <p className="text-slate-400 text-sm mt-1">{userInfo.email}</p>
-                                <span className="mt-4 px-4 py-1.5 bg-blue-500/20 text-blue-200 text-xs font-bold rounded-full border border-blue-500/30">
+                                <p className="text-slate-400 text-base mt-1">{userInfo.email}</p>
+                                <span className="mt-4 px-4 py-1.5 bg-blue-500/20 text-blue-200 text-sm font-bold rounded-full border border-blue-500/30">
                                     Super Administrator
                                 </span>
                             </div>
@@ -322,11 +322,11 @@ const AdminLayout = () => {
                                 <div className="space-y-6">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                            <span className="text-[10px] text-slate-400 font-black block mb-1">Full Name</span>
+                                            <span className="text-xs text-slate-400 font-black block mb-1">Full Name</span>
                                             <span className="font-bold text-slate-900">{userInfo.firstName + ' ' + userInfo.lastName || userInfo.name}</span>
                                         </div>
                                         <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                            <span className="text-[10px] text-slate-400 font-black block mb-1">Account Status</span>
+                                            <span className="text-xs text-slate-400 font-black block mb-1">Account Status</span>
                                             <span className="font-bold text-emerald-600 flex items-center gap-1"><Shield size={12} /> Active</span>
                                         </div>
                                     </div>
@@ -381,7 +381,7 @@ const AdminLayout = () => {
                                                 </div>
                                             </div>
                                             <div className="space-y-1">
-                                                <label className="text-[10px] text-slate-400 font-bold ml-1">Email Address</label>
+                                                <label className="text-xs text-slate-400 font-bold ml-1">Email Address</label>
                                                 <input
                                                     type="email"
                                                     value={email}

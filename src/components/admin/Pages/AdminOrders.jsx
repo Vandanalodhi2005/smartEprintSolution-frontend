@@ -135,7 +135,7 @@ const AdminOrders = () => {
                          <div className="p-2 bg-blue-600 rounded-lg shadow-lg shadow-blue-200">
                              <ShoppingBag className="text-white" size={16} />
                          </div>
-                         <span className="text-[10px] font-black text-blue-600">Orders Hub</span>
+                         <span className="text-xs font-black text-blue-600">Orders Hub</span>
                     </div>
                     <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">
                         Orders Hub<span className="text-blue-600">.</span>
@@ -151,7 +151,7 @@ const AdminOrders = () => {
                         <input
                             type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder="Find Order #, Identity or Hash..."
-                            className="w-full bg-white border-2 border-slate-100 rounded-2xl py-5 pl-14 pr-8 text-sm font-bold outline-none focus:border-blue-500 shadow-xl shadow-slate-100/50 transition-all"
+                            className="w-full bg-white border-2 border-slate-100 rounded-2xl py-5 pl-14 pr-8 text-base font-bold outline-none focus:border-blue-500 shadow-xl shadow-slate-100/50 transition-all"
                         />
                     </div>
                     <button className="p-5 bg-white border-2 border-slate-100 rounded-2xl text-slate-400 hover:text-slate-900 hover:border-slate-300 transition-all active:scale-95">
@@ -168,8 +168,8 @@ const AdminOrders = () => {
                              <Clock size={24} />
                         </div>
                         <div>
-                            <span className="font-black text-slate-900 text-xs block">Active Orders</span>
-                            <span className="text-blue-600 text-[10px] font-black mt-1">
+                            <span className="font-black text-slate-900 text-sm block">Active Orders</span>
+                            <span className="text-blue-600 text-xs font-black mt-1">
                                 {orders.length} Orders in View
                             </span>
                         </div>
@@ -180,12 +180,12 @@ const AdminOrders = () => {
                     <table className="w-full text-left border-collapse min-w-[1100px]">
                         <thead>
                             <tr className="bg-slate-50/30">
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Order ID</th>
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Customer</th>
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Total Price</th>
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Status</th>
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 text-center">Items</th>
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 text-right">Actions</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400">Order ID</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400">Customer</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400">Total Price</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400">Status</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400 text-center">Items</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -199,35 +199,35 @@ const AdminOrders = () => {
                                         <tr key={order._id} className="group hover:bg-slate-50/80 transition-all">
                                             <td className="px-10 py-8">
                                                 <div className="flex flex-col gap-1">
-                                                    <span className="font-black text-slate-900 text-xs tabular-nums tracking-widest group-hover:text-blue-600 transition-colors">
+                                                    <span className="font-black text-slate-900 text-sm tabular-nums tracking-widest group-hover:text-blue-600 transition-colors">
                                                         #{order._id.substring(18).toUpperCase()}
                                                     </span>
-                                                    <span className="text-[9px] font-black text-slate-400">
+                                                    <span className="text-xs font-black text-slate-400">
                                                         {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                                     </span>
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-500 font-black text-xs group-hover:bg-slate-900 group-hover:text-white transition-all">
+                                                    <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-500 font-black text-sm group-hover:bg-slate-900 group-hover:text-white transition-all">
                                                         {order.user?.name?.charAt(0) || 'G'}
                                                     </div>
                                                     <div>
-                                                        <p className="font-black text-slate-900 text-xs tracking-tight">{order.user?.name || 'Guest User'}</p>
-                                                        <p className="text-[10px] text-slate-400 font-bold lowercase truncate max-w-[160px]">{order.user?.email || 'unregistered@guest.io'}</p>
+                                                        <p className="font-black text-slate-900 text-sm tracking-tight">{order.user?.name || 'Guest User'}</p>
+                                                        <p className="text-xs text-slate-400 font-bold lowercase truncate max-w-[160px]">{order.user?.email || 'unregistered@guest.io'}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8">
                                                 <p className="font-black text-slate-900 text-xl tracking-tighter leading-none tabular-nums">${(order.totalPrice || 0).toFixed(2)}</p>
-                                                <p className="text-[9px] text-slate-400 font-bold mt-1">USD Total</p>
+                                                <p className="text-xs text-slate-400 font-bold mt-1">USD Total</p>
                                             </td>
                                             <td className="px-10 py-8">
                                                 <div className="space-y-3">
-                                                    <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black border shadow-sm block w-fit ${statusColors[order.status] || 'bg-slate-50 text-slate-500 border-slate-100'}`}>
+                                                    <span className={`px-4 py-1.5 rounded-xl text-xs font-black border shadow-sm block w-fit ${statusColors[order.status] || 'bg-slate-50 text-slate-500 border-slate-100'}`}>
                                                         {order.status || 'Initial'}
                                                     </span>
-                                                    <div className="text-[10px] text-slate-400 flex items-center gap-2 font-bold">
+                                                    <div className="text-sm text-slate-400 flex items-center gap-2 font-bold">
                                                         <MapPin size={12} className="text-blue-500" />
                                                         <span className="truncate max-w-[120px]">{order.tracking?.currentLocation || 'Distribution'}</span>
                                                     </div>
@@ -240,13 +240,13 @@ const AdminOrders = () => {
                                                 >
                                                     <Package size={20} />
                                                 </button>
-                                                <p className="text-[9px] font-black text-slate-400 mt-2">{order.orderItems.reduce((acc, item) => acc + item.qty, 0)} Units</p>
+                                                <p className="text-xs font-black text-slate-400 mt-2">{order.orderItems.reduce((acc, item) => acc + item.qty, 0)} Units</p>
                                             </td>
                                             <td className="px-10 py-8 text-right">
                                                 <div className="flex flex-col gap-2 items-end">
                                                     <button
                                                         onClick={() => handleOpenUpdate(order)}
-                                                        className="px-6 py-3 bg-slate-900 text-white hover:bg-blue-600 rounded-xl text-[9px] font-black transition-all shadow-xl shadow-slate-200 w-40"
+                                                        className="px-6 py-3 bg-slate-900 text-white hover:bg-blue-600 rounded-xl text-xs font-black transition-all shadow-xl shadow-slate-200 w-40"
                                                     >
                                                         Update Status
                                                     </button>
@@ -280,8 +280,8 @@ const AdminOrders = () => {
                         <div className="bg-slate-900 px-10 py-10 flex justify-between items-center relative overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-transparent" />
                             <div className="relative z-10">
-                                <h3 className="font-black text-white text-xs">Update Status</h3>
-                                <p className="text-[10px] text-blue-400 font-black mt-1">Order: #{selectedOrder._id.substring(18).toUpperCase()}</p>
+                                <h3 className="font-black text-white text-sm">Update Status</h3>
+                                <p className="text-xs text-blue-400 font-black mt-1">Order: #{selectedOrder._id.substring(18).toUpperCase()}</p>
                             </div>
                             <button onClick={() => setIsUpdateModalOpen(false)} className="text-slate-500 hover:text-white transition-all bg-white/5 p-2 rounded-xl relative z-10">
                                 <X size={20} />
@@ -289,9 +289,9 @@ const AdminOrders = () => {
                         </div>
                         <form onSubmit={handleUpdateSubmit} className="p-12 space-y-8">
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 ml-2">Order Status</label>
+                                <label className="text-xs font-black text-slate-400 ml-2">Order Status</label>
                                 <select
-                                    className="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 outline-none font-black text-slate-900 text-xs appearance-none cursor-pointer shadow-inner"
+                                    className="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 outline-none font-black text-slate-900 text-sm appearance-none cursor-pointer shadow-inner"
                                     value={updateForm.status}
                                     onChange={(e) => setUpdateForm({ ...updateForm, status: e.target.value })}
                                 >
@@ -303,7 +303,7 @@ const AdminOrders = () => {
                                 </select>
                             </div>
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 ml-2">Location</label>
+                                <label className="text-xs font-black text-slate-400 ml-2">Location</label>
                                 <input
                                     type="text" value={updateForm.currentLocation}
                                     onChange={(e) => setUpdateForm({ ...updateForm, currentLocation: e.target.value })}
@@ -312,7 +312,7 @@ const AdminOrders = () => {
                                 />
                             </div>
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 ml-2">Expected Delivery</label>
+                                <label className="text-xs font-black text-slate-400 ml-2">Expected Delivery</label>
                                 <input
                                     type="text" value={updateForm.estTime}
                                     onChange={(e) => setUpdateForm({ ...updateForm, estTime: e.target.value })}
@@ -321,8 +321,8 @@ const AdminOrders = () => {
                                 />
                             </div>
                             <div className="pt-6 flex gap-4">
-                                <button type="button" onClick={() => setIsUpdateModalOpen(false)} className="flex-1 py-5 bg-slate-100 text-slate-600 font-black text-[10px] rounded-2xl">Cancel</button>
-                                <button type="submit" className="flex-1 py-5 bg-blue-600 text-white font-black text-[10px] rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-500 transition-all">Update Status</button>
+                                <button type="button" onClick={() => setIsUpdateModalOpen(false)} className="flex-1 py-5 bg-slate-100 text-slate-600 font-black text-sm rounded-2xl">Cancel</button>
+                                <button type="submit" className="flex-1 py-5 bg-blue-600 text-white font-black text-sm rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-500 transition-all">Update Status</button>
                             </div>
                         </form>
                     </div>
@@ -335,8 +335,8 @@ const AdminOrders = () => {
                     <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border-2 border-white/20">
                         <div className="bg-slate-900 px-10 py-10 flex justify-between items-center border-b border-white/10">
                             <div>
-                                <h3 className="font-black text-white text-xs">Order Items</h3>
-                                <p className="text-[10px] text-blue-400 font-black mt-1">Total Items: {selectedOrder.orderItems.length}</p>
+                                <h3 className="font-black text-white text-sm">Order Items</h3>
+                                <p className="text-xs text-blue-400 font-black mt-1">Total Items: {selectedOrder.orderItems.length}</p>
                             </div>
                             <button onClick={() => setIsItemsModalOpen(false)} className="text-slate-500 hover:text-white transition-all bg-white/5 p-2 rounded-xl">
                                 <X size={20} />
@@ -352,7 +352,7 @@ const AdminOrders = () => {
                                         <div className="flex-1">
                                             <h4 className="font-black text-slate-900 text-lg tracking-tighter leading-none mb-3">{item.name}</h4>
                                             <div className="flex justify-between items-center">
-                                                <div className="px-3 py-1 bg-slate-900 text-white rounded text-[9px] font-black">Qty: {item.qty}</div>
+                                                <div className="px-3 py-1 bg-slate-900 text-white rounded text-sm font-black">Qty: {item.qty}</div>
                                                 <span className="font-black text-slate-900 text-2xl tracking-tighter tabular-nums">${(item.price || 0).toFixed(2)}</span>
                                             </div>
                                         </div>
@@ -361,11 +361,11 @@ const AdminOrders = () => {
                             </div>
                             <div className="mt-10 pt-10 border-t-2 border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-6">
                                 <div className="text-center sm:text-left">
-                                     <span className="text-[10px] font-black text-slate-400 block mb-1">Total Items</span>
-                                     <span className="font-black text-slate-900 text-sm">{selectedOrder.orderItems.reduce((acc, item) => acc + item.qty, 0)} Units</span>
+                                     <span className="text-xs font-black text-slate-400 block mb-1">Total Items</span>
+                                     <span className="font-black text-slate-900 text-base">{selectedOrder.orderItems.reduce((acc, item) => acc + item.qty, 0)} Units</span>
                                 </div>
                                 <div className="text-center sm:text-right">
-                                     <span className="text-[10px] font-black text-slate-400 block mb-1">Total Price</span>
+                                     <span className="text-xs font-black text-slate-400 block mb-1">Total Price</span>
                                      <span className="text-4xl font-black text-slate-900 tracking-tighter tabular-nums">${(selectedOrder.totalPrice || 0).toFixed(2)}</span>
                                 </div>
                             </div>

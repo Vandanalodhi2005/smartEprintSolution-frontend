@@ -56,7 +56,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
                             alt="Smart ePrint" 
                             className="h-10 w-auto object-contain"
                         />
-                        <span className="font-black text-xs text-slate-900">Admin</span>
+                        <span className="font-black text-sm text-slate-900">Admin</span>
                     </div>
                     {/* Mobile Close Button */}
                     <button
@@ -81,7 +81,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
                             }
                         >
                             {item.icon}
-                            <span className="font-medium text-sm">{item.name}</span>
+                            <span className="font-medium text-base">{item.name}</span>
                         </NavLink>
                     ))}
                 </nav>
@@ -92,7 +92,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
                         className="flex items-center gap-3 px-4 py-3 w-full text-left rounded-xl text-red-600 hover:bg-red-50 transition-colors"
                     >
                         <LogOut size={20} />
-                        <span className="font-medium text-sm">Terminate</span>
+                        <span className="font-medium text-base">Terminate</span>
                     </button>
                 </div>
             </div>

@@ -68,9 +68,9 @@ const AdminDashboard = () => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900">Dashboard Overview</h1>
-                    <p className="text-slate-500 text-sm">Welcome back, Admin! Here's what's happening today.</p>
+                    <p className="text-slate-500 text-base">Welcome back, Admin! Here's what's happening today.</p>
                 </div>
-                <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 text-sm font-medium">
+                <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 text-base font-medium">
                     <Calendar size={16} />
                     {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </button>
@@ -88,12 +88,12 @@ const AdminDashboard = () => {
                             <div className={`p-3 rounded-lg ${stat.bg} ${stat.color}`}>
                                 <stat.icon size={22} />
                             </div>
-                            <span className={`flex items-center text-xs font-bold px-2 py-1 rounded-full ${stat.change.startsWith('+') ? 'bg-green-50 text-green-600' : stat.change.startsWith('-') ? 'bg-red-50 text-red-600' : 'bg-slate-50 text-slate-600'}`}>
+                            <span className={`flex items-center text-sm font-bold px-2 py-1 rounded-full ${stat.change.startsWith('+') ? 'bg-green-50 text-green-600' : stat.change.startsWith('-') ? 'bg-red-50 text-red-600' : 'bg-slate-50 text-slate-600'}`}>
                                 {stat.change} <ArrowUpRight size={12} className="ml-1" />
                             </span>
                         </div>
                         <h3 className="text-3xl font-bold text-slate-900 mb-1">{stat.value}</h3>
-                        <p className="text-slate-500 text-sm font-medium">{stat.label}</p>
+                        <p className="text-slate-500 text-base font-medium">{stat.label}</p>
                     </div>
                 ))}
             </div>
@@ -107,7 +107,7 @@ const AdminDashboard = () => {
                         <button onClick={() => navigate('/admin/orders')} className="text-sm text-blue-600 font-semibold hover:text-blue-700">View All</button>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm min-w-[600px]">
+                        <table className="w-full text-left text-base min-w-[600px]">
                             <thead className="bg-slate-50 text-slate-500 font-semibold">
                                 <tr>
                                     <th className="px-6 py-3">Order ID</th>
@@ -126,11 +126,11 @@ const AdminDashboard = () => {
                                             <td className="px-6 py-4 font-bold text-slate-700">#{order._id.substring(order._id.length - 6).toUpperCase()}</td>
                                             <td className="px-6 py-4">
                                                 <div className="font-medium text-slate-800">{order.user?.name || 'Guest'}</div>
-                                                <div className="text-xs text-slate-400">{order.user?.email || 'N/A'}</div>
+                                                <div className="text-sm text-slate-400">{order.user?.email || 'N/A'}</div>
                                             </td>
                                             <td className="px-6 py-4 font-bold text-slate-900">₹{order.totalPrice.toFixed(2)}</td>
                                             <td className="px-6 py-4">
-                                                <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${statusStyles[order.status] || 'bg-slate-50 text-slate-700 border-slate-100'}`}>
+                                                <span className={`px-2.5 py-1 rounded-full text-sm font-bold border ${statusStyles[order.status] || 'bg-slate-50 text-slate-700 border-slate-100'}`}>
                                                     {order.status}
                                                 </span>
                                             </td>
@@ -148,7 +148,7 @@ const AdminDashboard = () => {
                 {/* Quick Stats */}
                 <div className="space-y-6">
                     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                        <h3 className="font-bold text-slate-800 mb-4 text-sm">System Overview</h3>
+                        <h3 className="font-bold text-slate-800 mb-4 text-base">System Overview</h3>
                         <div className="space-y-4">
                             <button
                                 type="button"
@@ -157,7 +157,7 @@ const AdminDashboard = () => {
                             >
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-100"><CreditCard size={18} /></div>
-                                    <span className="text-sm font-medium text-slate-600">Total Volume</span>
+                                    <span className="text-base font-medium text-slate-600">Total Volume</span>
                                 </div>
                                 <span className="font-bold text-slate-900">{analytics?.orders.total || 0}</span>
                             </button>
@@ -168,7 +168,7 @@ const AdminDashboard = () => {
                             >
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-100"><ShoppingBag size={18} /></div>
-                                    <span className="text-sm font-medium text-slate-600">Processing</span>
+                                    <span className="text-base font-medium text-slate-600">Processing</span>
                                 </div>
                                 <span className="font-bold text-slate-900">
                                     {analytics?.ordersByStatus?.find(s => s._id === 'Processing')?.count || 0}
@@ -181,7 +181,7 @@ const AdminDashboard = () => {
                             >
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-100"><Users size={18} /></div>
-                                    <span className="text-sm font-medium text-slate-600">Total Users</span>
+                                    <span className="text-base font-medium text-slate-600">Total Users</span>
                                 </div>
                                 <span className="font-bold text-slate-900">{analytics?.customers.total || 0}</span>
                             </button>

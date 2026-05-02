@@ -201,7 +201,7 @@ const AdminProducts = () => {
                          <div className="p-2 bg-blue-600 rounded-lg">
                              <Package className="text-white" size={16} />
                          </div>
-                         <span className="text-[10px] font-black text-blue-600">Product Hub</span>
+                         <span className="text-xs font-black text-blue-600">Product Hub</span>
                     </div>
                     <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">
                         Product Hub<span className="text-blue-600">.</span>
@@ -210,7 +210,7 @@ const AdminProducts = () => {
                 
                 <button 
                     onClick={() => setIsModalOpen(true)}
-                    className="px-10 py-5 bg-slate-900 text-white rounded-2xl font-black text-xs hover:bg-blue-600 transition-all flex items-center gap-3 shadow-xl"
+                    className="px-10 py-5 bg-slate-900 text-white rounded-2xl font-black text-sm hover:bg-blue-600 transition-all flex items-center gap-3 shadow-xl"
                 >
                     <Plus size={20} />
                     Register New Product
@@ -224,7 +224,7 @@ const AdminProducts = () => {
                     <input 
                         type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder="Filter by product name, brand..."
-                        className="w-full bg-white border-2 border-slate-100 rounded-2xl py-5 pl-14 pr-8 text-sm font-bold outline-none focus:border-blue-500 transition-all shadow-sm"
+                        className="w-full bg-white border-2 border-slate-100 rounded-2xl py-5 pl-14 pr-8 text-base font-bold outline-none focus:border-blue-500 transition-all shadow-sm"
                     />
                 </div>
             </div>
@@ -235,10 +235,10 @@ const AdminProducts = () => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-slate-50/50">
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Identity</th>
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Category</th>
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400">Valuation</th>
-                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 text-right">Actions</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400">Identity</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400">Category</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400">Valuation</th>
+                                <th className="px-10 py-6 text-xs font-black text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y-2 divide-slate-50">
@@ -252,13 +252,13 @@ const AdminProducts = () => {
                                                 <img src={product.images?.[0] || '/placeholder.png'} alt="" className="max-w-full max-h-full object-contain" />
                                             </div>
                                             <div>
-                                                <p className="font-black text-slate-900 text-base leading-none mb-2">{product.name || product.title}</p>
-                                                <span className="text-[9px] font-black text-slate-400">{product.brand}</span>
+                                                <p className="font-black text-slate-900 text-lg leading-none mb-2">{product.name || product.title}</p>
+                                                <span className="text-xs font-black text-slate-400">{product.brand}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-10 py-8">
-                                        <span className="px-4 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-[9px] font-black border border-slate-100">
+                                        <span className="px-4 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-xs font-black border border-slate-100">
                                             {product.category?.name || 'Standard'}
                                         </span>
                                     </td>
@@ -287,7 +287,7 @@ const AdminProducts = () => {
                         <div className="bg-[#0f172a] px-10 py-8 flex justify-between items-center text-white sticky top-0 z-20">
                             <div>
                                 <h2 className="text-2xl font-black tracking-tighter">{isEditMode ? 'Update Product' : 'Register New Product'}</h2>
-                                <p className="text-slate-400 text-[9px] font-bold mt-1">SmartEprint Administration Hub</p>
+                                <p className="text-slate-400 text-xs font-bold mt-1">SmartEprint Administration Hub</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="bg-white/10 p-2 rounded-xl hover:bg-white/20 transition-all">
                                 <X size={20} />
@@ -302,19 +302,19 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
                                         <Info className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 text-sm">Basic Information</h3>
+                                    <h3 className="font-black text-slate-900 text-base">Basic Information</h3>
                                 </div>
 
                                 <div className="space-y-10">
                                     {/* Technology Selector */}
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 ml-1">Technology</label>
+                                        <label className="text-xs font-black text-slate-500 ml-1">Technology</label>
                                         <div className="flex flex-wrap gap-3">
                                             {['Inkjet', 'Laser', 'Laser (B/W)'].map(tech => (
                                                 <button 
                                                     key={tech} type="button" 
                                                     onClick={() => handleCheckboxChange(tech, technology, setTechnology)}
-                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black border-2 transition-all ${technology.includes(tech) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                    className={`px-8 py-3.5 rounded-xl text-xs font-black border-2 transition-all ${technology.includes(tech) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
                                                 >
                                                     {tech}
                                                 </button>
@@ -324,13 +324,13 @@ const AdminProducts = () => {
 
                                     {/* Usage Category Selector */}
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 ml-1">Usage Category</label>
+                                        <label className="text-xs font-black text-slate-500 ml-1">Usage Category</label>
                                         <div className="flex flex-wrap gap-3">
                                             {['Home', 'Office', 'Mobile', 'Photo'].map(usage => (
                                                 <button 
                                                     key={usage} type="button" 
                                                     onClick={() => handleCheckboxChange(usage, usageCategory, setUsageCategory)}
-                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black border-2 transition-all ${usageCategory.includes(usage) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                    className={`px-8 py-3.5 rounded-xl text-xs font-black border-2 transition-all ${usageCategory.includes(usage) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
                                                 >
                                                     {usage}
                                                 </button>
@@ -341,13 +341,13 @@ const AdminProducts = () => {
                                     {/* Types & Wireless */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-slate-500 ml-1">All-in-One Type</label>
+                                            <label className="text-xs font-black text-slate-500 ml-1">All-in-One Type</label>
                                             <div className="flex gap-3">
                                                 {['Multifunction', 'Single Function'].map(type => (
                                                     <button 
                                                         key={type} type="button" 
                                                         onClick={() => setAllInOneType(type)}
-                                                        className={`flex-1 py-3.5 rounded-xl text-[10px] font-black border-2 transition-all ${allInOneType === type ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                        className={`flex-1 py-3.5 rounded-xl text-xs font-black border-2 transition-all ${allInOneType === type ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
                                                     >
                                                         {type}
                                                     </button>
@@ -358,7 +358,7 @@ const AdminProducts = () => {
                                             <label className="text-[10px] font-black text-slate-500 ml-1">Wireless</label>
                                             <select 
                                                 value={wireless} onChange={(e) => setWireless(e.target.value)}
-                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-3.5 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 appearance-none cursor-pointer text-xs"
+                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-3.5 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 appearance-none cursor-pointer text-sm"
                                             >
                                                 <option value="">Select</option>
                                                 <option value="Yes">Yes</option>
@@ -375,7 +375,7 @@ const AdminProducts = () => {
                                                 <button 
                                                     key={func} type="button" 
                                                     onClick={() => handleCheckboxChange(func, mainFunction, setMainFunction)}
-                                                    className={`px-8 py-3.5 rounded-xl text-[10px] font-black border-2 transition-all ${mainFunction.includes(func) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
+                                                    className={`px-8 py-3.5 rounded-xl text-xs font-black border-2 transition-all ${mainFunction.includes(func) ? 'bg-[#0f172a] border-[#0f172a] text-white shadow-xl' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300'}`}
                                                 >
                                                     {func}
                                                 </button>
@@ -386,26 +386,26 @@ const AdminProducts = () => {
                                     {/* Title, Brand, Category */}
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-500 ml-1">Product Title</label>
+                                            <label className="text-xs font-black text-slate-500 ml-1">Product Title</label>
                                             <input 
                                                 type="text" required value={name} onChange={(e) => setName(e.target.value)}
                                                 placeholder="e.g. Laserjet Pro M404n"
-                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
+                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-base"
                                             />
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-500 ml-1">Brand</label>
+                                            <label className="text-xs font-black text-slate-500 ml-1">Brand</label>
                                             <input 
                                                 type="text" required value={brand} onChange={(e) => setBrand(e.target.value)}
                                                 placeholder="e.g. HP, Canon"
-                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
+                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-base"
                                             />
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-500 ml-1">Category</label>
+                                            <label className="text-xs font-black text-slate-500 ml-1">Category</label>
                                             <select 
                                                 required value={category} onChange={(e) => setCategory(e.target.value)}
-                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm appearance-none cursor-pointer"
+                                                className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-base appearance-none cursor-pointer"
                                             >
                                                 <option value="">Select Category</option>
                                                 {categories.map(cat => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
@@ -421,25 +421,25 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-100">
                                         <DollarSign className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 text-sm">Pricing & Availability</h3>
+                                    <h3 className="font-black text-slate-900 text-base">Pricing & Availability</h3>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-500 ml-1">Price ($)</label>
+                                        <label className="text-xs font-black text-slate-500 ml-1">Price ($)</label>
                                         <input 
                                             type="number" required value={oldPrice} onChange={(e) => setOldPrice(e.target.value)}
                                             className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-black outline-none focus:border-blue-500 text-lg"
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-500 ml-1">Sale Price ($)</label>
+                                        <label className="text-xs font-black text-slate-500 ml-1">Sale Price ($)</label>
                                         <input 
                                             type="number" required value={price} onChange={(e) => setPrice(e.target.value)}
                                             className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-black outline-none focus:border-blue-500 text-lg"
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-500 ml-1">Stock Level</label>
+                                        <label className="text-xs font-black text-slate-500 ml-1">Stock Level</label>
                                         <input 
                                             type="number" required value={countInStock} onChange={(e) => setCountInStock(e.target.value)}
                                             className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
@@ -457,7 +457,7 @@ const AdminProducts = () => {
                                     <h3 className="font-black text-slate-900 text-sm">Product Media</h3>
                                 </div>
                                 <div className="space-y-6">
-                                    <label className="text-[10px] font-black text-slate-500 ml-1">Upload Images</label>
+                                    <label className="text-xs font-black text-slate-500 ml-1">Upload Images</label>
                                     <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
                                         {images.map((img, i) => (
                                             <div key={i} className="aspect-square bg-white rounded-2xl border border-slate-200 overflow-hidden relative group p-2 flex items-center justify-center">
@@ -478,13 +478,13 @@ const AdminProducts = () => {
                                                     <div className="p-3 bg-white rounded-xl shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
                                                         <Plus size={20} />
                                                     </div>
-                                                    <span className="text-[8px] font-black text-slate-400">ADD IMAGE</span>
+                                                    <span className="text-xs font-black text-slate-400">ADD IMAGE</span>
                                                 </>
                                             )}
                                             <input type="file" multiple onChange={uploadFileHandler} className="hidden" />
                                         </label>
                                     </div>
-                                    <p className="text-[10px] text-slate-400 font-medium italic">Select multiple images (JPG, PNG, WebP). Max 5MB each.</p>
+                                    <p className="text-sm text-slate-400 font-medium italic">Select multiple images (JPG, PNG, WebP). Max 5MB each.</p>
                                 </div>
                             </section>
 
@@ -494,11 +494,11 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center shadow-lg shadow-amber-100">
                                         <Layers className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 text-sm">Detailed Descriptions</h3>
+                                    <h3 className="font-black text-slate-900 text-base">Detailed Descriptions</h3>
                                 </div>
                                 <div className="space-y-10">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-400 ml-1">Highlights (Rich Text)</label>
+                                        <label className="text-xs font-black text-slate-400 ml-1">Highlights (Rich Text)</label>
                                         <div className="quill-container rounded-2xl overflow-hidden border-2 border-slate-100 focus-within:border-blue-500 transition-all bg-white">
                                             <ReactQuill 
                                                 theme="snow"
@@ -512,7 +512,7 @@ const AdminProducts = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-400 ml-1">Full Narrative Overview</label>
+                                        <label className="text-xs font-black text-slate-400 ml-1">Full Narrative Overview</label>
                                         <div className="quill-container rounded-2xl overflow-hidden border-2 border-slate-100 focus-within:border-blue-500 transition-all bg-white">
                                             <ReactQuill 
                                                 theme="snow"
@@ -534,15 +534,15 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-[#0f172a] rounded-xl flex items-center justify-center shadow-lg shadow-slate-200">
                                         <Settings className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 text-sm">Technical Specifications</h3>
+                                    <h3 className="font-black text-slate-900 text-base">Technical Specifications</h3>
                                 </div>
                                 <div className="space-y-10">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-slate-500 ml-1">Keywords</label>
+                                        <label className="text-xs font-black text-slate-500 ml-1">Keywords</label>
                                         <input 
                                             type="text" value={keywords} onChange={(e) => setKeywords(e.target.value)}
                                             placeholder="e.g. Wireless, Laser, Mono"
-                                            className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-sm"
+                                            className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-base"
                                         />
                                     </div>
                                     
@@ -550,12 +550,12 @@ const AdminProducts = () => {
                                     <div className="space-y-6">
                                         <div className="flex justify-between items-end">
                                             <div className="space-y-1">
-                                                <label className="text-[10px] font-black text-slate-500 ml-1">Technical Specification</label>
-                                                <p className="text-[9px] text-slate-400 font-medium ml-1">Build a custom spec table for this product.</p>
+                                                <label className="text-xs font-black text-slate-500 ml-1">Technical Specification</label>
+                                                <p className="text-sm text-slate-400 font-medium ml-1">Build a custom spec table for this product.</p>
                                             </div>
                                             <div className="flex gap-2">
-                                                <button type="button" className="px-4 py-2 bg-slate-100 text-slate-500 rounded-lg text-[9px] font-black hover:bg-slate-200 transition-all">Text Editor</button>
-                                                <button type="button" className="px-4 py-2 bg-blue-600 text-white rounded-lg text-[9px] font-black hover:bg-blue-700 transition-all">Table Builder</button>
+                                                <button type="button" className="px-4 py-2 bg-slate-100 text-slate-500 rounded-lg text-xs font-black hover:bg-slate-200 transition-all">Text Editor</button>
+                                                <button type="button" className="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-black hover:bg-blue-700 transition-all">Table Builder</button>
                                             </div>
                                         </div>
 
@@ -563,8 +563,8 @@ const AdminProducts = () => {
                                             <table className="w-full border-collapse">
                                                 <thead>
                                                     <tr className="bg-slate-50 border-b-2 border-slate-100 text-left">
-                                                        <th className="px-6 py-4 text-[9px] font-black text-slate-400">Attribute Name</th>
-                                                        <th className="px-6 py-4 text-[9px] font-black text-slate-400">Detail/Value</th>
+                                                        <th className="px-6 py-4 text-xs font-black text-slate-400">Attribute Name</th>
+                                                        <th className="px-6 py-4 text-xs font-black text-slate-400">Detail/Value</th>
                                                         <th className="px-6 py-4 w-16"></th>
                                                     </tr>
                                                 </thead>
@@ -576,7 +576,7 @@ const AdminProducts = () => {
                                                                     type="text" value={row.name} 
                                                                     onChange={(e) => handleSpecChange(index, 'name', e.target.value)}
                                                                     placeholder="e.g. Print Speed"
-                                                                    className="w-full bg-transparent py-2 px-4 text-xs font-bold text-slate-700 outline-none placeholder:text-slate-300"
+                                                                    className="w-full bg-transparent py-2 px-4 text-sm font-bold text-slate-700 outline-none placeholder:text-slate-300"
                                                                 />
                                                             </td>
                                                             <td className="px-4 py-3">
@@ -584,7 +584,7 @@ const AdminProducts = () => {
                                                                     type="text" value={row.value} 
                                                                     onChange={(e) => handleSpecChange(index, 'value', e.target.value)}
                                                                     placeholder="e.g. 40 ppm"
-                                                                    className="w-full bg-transparent py-2 px-4 text-xs font-bold text-slate-700 outline-none placeholder:text-slate-300"
+                                                                    className="w-full bg-transparent py-2 px-4 text-sm font-bold text-slate-700 outline-none placeholder:text-slate-300"
                                                                 />
                                                             </td>
                                                             <td className="px-4 py-3 text-right">
@@ -601,7 +601,7 @@ const AdminProducts = () => {
                                             </table>
                                             <button 
                                                 type="button" onClick={handleAddSpecRow}
-                                                className="w-full py-4 border-t-2 border-slate-50 text-blue-600 font-black text-[9px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+                                                className="w-full py-4 border-t-2 border-slate-50 text-blue-600 font-black text-xs hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
                                             >
                                                 <Plus size={14} /> Add New Attribute
                                             </button>
@@ -616,11 +616,11 @@ const AdminProducts = () => {
                                     <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-100">
                                         <Star className="text-white" size={20} />
                                     </div>
-                                    <h3 className="font-black text-slate-900 text-sm">Reviews & Testimonials</h3>
+                                    <h3 className="font-black text-slate-900 text-base">Reviews & Testimonials</h3>
                                 </div>
                                 <div className="p-16 border-2 border-dashed border-slate-200 rounded-[2rem] text-center bg-white/50">
-                                    <p className="text-slate-400 font-black text-[10px] mb-6">No reviews added for this product.</p>
-                                    <button type="button" className="px-8 py-3 bg-[#0f172a] text-white rounded-xl font-black text-[9px] hover:shadow-xl transition-all active:scale-95">
+                                    <p className="text-slate-400 font-black text-sm mb-6">No reviews added for this product.</p>
+                                    <button type="button" className="px-8 py-3 bg-[#0f172a] text-white rounded-xl font-black text-xs hover:shadow-xl transition-all active:scale-95">
                                         Add Review
                                     </button>
                                 </div>
@@ -630,7 +630,7 @@ const AdminProducts = () => {
                             <div className="pt-10 sticky bottom-0 z-10">
                                 <button 
                                     type="submit" disabled={loadingCreate || loadingUpdate || uploading}
-                                    className="w-full bg-[#0f172a] hover:bg-blue-600 text-white py-6 rounded-[1.5rem] font-black text-[10px] transition-all flex items-center justify-center gap-4 shadow-2xl active:scale-[0.98] disabled:opacity-50"
+                                    className="w-full bg-[#0f172a] hover:bg-blue-600 text-white py-6 rounded-[1.5rem] font-black text-sm transition-all flex items-center justify-center gap-4 shadow-2xl active:scale-[0.98] disabled:opacity-50"
                                 >
                                     {(loadingCreate || loadingUpdate) ? <Loader2 className="animate-spin" size={20} /> : <>{isEditMode ? 'Update Product' : 'Register Product'} <ArrowRight size={18} /></>}
                                 </button>
