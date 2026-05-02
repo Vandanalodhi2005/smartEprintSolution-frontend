@@ -104,7 +104,7 @@ function App() {
      * Resolves the base URL for admin API calls.
      */
     const getAdminApiBase = () => {
-        const rawBase = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api').replace(/\/+$/, '');
+        const rawBase = (import.meta.env.VITE_API_URL || 'https://smart-eprint-solution-backend.vercel.app/api').replace(/\/+$/, '');
         return rawBase.endsWith('/api') ? rawBase : `${rawBase}/api`;
     };
 

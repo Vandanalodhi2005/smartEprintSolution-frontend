@@ -30,7 +30,7 @@ const AdminChat = () => {
         if (userInfo && userInfo.isAdmin) {
             dispatch(fetchAllChats());
 
-            const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://127.0.0.1:5000';
+            const socketUrl = import.meta.env.VITE_SOCKET_URL || 'https://smart-eprint-solution-backend.vercel.app';
             const newSocket = io(socketUrl, {
                 auth: { token: userInfo.token }
             });
