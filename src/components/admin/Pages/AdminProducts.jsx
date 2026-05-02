@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listProducts, deleteProduct, createProduct, updateProduct } from '../../../redux/actions/productActions';
+import { 
+    listProducts, deleteProduct, createProduct, updateProduct 
+} from '../../../redux/actions/productActions';
+import { 
+    listCategories 
+} from '../../../redux/actions/categoryActions';
 import { PRODUCT_CREATE_RESET, PRODUCT_UPDATE_RESET } from '../../../redux/constants/productConstants';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -47,6 +52,9 @@ const AdminProducts = () => {
     const productUpdate = useSelector((state) => state.productUpdate);
     const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate;
 
+    const categoryList = useSelector((state) => state.categoryList);
+    const { categories: reduxCategories = [] } = categoryList;
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [editingProductId, setEditingProductId] = useState(null);
@@ -75,7 +83,6 @@ const AdminProducts = () => {
     const [specRows, setSpecRows] = useState([{ name: '', value: '' }]);
 
     const [uploading, setUploading] = useState(false);
-    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         if (successCreate || successUpdate) {
@@ -85,12 +92,7 @@ const AdminProducts = () => {
             dispatch({ type: PRODUCT_UPDATE_RESET });
         }
         dispatch(listProducts(searchTerm));
-
-        const fetchCategories = async () => {
-            const { data } = await api.get('/categories');
-            setCategories(data);
-        };
-        fetchCategories();
+        dispatch(listCategories());
     }, [dispatch, successDelete, successCreate, successUpdate, searchTerm]);
 
     const resetForm = () => {
@@ -408,7 +410,11 @@ const AdminProducts = () => {
                                                 className="w-full bg-white border-2 border-slate-100 rounded-xl py-4 px-6 text-slate-900 font-bold outline-none focus:border-blue-500 text-base appearance-none cursor-pointer"
                                             >
                                                 <option value="">Select Category</option>
-                                                {categories.map(cat => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
+                                                {reduxCategories.map(cat => (
+                                                    <option key={cat._id} value={cat._id}>
+                                                        {cat.name}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
