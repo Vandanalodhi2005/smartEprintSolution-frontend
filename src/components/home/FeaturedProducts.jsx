@@ -6,10 +6,8 @@ import { ChevronRight } from 'lucide-react';
 const FeaturedProducts = () => {
     const { allProducts = [] } = useSelector((state) => state.productList);
 
-    // Get products marked as featured, or fallback to the most recent 4
-    const featured = allProducts.filter(p => p.isFeatured).length > 0 
-        ? allProducts.filter(p => p.isFeatured).slice(0, 4)
-        : allProducts.slice(0, 4);
+    // Get a subset of products to feature
+    const featured = allProducts.slice(0, 4);
 
     if (featured.length === 0) return null;
 
