@@ -440,7 +440,44 @@ const ProductDetails = () => {
                         {activeTab === "specifications" && (
                             <div className="animate-fadeIn">
                                 {product.technicalSpecification ? (
-                                    <div dangerouslySetInnerHTML={{ __html: product.technicalSpecification }} className="prose prose-slate max-w-none text-slate-600 prose-sm md:prose-base" />
+                                    (() => {
+                                        let specs;
+                                        try {
+                                            specs = typeof product.technicalSpecification === 'string' 
+                                                ? JSON.parse(product.technicalSpecification) 
+                                                : product.technicalSpecification;
+                                        } catch (e) {
+                                            specs = product.technicalSpecification;
+                                        }
+
+                                        if (Array.isArray(specs)) {
+                                            return (
+                                                <div className="bg-white rounded-3xl border-2 border-slate-100 overflow-hidden shadow-sm">
+                                                    <table className="w-full border-collapse">
+                                                        <tbody className="divide-y-2 divide-slate-50">
+                                                            {specs.map((spec, index) => (
+                                                                <tr key={index} className="group hover:bg-slate-50/80 transition-all">
+                                                                    <td className="px-6 md:px-10 py-5 md:py-6 w-1/3 bg-slate-50/50">
+                                                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none block">{spec.name}</span>
+                                                                    </td>
+                                                                    <td className="px-6 md:px-10 py-5 md:py-6 bg-white">
+                                                                        <span className="text-xs md:text-sm font-bold text-slate-900 leading-relaxed">{spec.value}</span>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            );
+                                        }
+
+                                        return (
+                                            <div 
+                                                dangerouslySetInnerHTML={{ __html: product.technicalSpecification }} 
+                                                className="prose prose-slate max-w-none text-slate-600 prose-sm md:prose-base bg-white p-8 rounded-3xl border-2 border-slate-100 shadow-sm" 
+                                            />
+                                        );
+                                    })()
                                 ) : (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {[
@@ -452,9 +489,9 @@ const ProductDetails = () => {
                                             { label: 'Screen Size', value: product.screenSize },
                                         ].map(item => (
                                             item.value && (
-                                                <div key={item.label} className="p-4 bg-gradient-to-br from-slate-50 to-slate-100/50 rounded-2xl border border-slate-100 hover:shadow-md transition-all">
-                                                    <span className="text-[10px] font-black text-slate-400 block mb-2">{item.label}</span>
-                                                    <span className="font-bold text-slate-900 text-sm">{item.value}</span>
+                                                <div key={item.label} className="p-6 bg-white rounded-3xl border-2 border-slate-100 hover:shadow-lg hover:border-blue-100 transition-all group">
+                                                    <span className="text-[10px] font-black text-slate-400 block mb-2 uppercase tracking-widest group-hover:text-blue-400 transition-colors">{item.label}</span>
+                                                    <span className="font-bold text-slate-900 text-sm md:text-base">{item.value}</span>
                                                 </div>
                                             )
                                         ))}
