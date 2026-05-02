@@ -1,0 +1,36 @@
+{
+  "rewrites": [
+    {
+      "source": "/admin/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/profile/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/cart/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/checkout/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/product/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/order/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/track-order/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/settings-management(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
