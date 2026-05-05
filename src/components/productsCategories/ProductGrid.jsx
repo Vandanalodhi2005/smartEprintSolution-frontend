@@ -47,7 +47,7 @@ const ProductGrid = ({ heading = "Products Inventory", products = [], enableFlow
                             {/* Asset Visualization */}
                             <div className="relative bg-slate-50/50 w-full aspect-square overflow-hidden flex items-center justify-center p-12">
                                 <ProductImage
-                                    src={getImageUrl(product) || '/assets/printer.png'}
+                                    src={getImageUrl(product) || '/printer-without-bg.png'}
                                     alt={product.title}
                                     width="400"
                                     height="400"

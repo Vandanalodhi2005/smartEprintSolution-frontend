@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FALLBACK = '/assets/printer.png';
+const FALLBACK = '/printer-without-bg.png';
 
 const ProductImage = ({ src, alt, className = '', ...props }) => {
     const [loaded, setLoaded] = useState(false);

@@ -219,7 +219,7 @@ const ShopMain = () => {
                       </span>
                     )}
                     <ProductImage
-                      src={getProductImageUrl(product) || '/assets/printer.png'}
+                      src={getProductImageUrl(product) || '/printer-without-bg.png'}
                       alt={product.title}
                       width="320"
                       height="320"

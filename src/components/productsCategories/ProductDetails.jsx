@@ -154,7 +154,7 @@ const ProductDetails = () => {
 
     const productImages = product.images && product.images.length > 0
         ? product.images.map(img => img.startsWith('http') ? img : `${import.meta.env.VITE_API_URL.replace('/api', '')}${img}`)
-        : ["/assets/printer.png"];
+        : ["/printer-without-bg.png"];
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/20">
@@ -570,7 +570,7 @@ const ProductDetails = () => {
                                 >
                                     <div className="aspect-square bg-gradient-to-br from-gray-200 to-gray-100 rounded-2xl mb-4 overflow-hidden p-4 flex items-center justify-center">
                                         <ProductImage 
-                                            src={item.image || (item.images && item.images.length > 0 ? (item.images[0].startsWith('http') ? item.images[0] : `${import.meta.env.VITE_API_URL?.replace('/api', '') || ''}${item.images[0]}`) : '/assets/printer.png')} 
+                                            src={item.image || (item.images && item.images.length > 0 ? (item.images[0].startsWith('http') ? item.images[0] : `${import.meta.env.VITE_API_URL?.replace('/api', '') || ''}${item.images[0]}`) : '/printer-without-bg.png')} 
                                             alt={item.title} 
                                             className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                                         />

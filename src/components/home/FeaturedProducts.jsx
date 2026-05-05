@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ChevronRight } from 'lucide-react';
+import { useImagePreload } from '../../lib/ImagePreloadContext';
 
 const FeaturedProducts = () => {
     const { allProducts = [] } = useSelector((state) => state.productList);
+    const { getImageUrl } = useImagePreload();
 
     // Get a subset of products to feature
     const featured = allProducts.slice(0, 4);
@@ -57,7 +59,7 @@ const FeaturedProducts = () => {
                                         <div className="w-1 h-1 bg-white rounded-full animate-pulse"></div> In Stock
                                     </span>
                                     <img 
-                                        src={product.image || '/placeholder-printer.png'} 
+                                        src={getImageUrl(product) || '/printer-without-bg.png'} 
                                         alt={product.title}
                                         className="w-full h-full object-contain mix-blend-multiply"
                                     />

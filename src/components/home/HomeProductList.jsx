@@ -68,7 +68,7 @@ const HomeProductList = () => {
                                     </span>
                                 )}
                                 <ProductImage
-                                    src={getImageUrl(product) || '/assets/printer.png'}
+                                    src={getImageUrl(product) || '/printer-without-bg.png'}
                                     alt={product.title}
                                     className="w-[80%] h-[80%] object-contain group-hover:scale-110 transition-transform duration-500"
                                 />
