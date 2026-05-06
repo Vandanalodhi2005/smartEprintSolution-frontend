@@ -11,10 +11,10 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { 
     Plus, Search, Edit3, Trash2, Package, 
-    Image as ImageIcon, Loader2, X, ChevronRight, 
+    Image as ImageIcon, Loader2, X, ChevronLeft, ChevronRight, 
     AlertCircle, CheckCircle2, MoreVertical,
     DollarSign, Activity, Layers, Hash,
-    ArrowUpRight, ArrowRight, Settings, Info,
+    ArrowUpRight, ArrowLeft, ArrowRight, Settings, Info,
     Tag, Box, Truck, BarChart3, Star, PlusCircle,
     Type, Layout, List, Save, Upload, Trash
 } from 'lucide-react';
@@ -59,6 +59,7 @@ const AdminProducts = () => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [editingProductId, setEditingProductId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
     
     // Form State
     const [name, setName] = useState('');
@@ -91,9 +92,13 @@ const AdminProducts = () => {
             dispatch({ type: PRODUCT_CREATE_RESET });
             dispatch({ type: PRODUCT_UPDATE_RESET });
         }
-        dispatch(listProducts(searchTerm));
+        dispatch(listProducts(searchTerm, '', currentPage));
         dispatch(listCategories());
-    }, [dispatch, successDelete, successCreate, successUpdate, searchTerm]);
+    }, [dispatch, successDelete, successCreate, successUpdate, searchTerm, currentPage]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
 
     const resetForm = () => {
         setName(''); setBrand(''); setCategory(''); setPrice(0); setOldPrice(0);
@@ -278,6 +283,63 @@ const AdminProducts = () => {
                         </tbody>
                     </table>
                 </div>
+
+                {/* Pagination Controls */}
+                {pages > 1 && (
+                    <div className="flex flex-col sm:flex-row justify-between items-center gap-6 px-10 py-8 bg-slate-50/30 border-t-2 border-slate-50">
+                        <div className="text-sm font-black text-slate-400">
+                            Showing page <span className="text-slate-900">{page}</span> of <span className="text-slate-900">{pages}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <button 
+                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                disabled={page === 1}
+                                className="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-100 rounded-xl text-xs font-black text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-95"
+                            >
+                                <ChevronLeft size={16} />
+                                Previous
+                            </button>
+                            <div className="flex gap-2">
+                                {[...Array(pages).keys()].map((p) => {
+                                    // Logic to show only a few page numbers if there are many
+                                    if (pages > 5) {
+                                        if (p + 1 === 1 || p + 1 === pages || (p + 1 >= page - 1 && p + 1 <= page + 1)) {
+                                            return (
+                                                <button
+                                                    key={p + 1}
+                                                    onClick={() => setCurrentPage(p + 1)}
+                                                    className={`w-10 h-10 rounded-xl text-xs font-black transition-all ${page === p + 1 ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-white border-2 border-slate-100 text-slate-400 hover:border-blue-500 hover:text-blue-600'}`}
+                                                >
+                                                    {p + 1}
+                                                </button>
+                                            );
+                                        } else if (p + 1 === page - 2 || p + 1 === page + 2) {
+                                            return <span key={p + 1} className="flex items-center justify-center w-8 text-slate-300">...</span>;
+                                        }
+                                        return null;
+                                    }
+                                    return (
+                                        <button
+                                            key={p + 1}
+                                            onClick={() => setCurrentPage(p + 1)}
+                                            className={`w-10 h-10 rounded-xl text-xs font-black transition-all ${page === p + 1 ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-white border-2 border-slate-100 text-slate-400 hover:border-blue-500 hover:text-blue-600'}`}
+                                        >
+                                            {p + 1}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <button 
+                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, pages))}
+                                disabled={page === pages}
+                                className="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-100 rounded-xl text-xs font-black text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-95"
+                            >
+                                Next
+                                <ChevronRight size={16} />
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Modal */}
