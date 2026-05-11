@@ -34,6 +34,16 @@ const AuthDrawer = ({ isOpen, onClose }) => {
     const { loading: loadingReset, error: errorReset, success: successReset } =
         useSelector((state) => state.userResetPassword);
 
+    const resetForm = () => {
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setOtp('');
+        setNewPassword('');
+    };
+
     const resetTransientState = (nextMode = 'login') => {
         dispatch({ type: USER_AUTH_CLEAR_MESSAGES });
         setMode(nextMode);
@@ -41,10 +51,12 @@ const AuthDrawer = ({ isOpen, onClose }) => {
         setSuccessMessage(null);
         setErrorMessage(null);
         setOtp('');
+        resetForm();
     };
 
     const handleClose = () => {
         resetTransientState('login');
+        resetForm();
         onClose();
     };
 
@@ -110,6 +122,15 @@ const AuthDrawer = ({ isOpen, onClose }) => {
         if (anyError) setErrorMessage(anyError);
     }, [error, errorSendOTP, errorVerifyOTP, errorForgot, errorReset]);
 
+    // Handle input change to clear errors
+    const onInputChange = (setter) => (e) => {
+        setter(e.target.value);
+        if (errorMessage) {
+            setErrorMessage(null);
+            dispatch({ type: USER_AUTH_CLEAR_MESSAGES });
+        }
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -154,7 +175,7 @@ const AuthDrawer = ({ isOpen, onClose }) => {
                                     type="email"
                                     className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={onInputChange(setEmail)}
                                     required
                                 />
                             </div>
@@ -165,7 +186,7 @@ const AuthDrawer = ({ isOpen, onClose }) => {
                                         type={showPassword ? 'text' : 'password'}
                                         className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner"
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={onInputChange(setPassword)}
                                         required
                                     />
                                     <button
@@ -216,24 +237,24 @@ const AuthDrawer = ({ isOpen, onClose }) => {
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">First Name</label>
-                                    <input type="text" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+                                    <input type="text" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={firstName} onChange={onInputChange(setFirstName)} required />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Last Name</label>
-                                    <input type="text" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+                                    <input type="text" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={lastName} onChange={onInputChange(setLastName)} required />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Email</label>
-                                <input type="email" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                                <input type="email" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={email} onChange={onInputChange(setEmail)} required />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Password</label>
-                                <input type="password" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+                                <input type="password" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={password} onChange={onInputChange(setPassword)} required minLength={6} />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Confirm</label>
-                                <input type="password" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                                <input type="password" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3.5 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={confirmPassword} onChange={onInputChange(setConfirmPassword)} required />
                             </div>
 
                             <button
@@ -267,19 +288,25 @@ const AuthDrawer = ({ isOpen, onClose }) => {
                                     placeholder="000 000"
                                     className="w-full bg-slate-50 border-2 border-slate-100 rounded-3xl px-5 py-6 outline-none focus:border-[#EF4056] text-center text-3xl font-black tracking-[0.5em] text-slate-900"
                                     value={otp}
-                                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                    onChange={(e) => {
+                                        setOtp(e.target.value.replace(/\D/g, '').slice(0, 6));
+                                        if (errorMessage) {
+                                            setErrorMessage(null);
+                                            dispatch({ type: USER_AUTH_CLEAR_MESSAGES });
+                                        }
+                                    }}
                                     required
                                 />
                              )}
 
                              {mode === 'forgot-password' && (
-                                 <input type="email" placeholder="Email Address" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                                 <input type="email" placeholder="Email Address" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={email} onChange={onInputChange(setEmail)} required />
                              )}
 
                              {mode === 'reset-password' && (
                                 <div className="space-y-4">
-                                    <input type="password" placeholder="New Password" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
-                                    <input type="password" placeholder="Confirm Password" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                                     <input type="password" placeholder="New Password" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={newPassword} onChange={onInputChange(setNewPassword)} required />
+                                     <input type="password" placeholder="Confirm Password" className="w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 outline-none focus:border-[#EF4056] focus:bg-white transition-all font-bold text-slate-900 shadow-inner" value={confirmPassword} onChange={onInputChange(setConfirmPassword)} required />
                                 </div>
                              )}
 
